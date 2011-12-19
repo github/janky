@@ -1,0 +1,11 @@
+<ul class="builds">
+  {{# jobs }}
+  <li class="{{ status }}">
+    <a href="{{ console_path }}">
+      <span class="status"></span>
+      <h2>{{ name }}</h2>
+      <p>{{{ last_built_text }}}</p>
+    </a>
+  </li>
+  {{/ jobs }}
+</ul>

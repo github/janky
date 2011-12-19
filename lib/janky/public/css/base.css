@@ -1,0 +1,204 @@
+/*------------------------------------------------------------------------------------
+  @group Global Reset
+------------------------------------------------------------------------------------*/
+* {
+  padding:0;
+  margin:0;
+}
+h1, h2, h3, h4, h5, h6, p, pre, blockquote, label, ul, ol, dl, fieldset, address { margin:1em 0; }
+li, dd { margin-left:5%; }
+fieldset { padding: .5em; }
+select option{ padding:0 5px; }
+
+.access{ display:none; } /* For accessibility related elements */
+.clear{ clear:both; height:0px; font-size:0px; line-height:0px; overflow:hidden; }
+a{ outline:none; }
+a img{ border:none; }
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+* html .clearfix {height: 1%;}
+.clearfix {display:inline-block;}
+.clearfix {display: block;}
+
+/* @end */
+
+/*----------------------------------------------------------------------------
+  @group Base Layout
+----------------------------------------------------------------------------*/
+
+body{
+  margin:0;
+  padding:0;
+  font-size:14px;
+  line-height:1.6;
+  font-family:Helvetica, Arial, sans-serif;
+  background:#fff;
+}
+
+#wrapper{
+  margin:0 auto;
+  width:600px;
+}
+.wide #wrapper{
+  width:1000px;
+}
+
+h2#logo{
+  width:600px;
+  margin:0 auto 25px auto;
+}
+h2#logo a{
+  display:block;
+  height:156px;
+  text-indent:-9999px;
+  text-decoration:none;
+  background:url(../images/logo.png);
+}
+
+.content{
+  padding:5px;
+  background:#ededed;
+  border-radius:4px;
+  margin-bottom: 50px;
+}
+.content > .inside{
+  border:1px solid #ddd;
+  background:#fff;
+  border-radius:3px;
+}
+
+/* @end */
+
+/*----------------------------------------------------------------------------
+  @group Builds
+----------------------------------------------------------------------------*/
+
+ul.builds{
+  margin:0;
+}
+
+ul.builds li{
+  list-style-type:none;
+  margin:0;
+  padding:12px 10px;
+  border-bottom:1px solid #e5e5e5;
+  border-top:1px solid #fff;
+  background:-webkit-gradient(linear, left top, left bottom, from(#fdfdfd), to(#f2f2f2));
+  background:-moz-linear-gradient(top,  #fdfdfd,  #f2f2f2);
+}
+ul.builds li:first-child{
+  border-top:none;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+ul.builds li:last-child{
+  border-bottom:none;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+ul.builds li:hover{
+  background:-webkit-gradient(linear, left top, left bottom, from(#f5f9fb), to(#e9eef0));
+  background:-moz-linear-gradient(top,  #f5f9fb,  #e9eef0);
+}
+ul.builds li.building:hover{
+  background:-webkit-gradient(linear, left top, left bottom, from(#fdfdfd), to(#f2f2f2));
+  background:-moz-linear-gradient(top,  #fdfdfd,  #f2f2f2);
+}
+
+ul.builds a{
+  display:block;
+  text-decoration:none;
+  background:url(../images/disclosure-arrow.png) 100% 10px no-repeat;
+}
+ul.builds li:hover a{
+  background-position:100% -90px;
+}
+ul.builds .building a{
+  background:none;
+  cursor:default;
+}
+
+ul.builds .status{
+  float:left;
+  margin-top:5px;
+  margin-right:10px;
+  width:37px;
+  height:34px;
+  background:url(../images/robawt-status.gif) 0 0 no-repeat;
+}
+ul.builds .building .status{
+  background:url(../images/building-bot.gif);
+}
+ul.builds .janky .status{
+  background-position:0 -200px;
+}
+
+ul.builds h2{
+  margin:0;
+  font-size:16px;
+  text-shadow:0 1px #fff;
+}
+ul.builds .good a h2{
+  color:#358c00;
+}
+ul.builds .building a h2{
+  color:#e59741;
+}
+ul.builds .janky a h2{
+  color:#ae0000;
+}
+
+ul.builds p{
+  margin:-2px 0 0 0;
+  font-size:13px;
+  font-weight:200;
+  color:#666;
+  text-shadow:0 1px #fff;
+}
+ul.builds .building p{
+  color:#999;
+}
+
+/* @end */
+
+/*----------------------------------------------------------------------------
+  @group Text Styles
+----------------------------------------------------------------------------*/
+
+pre{
+  margin:10px;
+  font-size:12px;
+  overflow:auto;
+}
+pre::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+pre::-webkit-scrollbar-track-piece{
+  margin-bottom:10px;
+  background-color: #e5e5e5;
+  border-bottom-left-radius: 4px 4px;
+  border-bottom-right-radius: 4px 4px;
+  border-top-left-radius: 4px 4px;
+  border-top-right-radius: 4px 4px;
+}
+
+pre::-webkit-scrollbar-thumb:vertical{
+  height: 25px;
+  background-color: #ccc;
+  -webkit-border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(255,255,255,1);
+}
+pre::-webkit-scrollbar-thumb:horizontal{
+  width: 25px;
+  background-color: #ccc;
+  -webkit-border-radius: 4px;
+}
+
+/* @end */
