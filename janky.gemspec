@@ -27,6 +27,7 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
   s.add_development_dependency "database_cleaner", "~>0.6"
 
   s.files = %w[
+CHANGES
 COPYING
 Gemfile
 README.md
