@@ -196,7 +196,7 @@ Open the app:
 
 Run the test suite:
 
-    $ ruby test/janky_spec.rb
+    $ bin/rake
 
 Contributing
 ------------
