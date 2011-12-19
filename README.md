@@ -86,9 +86,9 @@ instructions and install the [Notification Plugin][np] version 1.4.
 
 Janky is designed to be deployed to [Heroku](https://heroku.com).
 
-Grab all the necessary files from [this gist][gist]:
+Grab all the necessary files from [the gist][gist]:
 
-    $ git clone gist://gist.github.com/123 janky
+    $ git clone gist://gist.github.com/1497335 janky
 
 Then push up it to a new Heroku app:
 
@@ -100,7 +100,7 @@ After configuration the app (see below), create the database:
 
     $ heroku run rake db:migrate
 
-[gist]: https://gist.github.com/gist/1234
+[gist]: https://gist.github.com/1497335
 
 ### Configuring
 
