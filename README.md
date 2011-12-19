@@ -5,7 +5,7 @@ This is Janky, a continuous integration server built on top of
 [Jenkins][], controlled by [Hubot][], and designed for [GitHub][].
 
 * **Built on top of Jenkins.** The power, vast amount of plugins and large
-  communauty of the popular CI server all wrapped up in a great experience.
+  community of the popular CI server all wrapped up in a great experience.
 
 * **Controlled by Hubot.** Day to day operations are exposed as simple
   Hubot commands that the whole team can use.
