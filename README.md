@@ -96,7 +96,7 @@ Then push up it to a new Heroku app:
     $ heroku create --stack cedar
     $ git push heroku master
 
-After configuration the app (see below), create the database:
+After configuring the app (see below), create the database:
 
     $ heroku run rake db:migrate
 
