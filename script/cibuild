@@ -1,0 +1,17 @@
+#!/bin/sh
+set -ex
+
+RACK_ENV="test"
+DATABASE_URL="mysql2://root@localhost/janky_test"
+export RACK_ENV DATABASE_URL
+
+test -n "$RBENV_VERSION" && {
+  export PATH="/usr/share/rbenv/shims:$PATH"
+  export DATABASE_URL="$DATABASE_URL$RBENV_VERSION"
+}
+
+hostname
+ruby -v
+bundle install --binstubs --path vendor/gems
+bin/rake db:migrate --trace
+bin/rake
