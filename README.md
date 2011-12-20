@@ -168,6 +168,10 @@ server.
 Hacking
 -------
 
+Get your environment up and running:
+
+    $ script/boostrap
+
 Create the databases:
 
     $ mysqladmin -uroot create janky_development
@@ -177,10 +181,6 @@ Create the tables:
 
     $ RACK_ENV=development bin/rake db:migrate
     $ RACK_ENV=test bin/rake db:migrate
-
-Get your environment up and running:
-
-    $ script/boostrap
 
 Seed some data into the development database:
 
