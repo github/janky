@@ -88,7 +88,7 @@ Janky is designed to be deployed to [Heroku](https://heroku.com).
 
 Grab all the necessary files from [the gist][gist]:
 
-    $ git clone gist://gist.github.com/1497335 janky
+    $ git clone git://gist.github.com/1497335 janky
 
 Then push up it to a new Heroku app:
 
