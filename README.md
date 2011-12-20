@@ -143,7 +143,7 @@ a few extra settings:
 
 ### Hubot
 
-Install the [ci script](http://git.io/hubot-ci-master) in your Hubot
+Install the [janky script](http://git.io/hubot-janky) in your Hubot
 then set the `HUBOT_JANKY_URL` environment variable. Example:
 `http://user:secret@janky.example.com/_hubot/`, with user and password
 replaced by `JANKY_HUBOT_USER` and `JANKY_HUBOT_PASSWORD` repectively.
