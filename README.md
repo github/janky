@@ -173,7 +173,7 @@ Hacking
 
 Get your environment up and running:
 
-    $ script/boostrap
+    $ script/bootstrap
 
 Create the databases:
 
