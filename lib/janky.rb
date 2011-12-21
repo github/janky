@@ -1,4 +1,4 @@
-require "net/http"
+require "net/https"
 require "digest/md5"
 
 require "active_record"
