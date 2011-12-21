@@ -48,7 +48,7 @@ module Janky
 
     # Get a list of available rooms.
     get "/rooms" do
-      Yajl.dump(Campfire.room_names)
+      Yajl.dump(ChatService.room_names)
     end
 
     # Update a repository's notification room.
@@ -56,7 +56,7 @@ module Janky
       repo = find_repo(repo_name)
       room = params["room"]
 
-      if room_id = Campfire.room_id(room)
+      if room_id = ChatService.room_id(room)
         repo.update_attributes!(:room_id => room_id)
         [200, "Room for #{repo.name} updated to #{room}"]
       else

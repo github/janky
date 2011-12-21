@@ -8,8 +8,8 @@ class JankyTest < Test::Unit::TestCase
 
     DatabaseCleaner.clean_with(:truncation)
 
-    Janky::Campfire.rooms = {1 => "enterprise", 2 => "builds"}
-    Janky::Campfire.default_room_name = "builds"
+    Janky::ChatService.rooms = {1 => "enterprise", 2 => "builds"}
+    Janky::ChatService.default_room_name = "builds"
 
     hubot_setup("github/github")
   end

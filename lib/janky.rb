@@ -33,7 +33,8 @@ require "janky/builder/http"
 require "janky/builder/mock"
 require "janky/builder/payload"
 require "janky/builder/receiver"
-require "janky/campfire"
+require "janky/chat_service"
+require "janky/chat_service/campfire"
 require "janky/exception"
 require "janky/notifier"
 require "janky/notifier/mock"
@@ -132,15 +133,20 @@ module Janky
       :password => settings["JANKY_HUBOT_PASSWORD"]
     )
 
-    Janky::Campfire.setup(
-      settings["JANKY_CAMPFIRE_ACCOUNT"],
-      settings["JANKY_CAMPFIRE_TOKEN"],
-      settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
-    )
+    case (settings["JANKY_CHAT_SERVICE"] ||= 'campfire') # fall back to original default
+    when 'campfire'
+      Janky::ChatService::Campfire.setup(
+        settings["JANKY_CAMPFIRE_ACCOUNT"],
+        settings["JANKY_CAMPFIRE_TOKEN"],
+        settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
+      )
+      chat_adapter = ChatService::Campfire
+    end
 
     Janky::Exception.setup(Janky::Exception::Mock)
 
     Notifier.setup(Notifier::Campfire)
+    ChatService.setup(chat_adapter)
   end
 
   # List of settings required in production.
@@ -171,7 +177,7 @@ module Janky
     Janky::Builder.enable_mock!
     Janky::GitHub.enable_mock!
     Janky::Notifier.enable_mock!
-    Janky::Campfire.enable_mock!
+    Janky::ChatService.enable_mock!
     Janky::App.disable :github_team_id
   end
 
