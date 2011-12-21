@@ -9,6 +9,7 @@ require "yajl"
 require "yajl/json_gem"
 require "tilt"
 require "broach"
+require "hipchat"
 require "sinatra/auth/github"
 
 require "janky/repository"
@@ -35,6 +36,7 @@ require "janky/builder/payload"
 require "janky/builder/receiver"
 require "janky/chat_service"
 require "janky/chat_service/campfire"
+require "janky/chat_service/hipchat"
 require "janky/exception"
 require "janky/notifier"
 require "janky/notifier/chat_service"
@@ -134,6 +136,12 @@ module Janky
     )
 
     case (settings["JANKY_CHAT_SERVICE"] ||= 'campfire') # fall back to original default
+    when 'hipchat'
+      Janky::ChatService::HipChat.setup(
+        settings["JANKY_HIPCHAT_TOKEN"],
+        settings["JANKY_HIPCHAT_DEFAULT_ROOM"]
+      )
+      chat_adapter = ChatService::HipChat
     when 'campfire'
       Janky::ChatService::Campfire.setup(
         settings["JANKY_CAMPFIRE_ACCOUNT"],
