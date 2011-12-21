@@ -37,9 +37,9 @@ require "janky/chat_service"
 require "janky/chat_service/campfire"
 require "janky/exception"
 require "janky/notifier"
+require "janky/notifier/chat_service"
 require "janky/notifier/mock"
 require "janky/notifier/multi"
-require "janky/notifier/campfire"
 require "janky/app"
 require "janky/views/layout"
 require "janky/views/index"
@@ -144,9 +144,8 @@ module Janky
     end
 
     Janky::Exception.setup(Janky::Exception::Mock)
-
-    Notifier.setup(Notifier::Campfire)
     ChatService.setup(chat_adapter)
+    Notifier.setup(Notifier::ChatService)
   end
 
   # List of settings required in production.
