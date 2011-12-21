@@ -72,7 +72,7 @@ module Janky
         user = uri.user
         pass = uri.password
         http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl=true if (uri.scheme.casecmp"https" == 0)
+        http.use_ssl=true if (uri.scheme.casecmp("https") == 0)
         get = Net::HTTP::Get.new("/job/#{name}/")
         get.basic_auth(user, pass) if user && pass
         response = http.request(get)
