@@ -3,7 +3,7 @@ class Init < ActiveRecord::Migration
     create_table :repositories, :force => true do |t|
       t.string :name, :null => false
       t.string :uri,  :null => false
-      t.integer :room_id, :default => 376289, :null => false # Builds room
+      t.integer :room_id, :null => false
       t.timestamps
     end
     add_index :repositories, :name, :unique => true
