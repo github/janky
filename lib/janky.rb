@@ -218,4 +218,13 @@ module Janky
       end
     }
   end
+
+  def self.add_chat(name, adapter)
+    Janky::Chat.adapters ||= {}
+    Janky::Chat.adapters[name] = adapter
+  end
+
+  # Register all valid Janky::Chat service implementations
+  Janky.add_chat :campfire, Janky::Chat::Campfire
+  Janky.add_chat :hipchat, Janky::Chat::HipChat
 end

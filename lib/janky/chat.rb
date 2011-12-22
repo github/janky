@@ -6,11 +6,9 @@ module Janky
     #
     # Returns nothing.
     def self.setup(settings)
-      s = Janky::Chat.constants.detect do |chat|
-        chat.to_s.casecmp(settings["JANKY_CHAT_SERVICE"] || 'Campfire') == 0
-      end
-      @service = Janky::Chat.const_get(s)
-      service.setup(settings)
+      desired = (settings["JANKY_CHAT_SERVICE"] || 'campfire').downcase.to_sym
+      @service = @adapters.detect(lambda{self.invalid_service!(desired)}) { |k,v| k == desired}.last
+      @service.setup(settings)
       # fall back to the legacy naming for default room
       @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"] || settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
     end
@@ -18,6 +16,7 @@ module Janky
     class << self
       attr_accessor :service
       attr_accessor :default_room_name
+      attr_accessor :adapters
     end
 
     def self.default_room_id
@@ -68,6 +67,11 @@ module Janky
     # Returns an Array of Broach::Room objects.
     def self.rooms
       service.rooms
+    end
+
+    # Called during setup if an invalid chat service is requested
+    def self.invalid_service!(desired)
+      raise "Invalid chat service adapter '#{desired}' requested. Valid values are: #{@adapters.keys.join(',')}"
     end
 
     # Enable mocking. Once enabled, messages are discarded.
