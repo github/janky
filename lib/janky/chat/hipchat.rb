@@ -22,7 +22,7 @@ module Janky
       #
       # Returns nothing.
       def self.speak(message, room_id, output={:color => 'yellow'})
-        adapter[room_id].send('Janky', message, output[:color])
+        adapter[room_id].send('CI', message, output[:color])
       end
 
       # Memoized list of available rooms.
