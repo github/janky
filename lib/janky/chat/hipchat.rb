@@ -21,8 +21,8 @@ module Janky
       # room_id - The Integer room ID.
       #
       # Returns nothing.
-      def self.speak(message, room_id, color='yellow')
-        adapter[room_id].send('Janky', message, :color => color)
+      def self.speak(message, room_id, output={:color => 'yellow'})
+        adapter[room_id].send('Janky', message, output[:color])
       end
 
       # Get the ID of a room.

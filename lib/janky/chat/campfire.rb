@@ -26,7 +26,7 @@ module Janky
       # room_id - The Integer room ID.
       #
       # Returns nothing.
-      def self.speak(message, room_id, color=nil)
+      def self.speak(message, room_id, output={})
         adapter.speak(room_name(room_id), message)
       end
 

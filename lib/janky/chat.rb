@@ -30,8 +30,8 @@ module Janky
     # room_id - The Integer room ID.
     #
     # Returns nothing.
-    def self.speak(message, room_id, color=nil)
-      service.speak(message, room_id, color=nil)
+    def self.speak(message, room_id, output=nil)
+      service.speak(message, room_id, output)
     end
 
     # Get the ID of a room.
