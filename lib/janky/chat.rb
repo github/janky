@@ -74,7 +74,7 @@ module Janky
     #
     # Returns nothing.
     def self.enable_mock!
-      service.adapter = Mock.new
+      @service = Mock.new
     end
 
     # Configure available rooms. Only available in mock mode.
@@ -83,7 +83,7 @@ module Janky
     #
     # Returns nothing.
     def self.rooms=(value)
-      service.adapter.rooms = value
+      service.rooms = value
     end
 
     class Mock
