@@ -30,35 +30,6 @@ module Janky
         adapter.speak(room_name(room_id), message)
       end
 
-      # Get the ID of a room.
-      #
-      # slug - the String name of the room.
-      #
-      # Returns the room ID or nil for unknown rooms.
-      def self.room_id(name)
-        if room = rooms.detect { |room| room.name == name }
-          room.id
-        end
-      end
-
-      # Get the name of a room given its ID.
-      #
-      # id - the Fixnum room ID.
-      #
-      # Returns the name as a String or nil when not found.
-      def self.room_name(id)
-        if room = rooms.detect { |room| room.id.to_s == id.to_s }
-          room.name
-        end
-      end
-
-      # Get a list of all rooms names.
-      #
-      # Returns an Array of room name as Strings.
-      def self.room_names
-        rooms.map { |room| room.name }.sort
-      end
-
       # Memoized list of available rooms.
       #
       # Returns an Array of Broach::Room objects.
