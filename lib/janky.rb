@@ -9,6 +9,7 @@ require "yajl"
 require "yajl/json_gem"
 require "tilt"
 require "broach"
+require "hipchat"
 require "sinatra/auth/github"
 
 require "janky/repository"
@@ -33,12 +34,14 @@ require "janky/builder/http"
 require "janky/builder/mock"
 require "janky/builder/payload"
 require "janky/builder/receiver"
-require "janky/campfire"
+require "janky/chat"
+require "janky/chat/campfire"
+require "janky/chat/hipchat"
 require "janky/exception"
 require "janky/notifier"
+require "janky/notifier/chat"
 require "janky/notifier/mock"
 require "janky/notifier/multi"
-require "janky/notifier/campfire"
 require "janky/app"
 require "janky/views/layout"
 require "janky/views/index"
@@ -132,15 +135,9 @@ module Janky
       :password => settings["JANKY_HUBOT_PASSWORD"]
     )
 
-    Janky::Campfire.setup(
-      settings["JANKY_CAMPFIRE_ACCOUNT"],
-      settings["JANKY_CAMPFIRE_TOKEN"],
-      settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
-    )
-
     Janky::Exception.setup(Janky::Exception::Mock)
-
-    Notifier.setup(Notifier::Campfire)
+    Chat.setup(settings)
+    Notifier.setup(Notifier::Chat)
   end
 
   # List of settings required in production.
@@ -171,7 +168,7 @@ module Janky
     Janky::Builder.enable_mock!
     Janky::GitHub.enable_mock!
     Janky::Notifier.enable_mock!
-    Janky::Campfire.enable_mock!
+    Janky::Chat.enable_mock!
     Janky::App.disable :github_team_id
   end
 
@@ -221,4 +218,13 @@ module Janky
       end
     }
   end
+
+  def self.add_chat(name, adapter)
+    Janky::Chat.adapters ||= {}
+    Janky::Chat.adapters[name] = adapter
+  end
+
+  # Register all valid Janky::Chat service implementations
+  Janky.add_chat :campfire, Janky::Chat::Campfire
+  Janky.add_chat :hipchat, Janky::Chat::HipChat
 end

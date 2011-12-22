@@ -127,11 +127,22 @@ Required settings:
 * `JANKY_GITHUB_PASSWORD`: The password for the GitHub user.
 * `JANKY_GITHUB_HOOK_SECRET`: Secret used to sign hook requests from
   GitHub.
+* `JANKY_CHAT_DEFAULT_ROOM`: The name of the room where notifications
+  are sent by default. Example: "Builds".
+
+The proper Chat Service adapter will be loaded based on the value
+set for `JANKY_CHAT_SERVICE`.  Valid adapters include:
+
+Campfire:
+
 * `JANKY_CAMPFIRE_ACCOUNT`: The name of your Campfire account.
 * `JANKY_CAMPFIRE_TOKEN`: The authentication token of the user sending
   build notifications.
-* `JANKY_CAMPFIRE_DEFAULT_ROOM`: The name of the room where notifications
-  are sent by default. Example: "Builds".
+
+HipChat:
+
+* `JANKY_HIPCHAT_TOKEN`: The authentication token of the user sending
+  build notifications.
 
 To restrict access to members of a GitHub organization, [register a new
 OAuth application on GitHub](https://github.com/account/applications)

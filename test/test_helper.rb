@@ -19,7 +19,8 @@ class Test::Unit::TestCase
       "JANKY_HUBOT_PASSWORD" => "password",
       "JANKY_CAMPFIRE_ACCOUNT" => "github",
       "JANKY_CAMPFIRE_TOKEN" => "token",
-      "JANKY_CAMPFIRE_DEFAULT_ROOM" => "Builds"
+      "JANKY_CHAT_DEFAULT_ROOM" => "Builds",
+      "JANKY_CHAT_SERVICE" => "campfire"
     }
   end
 
@@ -71,7 +72,7 @@ class Test::Unit::TestCase
 
   def hubot_build(repo, branch, room_name = nil)
     params =
-      if room_id = Janky::Campfire.room_id(room_name)
+      if room_id = Janky::Chat.room_id(room_name)
         {"room_id" => room_id.to_s}
       else
         {}

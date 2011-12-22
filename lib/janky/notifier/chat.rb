@@ -1,8 +1,8 @@
 module Janky
   module Notifier
-    class Campfire
+    class Chat
       def self.completed(build)
-        status  = build.green? ? "was successful" : "failed"
+        status, color  = build.green? ? ["was successful","green"] : ["failed","red"]
 
         message = "Build #%s (%s) of %s/%s %s (%ss) %s" % [
           build.number,
@@ -14,7 +14,7 @@ module Janky
           build.compare
         ]
 
-        ::Janky::Campfire.speak(message, build.room_id)
+        ::Janky::Chat.speak(message, build.room_id, {:color => color})
       end
     end
   end

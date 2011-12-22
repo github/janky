@@ -16,6 +16,7 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
   s.add_dependency "yajl-ruby", "~>0.8"
   s.add_dependency "activerecord", "~>3.1.0"
   s.add_dependency "broach", "~>0.2"
+  s.add_dependency "hipchat", "~>0.4"
   s.add_dependency "replicate", "~>1.4"
 
   # development

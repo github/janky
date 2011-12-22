@@ -1,25 +1,22 @@
 module Janky
-  # Sends messages to Campfire and accesses available rooms.
-  module Campfire
-    # Setup the Campfire client with the given credentials.
+  module Chat
+    # Setup the Chat.
     #
-    # account - the Campfire account name as a String.
-    # token   - the Campfire API token as a String.
-    # default - the name of the default Campfire room as a String.
+    # settings - environment variables
     #
     # Returns nothing.
-    def self.setup(account, token, default)
-      ::Broach.settings = {
-        "account" => account,
-        "token"   => token,
-        "use_ssl" => true
-      }
-
-      self.default_room_name = default
+    def self.setup(settings)
+      desired = (settings["JANKY_CHAT_SERVICE"] || 'campfire').downcase.to_sym
+      @service = @adapters.detect(lambda{self.invalid_service!(desired)}) { |k,v| k == desired}.last
+      @service.setup(settings)
+      # fall back to the legacy naming for default room
+      @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"] || settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
     end
 
     class << self
+      attr_accessor :service
       attr_accessor :default_room_name
+      attr_accessor :adapters
     end
 
     def self.default_room_id
@@ -32,8 +29,8 @@ module Janky
     # room_id - The Integer room ID.
     #
     # Returns nothing.
-    def self.speak(message, room_id)
-      adapter.speak(room_name(room_id), message)
+    def self.speak(message, room_id, output=nil)
+      service.speak(message, room_id, output)
     end
 
     # Get the ID of a room.
@@ -69,14 +66,19 @@ module Janky
     #
     # Returns an Array of Broach::Room objects.
     def self.rooms
-      @rooms ||= adapter.rooms
+      service.rooms
+    end
+
+    # Called during setup if an invalid chat service is requested
+    def self.invalid_service!(desired)
+      raise "Invalid chat service adapter '#{desired}' requested. Valid values are: #{@adapters.keys.join(',')}"
     end
 
     # Enable mocking. Once enabled, messages are discarded.
     #
     # Returns nothing.
     def self.enable_mock!
-      @adapter = Mock.new
+      @service = Mock.new
     end
 
     # Configure available rooms. Only available in mock mode.
@@ -85,21 +87,7 @@ module Janky
     #
     # Returns nothing.
     def self.rooms=(value)
-      adapter.rooms = value
-    end
-
-    def self.adapter
-      @adapter ||= Broach.new
-    end
-
-    class Broach
-      def speak(room_name, message)
-        ::Broach.speak(room_name, message)
-      end
-
-      def rooms
-        ::Broach.rooms
-      end
+      service.rooms = value
     end
 
     class Mock
@@ -118,10 +106,11 @@ module Janky
       def rooms
         acc = []
         @rooms.each do |id, name|
-          acc << ::Broach::Room.new("id" => id, "name" => name)
+          acc << OpenStruct.new("id" => id, "name" => name, "room_id" => id)
         end
         acc
       end
     end
+
   end
 end
