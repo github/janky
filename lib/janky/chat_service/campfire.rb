@@ -4,27 +4,20 @@ module Janky
     module Campfire
       # Setup the Campfire client with the given credentials.
       #
-      # account - the Campfire account name as a String.
-      # token   - the Campfire API token as a String.
-      # default - the name of the default Campfire room as a String.
+      # settings - environment variables
       #
       # Returns nothing.
-      def self.setup(account, token, default)
+      def self.setup(settings)
         ::Broach.settings = {
-          "account" => account,
-          "token"   => token,
+          "account" => settings['JANKY_CAMPFIRE_ACCOUNT'],
+          "token"   => settings['JANKY_CAMPFIRE_TOKEN'],
           "use_ssl" => true
         }
-
-        self.default_room_name = default
+        @adapter = Broach.new
       end
 
       class << self
-        attr_accessor :default_room_name
-      end
-
-      def self.default_room_id
-        room_id(default_room_name)
+        attr_accessor :adapter
       end
 
       # Send a message to a Campfire room.
@@ -73,26 +66,6 @@ module Janky
         @rooms ||= adapter.rooms
       end
 
-      # Enable mocking. Once enabled, messages are discarded.
-      #
-      # Returns nothing.
-      def self.enable_mock!
-        @adapter = Mock.new
-      end
-
-      # Configure available rooms. Only available in mock mode.
-      #
-      # value - Hash of room map (Fixnum ID => String name)
-      #
-      # Returns nothing.
-      def self.rooms=(value)
-        adapter.rooms = value
-      end
-
-      def self.adapter
-        @adapter ||= Broach.new
-      end
-
       class Broach
         def speak(room_name, message)
           ::Broach.speak(room_name, message)
@@ -103,27 +76,7 @@ module Janky
         end
       end
 
-      class Mock
-        def initialize
-          @rooms = {}
-        end
 
-        attr_writer :rooms
-
-        def speak(room_name, message)
-          if !@rooms.values.include?(room_name)
-            raise Error, "Unknown room #{room_name.inspect}"
-          end
-        end
-
-        def rooms
-          acc = []
-          @rooms.each do |id, name|
-            acc << ::Broach::Room.new("id" => id, "name" => name)
-          end
-          acc
-        end
-      end
     end
   end
 end

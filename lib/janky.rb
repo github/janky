@@ -135,24 +135,8 @@ module Janky
       :password => settings["JANKY_HUBOT_PASSWORD"]
     )
 
-    case (settings["JANKY_CHAT_SERVICE"] ||= 'campfire') # fall back to original default
-    when 'hipchat'
-      Janky::ChatService::HipChat.setup(
-        settings["JANKY_HIPCHAT_TOKEN"],
-        settings["JANKY_HIPCHAT_DEFAULT_ROOM"]
-      )
-      chat_adapter = ChatService::HipChat
-    when 'campfire'
-      Janky::ChatService::Campfire.setup(
-        settings["JANKY_CAMPFIRE_ACCOUNT"],
-        settings["JANKY_CAMPFIRE_TOKEN"],
-        settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
-      )
-      chat_adapter = ChatService::Campfire
-    end
-
     Janky::Exception.setup(Janky::Exception::Mock)
-    ChatService.setup(chat_adapter)
+    ChatService.setup(settings)
     Notifier.setup(Notifier::ChatService)
   end
 

@@ -19,7 +19,8 @@ class Test::Unit::TestCase
       "JANKY_HUBOT_PASSWORD" => "password",
       "JANKY_CAMPFIRE_ACCOUNT" => "github",
       "JANKY_CAMPFIRE_TOKEN" => "token",
-      "JANKY_CAMPFIRE_DEFAULT_ROOM" => "Builds"
+      "JANKY_CHAT_DEFAULT_ROOM" => "Builds",
+      "JANKY_CHAT_SERVICE" => "campfire"
     }
   end
 

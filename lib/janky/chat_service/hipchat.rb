@@ -4,22 +4,15 @@ module Janky
     module HipChat
       # Setup the HipChat client with the given credentials.
       #
-      # token   - the HipChat API token as a String.
-      # default - the name of the default HipChat room as a String.
+      # settings - environment variables
       #
       # Returns nothing.
-      def self.setup(token, default)
-        self.token = token
-        self.default_room_name = default
+      def self.setup(settings)
+        @adapter = ::HipChat::Client.new(settings['JANKY_HIPCHAT_TOKEN'])
       end
 
       class << self
-        attr_accessor :token
-        attr_accessor :default_room_name
-      end
-
-      def self.default_room_id
-        room_id(default_room_name)
+        attr_accessor :adapter
       end
 
       # Send a message to a HipChat room.
@@ -66,49 +59,6 @@ module Janky
       # Returns an Array of HipChat::Room objects.
       def self.rooms
         @rooms ||= adapter.rooms
-      end
-
-      # Enable mocking. Once enabled, messages are discarded.
-      #
-      # Returns nothing.
-      def self.enable_mock!
-        @adapter = Mock.new
-      end
-
-      # Configure available rooms. Only available in mock mode.
-      #
-      # value - Hash of room map (Fixnum ID => String name)
-      #
-      # Returns nothing.
-      def self.rooms=(value)
-        adapter.rooms = value
-      end
-
-      def self.adapter
-        @adapter ||= ::HipChat::Client.new(token)
-      end
-
-      class Mock
-        def initialize
-          @rooms = {}
-        end
-
-        attr_writer :rooms
-
-        def speak(room_name, message)
-          if !@rooms.values.include?(room_name)
-            raise Error, "Unknown room #{room_name.inspect}"
-          end
-        end
-
-        def rooms
-          require 'ostruct'
-          acc = []
-          @rooms.each do |id, name|
-            acc << OpenStruct.new("room_id" => id, "name" => name)
-          end
-          acc
-        end
       end
     end
   end
