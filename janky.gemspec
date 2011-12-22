@@ -47,7 +47,6 @@ lib/janky/builder/payload.rb
 lib/janky/builder/receiver.rb
 lib/janky/builder/runner.rb
 lib/janky/campfire.rb
-lib/janky/campfire/mock.rb
 lib/janky/commit.rb
 lib/janky/database/migrate/1312115512_init.rb
 lib/janky/database/migrate/1312117285_non_unique_repo_uri.rb
