@@ -34,12 +34,12 @@ require "janky/builder/http"
 require "janky/builder/mock"
 require "janky/builder/payload"
 require "janky/builder/receiver"
-require "janky/chat_service"
-require "janky/chat_service/campfire"
-require "janky/chat_service/hipchat"
+require "janky/chat"
+require "janky/chat/campfire"
+require "janky/chat/hipchat"
 require "janky/exception"
 require "janky/notifier"
-require "janky/notifier/chat_service"
+require "janky/notifier/chat"
 require "janky/notifier/mock"
 require "janky/notifier/multi"
 require "janky/app"
@@ -136,8 +136,8 @@ module Janky
     )
 
     Janky::Exception.setup(Janky::Exception::Mock)
-    ChatService.setup(settings)
-    Notifier.setup(Notifier::ChatService)
+    Chat.setup(settings)
+    Notifier.setup(Notifier::Chat)
   end
 
   # List of settings required in production.
@@ -168,7 +168,7 @@ module Janky
     Janky::Builder.enable_mock!
     Janky::GitHub.enable_mock!
     Janky::Notifier.enable_mock!
-    Janky::ChatService.enable_mock!
+    Janky::Chat.enable_mock!
     Janky::App.disable :github_team_id
   end
 

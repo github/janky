@@ -1,15 +1,15 @@
 module Janky
-  module ChatService
+  module Chat
     # Setup the Chat.
     #
     # settings - environment variables
     #
     # Returns nothing.
     def self.setup(settings)
-      s = Janky::ChatService.constants.detect do |chat|
+      s = Janky::Chat.constants.detect do |chat|
         chat.to_s.casecmp(settings["JANKY_CHAT_SERVICE"] || 'Campfire') == 0
       end
-      @service = Janky::ChatService.const_get(s)
+      @service = Janky::Chat.const_get(s)
       service.setup(settings)
       # fall back to the legacy naming for default room
       @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"] || settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]

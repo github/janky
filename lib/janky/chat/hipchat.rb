@@ -1,5 +1,5 @@
 module Janky
-  module ChatService
+  module Chat
     # Sends messages to HipChat and accesses available rooms.
     module HipChat
       # Setup the HipChat client with the given credentials.

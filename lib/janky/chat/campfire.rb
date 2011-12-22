@@ -1,5 +1,5 @@
 module Janky
-  module ChatService
+  module Chat
     # Sends messages to Campfire and accesses available rooms.
     module Campfire
       # Setup the Campfire client with the given credentials.

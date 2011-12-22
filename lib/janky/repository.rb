@@ -100,13 +100,13 @@ module Janky
     #
     # Returns the name as a String.
     def campfire_room
-      ChatService.room_name(room_id)
+      Chat.room_name(room_id)
     end
 
     # Ditto but returns the Fixnum room id. Defaults to the one set
     # in Campfire.setup.
     def room_id
-      read_attribute(:room_id) || ChatService.default_room_id
+      read_attribute(:room_id) || Chat.default_room_id
     end
 
     # Setups GitHub and Jenkins for build this repository.
