@@ -25,7 +25,7 @@ module Janky
 
       def last_built_text_for(build)
         if build.building?
-          "Building since <span class='relatize'>#{build.started_at}</span>…"
+          "Build started <span class='relatize'>#{build.started_at}</span>…"
         elsif build.completed?
           "Built in <span>#{build.duration}</span> seconds"
         end
