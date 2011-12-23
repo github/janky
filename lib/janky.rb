@@ -138,7 +138,7 @@ module Janky
       settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
     )
 
-    Janky::Exception.setup(Janky::Exception::Mock)
+    Janky::Exception.setup(Janky::Exception::Logger.new($stderr))
 
     Notifier.setup(Notifier::Campfire)
   end
