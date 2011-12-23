@@ -143,6 +143,7 @@ HipChat:
 
 * `JANKY_HIPCHAT_TOKEN`: The authentication token of the user sending
   build notifications.
+* `JANKY_HIPCHAT_FROM`: Name that messages will appear be sent from; defaults to 'CI'
 
 To restrict access to members of a GitHub organization, [register a new
 OAuth application on GitHub](https://github.com/account/applications)
