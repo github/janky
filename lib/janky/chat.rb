@@ -23,11 +23,11 @@ module Janky
       room_id(default_room_name)
     end
 
-    # Send a message to a Campfire room.
+    # Send a message to a Chat room.
     #
     # message - The String message.
     # room_id - The Integer room ID.
-    # opts    - Options hash to pass the chat service client
+    # opts    - Option hash to pass the chat service client
     #
     # Returns nothing.
     def self.speak(message, room_id, opts=nil)
@@ -65,7 +65,7 @@ module Janky
 
     # Memoized list of available rooms.
     #
-    # Returns an Array of Broach::Room objects.
+    # Returns an Array of Janky::Chat::Room objects.
     def self.rooms
       service.rooms
     end

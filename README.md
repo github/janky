@@ -131,7 +131,9 @@ Required settings:
   are sent by default. Example: "Builds".
 
 The proper Chat Service adapter will be loaded based on the value
-set for `JANKY_CHAT_SERVICE`.  Valid adapters include:
+set for `JANKY_CHAT_SERVICE`.  defaults to 'campfire'.
+
+Valid adapters include:
 
 Campfire:
 
