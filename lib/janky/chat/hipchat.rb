@@ -29,7 +29,7 @@ module Janky
       #
       # Returns an Array of HipChat::Room objects.
       def self.rooms
-        @rooms ||= client.rooms.map{|r| r.id = r.room_id; r }
+        @rooms ||= client.rooms.map{|r| Room.new(r.room_id, r.name) }
       end
     end
   end

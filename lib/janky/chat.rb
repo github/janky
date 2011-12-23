@@ -106,11 +106,10 @@ module Janky
       def rooms
         acc = []
         @rooms.each do |id, name|
-          acc << OpenStruct.new("id" => id, "name" => name, "room_id" => id)
+          acc << Room.new(id, name)
         end
         acc
       end
     end
-
   end
 end

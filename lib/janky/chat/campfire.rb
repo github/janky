@@ -29,7 +29,7 @@ module Janky
       #
       # Returns an Array of Broach::Room objects.
       def self.rooms
-        @rooms ||= ::Broach.rooms
+        @rooms ||= ::Broach.rooms.map{|r| Room.new(r.id, r.name) }
       end
     end
   end
