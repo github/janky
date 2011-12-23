@@ -8,11 +8,11 @@ module Janky
       #
       # Returns nothing.
       def self.setup(settings)
-        @adapter = ::HipChat::Client.new(settings['JANKY_HIPCHAT_TOKEN'])
+        @client = ::HipChat::Client.new(settings['JANKY_HIPCHAT_TOKEN'])
       end
 
       class << self
-        attr_accessor :adapter
+        attr_accessor :client
       end
 
       # Send a message to a HipChat room.
@@ -22,14 +22,14 @@ module Janky
       #
       # Returns nothing.
       def self.speak(message, room_id, output={:color => 'yellow'})
-        adapter[room_id].send('CI', message, output[:color])
+        client[room_id].send('CI', message, output[:color])
       end
 
       # Memoized list of available rooms.
       #
       # Returns an Array of HipChat::Room objects.
       def self.rooms
-        @rooms ||= adapter.rooms.map{|r| r.id = r.room_id; r }
+        @rooms ||= client.rooms.map{|r| r.id = r.room_id; r }
       end
     end
   end
