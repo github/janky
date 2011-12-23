@@ -23,8 +23,8 @@ module Janky
       # room_id - The Integer room ID.
       #
       # Returns nothing.
-      def self.speak(message, room_id, output={:color => 'yellow'})
-        client[room_id].send(from, message, output[:color])
+      def self.speak(message, room_id, opts={:color => 'yellow'})
+        client[room_id].send(from, message, opts[:color])
       end
 
       # Memoized list of available rooms.

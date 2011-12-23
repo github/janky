@@ -21,8 +21,8 @@ module Janky
       # room_id - The Integer room ID.
       #
       # Returns nothing.
-      def self.speak(message, room_id, output={})
-        ::Broach.speak(room_name(room_id), message)
+      def self.speak(message, room_id, opts={})
+        ::Broach.speak(Chat.room_name(room_id), message)
       end
 
       # Memoized list of available rooms.
