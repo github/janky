@@ -7,16 +7,20 @@ module Janky
     # Returns nothing.
     def self.setup(settings)
       desired = (settings["JANKY_CHAT_SERVICE"] || 'campfire').downcase.to_sym
-      @service = @adapters.detect(lambda{self.invalid_service!(desired)}) { |k,v| k == desired}.last
-      @service.setup(settings)
-      # fall back to the legacy naming for default room
-      @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"] || settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
+      if candidate_service = @registered_services.detect{ |k,v| k == desired}
+        @service = candidate_service.last
+        @service.setup(settings)
+        # fall back to the legacy naming for default room
+        @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"] || settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
+      else
+        raise ArgumentError, "Invalid chat service '#{desired}' requested. Valid values are: #{@registered_services.keys.join(', ')}"
+      end
     end
 
     class << self
       attr_accessor :service
       attr_accessor :default_room_name
-      attr_accessor :adapters
+      attr_accessor :registered_services
     end
 
     def self.default_room_id
@@ -68,11 +72,6 @@ module Janky
     # Returns an Array of Janky::Chat::Room objects.
     def self.rooms
       service.rooms
-    end
-
-    # Called during setup if an invalid chat service is requested
-    def self.invalid_service!(desired)
-      raise "Invalid chat service adapter '#{desired}' requested. Valid values are: #{@adapters.keys.join(',')}"
     end
 
     # Enable mocking. Once enabled, messages are discarded.

@@ -130,10 +130,10 @@ Required settings:
 * `JANKY_CHAT_DEFAULT_ROOM`: The name of the room where notifications
   are sent by default. Example: "Builds".
 
-The proper Chat Service adapter will be loaded based on the value
+The proper Chat Service implementation will be loaded based on the value
 set for `JANKY_CHAT_SERVICE`.  defaults to 'campfire'.
 
-Valid adapters include:
+Valid services include:
 
 Campfire:
 
