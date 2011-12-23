@@ -47,8 +47,11 @@ lib/janky/builder/mock.rb
 lib/janky/builder/payload.rb
 lib/janky/builder/receiver.rb
 lib/janky/builder/runner.rb
-lib/janky/campfire.rb
-lib/janky/campfire/mock.rb
+lib/janky/chat.rb
+lib/janky/chat/campfire.rb
+lib/janky/chat/hipchat.rb
+lib/janky/chat/mock.rb
+lib/janky/chat/room.rb
 lib/janky/commit.rb
 lib/janky/database/migrate/1312115512_init.rb
 lib/janky/database/migrate/1312117285_non_unique_repo_uri.rb
@@ -73,7 +76,7 @@ lib/janky/helpers.rb
 lib/janky/hubot.rb
 lib/janky/job_creator.rb
 lib/janky/notifier.rb
-lib/janky/notifier/campfire.rb
+lib/janky/notifier/chat.rb
 lib/janky/notifier/mock.rb
 lib/janky/notifier/multi.rb
 lib/janky/public/css/base.css
