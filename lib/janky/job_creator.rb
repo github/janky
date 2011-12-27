@@ -71,12 +71,13 @@ module Janky
         uri  = server_url
         user = uri.user
         pass = uri.password
+        path = uri.path
         http = Net::HTTP.new(uri.host, uri.port)
         if uri.scheme == "https"
           http.use_ssl = true
         end
 
-        get = Net::HTTP::Get.new("/job/#{name}/")
+        get = Net::HTTP::Get.new("#{path}/job/#{name}/")
         get.basic_auth(user, pass) if user && pass
         response = http.request(get)
 
@@ -95,12 +96,13 @@ module Janky
         uri  = server_url
         user = uri.user
         pass = uri.password
+        path = uri.path
         http = Net::HTTP.new(uri.host, uri.port)
         if uri.scheme == "https"
           http.use_ssl = true
         end
 
-        post = Net::HTTP::Post.new("/createItem?name=#{name}")
+        post = Net::HTTP::Post.new("#{path}/createItem?name=#{name}")
         post.basic_auth(user, pass) if user && pass
         post["Content-Type"] = "application/xml"
         post.body = config
