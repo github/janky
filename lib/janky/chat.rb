@@ -36,11 +36,11 @@ module Janky
     #
     # message - The String message.
     # room_id - The Integer room ID.
-    # opts    - Option hash to pass the chat service client
+    # options - Optional hash passed to the chat adapter.
     #
     # Returns nothing.
-    def self.speak(message, room_id, opts=nil)
-      adapter.speak(message, room_id, opts)
+    def self.speak(message, room_id, options = {})
+      adapter.speak(message, room_id, options)
     end
 
     # Get the ID of a room.
