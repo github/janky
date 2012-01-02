@@ -6,6 +6,7 @@ module Janky
         @user     = settings["JANKY_GITHUB_USER"]
         @password = settings["JANKY_GITHUB_PASSWORD"]
         @secret   = settings["JANKY_GITHUB_HOOK_SECRET"]
+        @apiurl   = settings["JANKY_GITHUB_API_URL"] ||= "https://api.github.com"
         @url      = url
       end
 
@@ -30,8 +31,10 @@ module Janky
 
       def self.find_or_create_hook(hook_url, repo_url)
         if !hook_url || hook_exists?(hook_url)
-          github_owner = repo_url[/github\.com[\/:](\w+)\//] && $1
-          github_name  = repo_url[/github\.com[\/:](\w+)\/([a-zA-Z0-9\-_]+)/] && $2
+          match = repo_url[/.*[\/:](\w+)\/([a-zA-Z0-9\-_]+)/]
+
+          github_owner = match && $1
+          github_name  = match && $2
 
           hook_create("#{github_owner}/#{github_name}")
         end
@@ -65,7 +68,7 @@ module Janky
       end
 
       def self.api
-        @api ||= API.new(@user, @password)
+        @api ||= API.new(@user, @password, @apiurl)
       end
     end
   end
