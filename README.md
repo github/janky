@@ -211,5 +211,5 @@ send a Pull Request.
 Copying
 -------
 
-Copyright © 2011, GitHub, Inc. See the `COPYING` file for license
+Copyright © 2011-2012, GitHub, Inc. See the `COPYING` file for license
 rights and limitations (MIT).
