@@ -18,6 +18,10 @@ module Janky
         attr_reader :secret
       end
 
+      def self.receiver
+        @receiver ||= Receiver.new(@secret)
+      end
+
       def self.repo_get(nwo, name)
         repo = api.repo_get(nwo)
         return if !repo

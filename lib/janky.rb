@@ -20,12 +20,12 @@ require "janky/git"
 require "janky/git/github"
 require "janky/git/github/api"
 require "janky/git/github/mock"
+require "janky/git/github/payload"
+require "janky/git/github/commit"
+require "janky/git/github/payload_parser"
+require "janky/git/github/receiver"
 require "janky/git/remote"
 require "janky/github"
-require "janky/github/payload"
-require "janky/github/commit"
-require "janky/github/payload_parser"
-require "janky/github/receiver"
 require "janky/job_creator"
 require "janky/helpers"
 require "janky/hubot"
@@ -112,8 +112,6 @@ module Janky
       base_url + "/_github"
     )
 
-    Janky::GitHub.setup(settings["JANKY_GITHUB_HOOK_SECRET"])
-
     if settings.key?("JANKY_SESSION_SECRET")
       Janky::App.register Sinatra::Auth::Github
       Janky::App.set({
@@ -199,7 +197,7 @@ module Janky
 
       # GitHub Post-Receive requests.
       map "/_github" do
-        run Janky::GitHub.receiver
+        run Janky::Git::GitHub.receiver
       end
 
       # Jenkins callback requests.
