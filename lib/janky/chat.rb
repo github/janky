@@ -1,5 +1,7 @@
 module Janky
   module Chat
+    Room = Struct.new(:id, :name)
+
     # Setup service used to notify chat rooms of build status.
     #
     # name     - Service name as a string.
