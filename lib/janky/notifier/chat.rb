@@ -2,7 +2,8 @@ module Janky
   module Notifier
     class Chat
       def self.completed(build)
-        status, color  = build.green? ? ["was successful","green"] : ["failed","red"]
+        status = build.green? ? "was successful" : "failed"
+        color = build.green? ? "green" : "red"
 
         message = "Build #%s (%s) of %s/%s %s (%ss) %s" % [
           build.number,
