@@ -5,13 +5,12 @@ module Janky
     # settings - environment variables
     #
     # Returns nothing.
-    def self.setup(settings)
-      desired = (settings["JANKY_CHAT_SERVICE"] || 'campfire').downcase.to_sym
+    def self.setup(name, settings)
+      desired = name.to_sym
       if candidate_service = @registered_services.detect{ |k,v| k == desired}
         @service = candidate_service.last
         @service.setup(settings)
-        # fall back to the legacy naming for default room
-        @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"] || settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
+        @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"]
       else
         raise ArgumentError, "Invalid chat service '#{desired}' requested. Valid values are: #{@registered_services.keys.join(', ')}"
       end

@@ -138,7 +138,19 @@ module Janky
     )
 
     Janky::Exception.setup(Janky::Exception::Mock)
-    Chat.setup(settings)
+
+    chat_name = settings["JANKY_CHAT"] || "campfire"
+    chat_settings = {}
+    settings.each do |key, value|
+      if key =~ /^JANKY_CHAT_#{chat_name}_/
+        chat_settings[key] = value
+      end
+    end
+    # Backward compatibility
+    chat_settings["JANKY_CHAT_DEFAULT_ROOM"] ||=
+      settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
+    Chat.setup(chat_name, chat_settings)
+
     Notifier.setup(Notifier::Chat)
   end
 
