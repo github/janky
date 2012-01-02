@@ -12,7 +12,7 @@ module Janky
         @service.setup(settings)
         @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"]
       else
-        raise ArgumentError, "Invalid chat service '#{desired}' requested. Valid values are: #{@registered_services.keys.join(', ')}"
+        raise Error, "Invalid chat service '#{desired}' requested. Valid values are: #{@registered_services.keys.join(', ')}"
       end
     end
 
