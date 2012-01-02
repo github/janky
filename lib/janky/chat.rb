@@ -7,14 +7,14 @@ module Janky
     # Returns nothing.
     def self.setup(name, settings)
       desired = name.to_sym
-      if candidate_service = @registered_services.detect{ |k,v| k == desired}
+      if candidate_service = @services.detect{ |k,v| k == desired}
         @service = candidate_service.last
         @service.setup(settings)
         @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"]
       else
         message = "Unknown chat service: %s. Available services are: %s" % [
           desired.inspect,
-          @registered_services.keys.join(", ")
+          @services.keys.join(", ")
         ]
         raise Error, message
       end
@@ -23,7 +23,7 @@ module Janky
     class << self
       attr_accessor :service
       attr_accessor :default_room_name
-      attr_accessor :registered_services
+      attr_accessor :services
     end
 
     def self.default_room_id

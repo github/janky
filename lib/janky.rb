@@ -233,8 +233,8 @@ module Janky
   end
 
   def self.add_chat(name, service)
-    Janky::Chat.registered_services ||= {}
-    Janky::Chat.registered_services[name] = service
+    Janky::Chat.services ||= {}
+    Janky::Chat.services[name] = service
   end
 
   # Register all valid Janky::Chat service implementations
