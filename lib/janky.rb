@@ -16,9 +16,11 @@ require "janky/branch"
 require "janky/commit"
 require "janky/build"
 require "janky/build_request"
+require "janky/git"
+require "janky/git/github"
+require "janky/git/github/api"
+require "janky/git/github/mock"
 require "janky/github"
-require "janky/github/api"
-require "janky/github/mock"
 require "janky/github/payload"
 require "janky/github/commit"
 require "janky/github/payload_parser"
@@ -104,12 +106,12 @@ module Janky
     # Setup the default Jenkins build host
     Janky::Builder[:default] = settings["JANKY_BUILDER_DEFAULT"]
 
-    Janky::GitHub.setup(
-      settings["JANKY_GITHUB_USER"],
-      settings["JANKY_GITHUB_PASSWORD"],
-      settings["JANKY_GITHUB_HOOK_SECRET"],
+    Janky::Git.setup(
+      settings,
       base_url + "/_github"
     )
+
+    Janky::GitHub.setup(settings["JANKY_GITHUB_HOOK_SECRET"])
 
     if settings.key?("JANKY_SESSION_SECRET")
       Janky::App.register Sinatra::Auth::Github
@@ -169,7 +171,7 @@ module Janky
   # Returns nothing.
   def self.enable_mock!
     Janky::Builder.enable_mock!
-    Janky::GitHub.enable_mock!
+    Janky::Git::GitHub.enable_mock!
     Janky::Notifier.enable_mock!
     Janky::Campfire.enable_mock!
     Janky::App.disable :github_team_id
@@ -221,4 +223,12 @@ module Janky
       end
     }
   end
+
+  def self.add_git(name, service)
+    Janky::Git.registered_services ||= {}
+    Janky::Git.registered_services[name] = service
+  end
+
+  # Register all valid Janky::Git service implementations
+  Janky.add_git :github, Janky::Git::GitHub
 end

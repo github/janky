@@ -18,12 +18,10 @@ module Janky
         return repo
       end
 
-      repo = GitHub.repo_get(nwo)
-      return if !repo
+      gitrepo = Git.repo_get(nwo, name)
+      return if !gitrepo
 
-      uri    = repo["private"] ? repo["ssh_url"] : repo["git_url"]
-      name ||= repo["name"]
-      uri.gsub!(/\.git$/, "")
+      name, uri = gitrepo
 
       repo =
         if repo = Repository.find_by_name(name)
@@ -82,20 +80,6 @@ module Janky
       Builder.pick_for(self)
     end
 
-    # GitHub user owning this repo.
-    #
-    # Returns the user name as a String.
-    def github_owner
-      uri[/github\.com[\/:](\w+)\//] && $1
-    end
-
-    # Name of this repository on GitHub.
-    #
-    # Returns the name as a String.
-    def github_name
-      uri[/github\.com[\/:](\w+)\/([a-zA-Z0-9\-_]+)/] && $2
-    end
-
     # Name of the Campfire room receiving build notifications.
     #
     # Returns the name as a String.
@@ -121,10 +105,8 @@ module Janky
     #
     # Returns nothing.
     def setup_hook
-      if !hook_url || !GitHub.hook_exists?(hook_url)
-        url = GitHub.hook_create("#{github_owner}/#{github_name}")
-        update_attributes!(:hook_url => url)
-      end
+      url = Git.find_or_create_hook(hook_url, uri)
+      update_attributes!(:hook_url => url)
     end
 
     # Creates a job on the Jenkins server for this repository configuration
