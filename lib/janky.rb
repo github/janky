@@ -238,6 +238,6 @@ module Janky
   end
 
   # Register all valid Janky::Chat service implementations
-  Janky.add_chat :campfire, Janky::Chat::Campfire
-  Janky.add_chat :hipchat, Janky::Chat::HipChat
+  Janky.add_chat "campfire", Janky::Chat::Campfire
+  Janky.add_chat "hipchat", Janky::Chat::HipChat
 end

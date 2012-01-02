@@ -6,7 +6,7 @@ module Janky
     #
     # Returns nothing.
     def self.setup(name, settings)
-      desired = name.to_sym
+      desired = name
       if candidate_service = @services.detect{ |k,v| k == desired}
         @service = candidate_service.last
         @service.setup(settings)
