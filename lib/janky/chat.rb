@@ -1,27 +1,29 @@
 module Janky
   module Chat
-    # Setup the Chat.
+    # Setup service used to notify chat rooms of build status.
     #
-    # settings - environment variables
+    # name     - Service name as a string.
+    # settings - Service-specific setting hash.
+    # default  - Name of the default chat room as a String.
     #
     # Returns nothing.
-    def self.setup(name, settings)
+    def self.setup(name, settings, default)
       if !adapters[name]
         raise Error, "Unknown chat service: #{name.inspect}. Available " \
           "services are #{adapters.keys.join(", ")}"
       end
 
       @adapter = adapters[name].new(settings)
-      @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"]
-    end
-
-    def self.adapters
-      @adapters ||= {}
+      @default_room_name = default
     end
 
     class << self
-      attr_accessor :adapter
-      attr_accessor :default_room_name
+      attr_accessor :adapter, :default_room_name
+    end
+
+    # Registry of available chat implementations.
+    def self.adapters
+      @adapters ||= {}
     end
 
     def self.default_room_id

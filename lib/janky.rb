@@ -146,10 +146,9 @@ module Janky
         chat_settings[key] = value
       end
     end
-    # Backward compatibility
-    chat_settings["JANKY_CHAT_DEFAULT_ROOM"] ||=
+    chat_room = ["JANKY_CHAT_DEFAULT_ROOM"] ||
       settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
-    Chat.setup(chat_name, chat_settings)
+    Chat.setup(chat_name, chat_settings, chat_room)
 
     Notifier.setup(Notifier::Chat)
   end
