@@ -11,8 +11,7 @@ module Janky
           "services are #{adapters.keys.join(", ")}"
       end
 
-      @adapter = adapters[name]
-      @adapter.setup(settings)
+      @adapter = adapters[name].new(settings)
       @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"]
     end
 

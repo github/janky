@@ -1,23 +1,19 @@
 module Janky
   module Chat
-    module HipChat
-
-      def self.setup(settings)
-        @client = ::HipChat::Client.new(settings['JANKY_HIPCHAT_TOKEN'])
-        @from = settings['JANKY_HIPCHAT_FROM'] || 'CI'
+    class HipChat
+      def initialize(settings)
+        @client = ::HipChat::Client.new(settings["JANKY_HIPCHAT_TOKEN"])
+        @from = settings["JANKY_HIPCHAT_FROM"] || "CI"
       end
 
-      class << self
-        attr_accessor :client
-        attr_accessor :from # Name the message will appear be sent from
+      def speak(message, room_id, options = {:color => "yellow"})
+        @client[room_id].send(from, message, options[:color])
       end
 
-      def self.speak(message, room_id, opts={:color => 'yellow'})
-        client[room_id].send(from, message, opts[:color])
-      end
-
-      def self.rooms
-        @rooms ||= client.rooms.map{|r| Room.new(r.room_id, r.name) }
+      def rooms
+        @rooms ||= @client.rooms.map do |room|
+          Room.new(room.room_id, room.name)
+        end
       end
     end
   end
