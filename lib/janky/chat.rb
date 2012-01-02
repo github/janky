@@ -6,24 +6,23 @@ module Janky
     #
     # Returns nothing.
     def self.setup(name, settings)
-      desired = name
-      if candidate_service = @services.detect{ |k,v| k == desired}
-        @adapter = candidate_service.last
-        @adapter.setup(settings)
-        @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"]
-      else
-        message = "Unknown chat service: %s. Available services are: %s" % [
-          desired.inspect,
-          @services.keys.join(", ")
-        ]
-        raise Error, message
+      if !adapters[name]
+        raise Error, "Unknown chat service: #{name.inspect}. Available " \
+          "services are #{adapters.keys.join(", ")}"
       end
+
+      @adapter = adapters[name]
+      @adapter.setup(settings)
+      @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"]
+    end
+
+    def self.adapters
+      @adapters ||= {}
     end
 
     class << self
       attr_accessor :adapter
       attr_accessor :default_room_name
-      attr_accessor :services
     end
 
     def self.default_room_id
