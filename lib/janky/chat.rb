@@ -8,8 +8,8 @@ module Janky
     def self.setup(name, settings)
       desired = name
       if candidate_service = @services.detect{ |k,v| k == desired}
-        @service = candidate_service.last
-        @service.setup(settings)
+        @adapter = candidate_service.last
+        @adapter.setup(settings)
         @default_room_name = settings["JANKY_CHAT_DEFAULT_ROOM"]
       else
         message = "Unknown chat service: %s. Available services are: %s" % [
@@ -21,7 +21,7 @@ module Janky
     end
 
     class << self
-      attr_accessor :service
+      attr_accessor :adapter
       attr_accessor :default_room_name
       attr_accessor :services
     end
@@ -38,7 +38,7 @@ module Janky
     #
     # Returns nothing.
     def self.speak(message, room_id, opts=nil)
-      service.speak(message, room_id, opts)
+      adapter.speak(message, room_id, opts)
     end
 
     # Get the ID of a room.
@@ -74,14 +74,14 @@ module Janky
     #
     # Returns an Array of Janky::Chat::Room objects.
     def self.rooms
-      service.rooms
+      adapter.rooms
     end
 
     # Enable mocking. Once enabled, messages are discarded.
     #
     # Returns nothing.
     def self.enable_mock!
-      @service = Mock.new
+      @adapter = Mock.new
     end
 
     # Configure available rooms. Only available in mock mode.
@@ -90,7 +90,7 @@ module Janky
     #
     # Returns nothing.
     def self.rooms=(value)
-      service.rooms = value
+      adapter.rooms = value
     end
   end
 end
