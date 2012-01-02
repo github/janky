@@ -20,6 +20,7 @@ require "janky/git"
 require "janky/git/github"
 require "janky/git/github/api"
 require "janky/git/github/mock"
+require "janky/git/remote"
 require "janky/github"
 require "janky/github/payload"
 require "janky/github/commit"
@@ -231,4 +232,5 @@ module Janky
 
   # Register all valid Janky::Git service implementations
   Janky.add_git :github, Janky::Git::GitHub
+  Janky.add_git :remote, Janky::Git::Remote
 end

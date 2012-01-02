@@ -180,6 +180,18 @@ class JankyTest < Test::Unit::TestCase
     assert_equal 201, hubot_setup("janky").status
   end
 
+  test "hubot setup not github" do
+    settings = {
+      "JANKY_GIT_SERVICE" => "remote",
+      "JANKY_GITREMOTE_ROOT" => "server:folder"
+    }
+
+    Janky::Git.setup(settings, "http://example.com/_github")
+
+    assert hubot_setup("project").body.
+      include?("server:folder/project")
+  end
+
   test "hubot toggle" do
     hubot_toggle("github")
     gh_post_receive("github", "master", "deadbeef")
