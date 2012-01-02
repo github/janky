@@ -148,6 +148,10 @@ module Janky
     end
     chat_room = ["JANKY_CHAT_DEFAULT_ROOM"] ||
       settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
+    if settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
+      warn "JANKY_CAMPFIRE_DEFAULT_ROOM is deprecated. Please use " \
+        "JANKY_CHAT_DEFAULT_ROOM instead"
+    end
     Chat.setup(chat_name, chat_settings, chat_room)
 
     Notifier.setup(Notifier::Chat)
