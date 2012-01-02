@@ -10,7 +10,7 @@ module Janky
         elsif payload.completed?
           Build.complete(payload.id, payload.green?)
         else
-          return Rack::Response.new("Invalid", 402).finish
+          return Rack::Response.new("Bad Request", 400).finish
         end
 
         Rack::Response.new("OK", 201).finish
