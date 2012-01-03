@@ -139,6 +139,20 @@ module Janky
 
     Janky::Exception.setup(Janky::Exception::Logger.new($stderr))
 
+    if campfire_account = settings["JANKY_CAMPFIRE_ACCOUNT"]
+      warn "JANKY_CAMPFIRE_ACCOUNT is deprecated. Please use " \
+        "JANKY_CHAT_CAMPFIRE_ACCOUNT instead."
+      settings["JANKY_CHAT_CAMPFIRE_ACCOUNT"] ||=
+        settings["JANKY_CAMPFIRE_ACCOUNT"]
+    end
+
+    if campfire_token = settings["JANKY_CAMPFIRE_TOKEN"]
+      warn "JANKY_CAMPFIRE_TOKEN is deprecated. Please use " \
+        "JANKY_CHAT_CAMPFIRE_TOKEN instead."
+      settings["JANKY_CHAT_CAMPFIRE_ACCOUNT"] ||=
+        settings["JANKY_CAMPFIRE_ACCOUNT"]
+    end
+
     chat_name = settings["JANKY_CHAT"] || "campfire"
     chat_settings = {}
     settings.each do |key, value|
@@ -150,7 +164,7 @@ module Janky
       settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
     if settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
       warn "JANKY_CAMPFIRE_DEFAULT_ROOM is deprecated. Please use " \
-        "JANKY_CHAT_DEFAULT_ROOM instead"
+        "JANKY_CHAT_DEFAULT_ROOM instead."
     end
     Chat.setup(chat_name, chat_settings, chat_room)
 
