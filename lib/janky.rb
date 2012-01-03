@@ -178,7 +178,6 @@ module Janky
   #
   # Returns nothing.
   def self.reset!
-    @app = nil
     Janky::Notifier.reset!
     Janky::Builder.reset!
   end
