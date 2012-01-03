@@ -4,7 +4,7 @@ class JankyGitRemoteTest < Test::Unit::TestCase
   def setup
     env = environment
     env["JANKY_GIT_SERVICE"] = "remote"
-    env["JANKY_GITREMOTE_ROOT"] = "server:folder"
+    env["JANKY_GIT_REMOTE_ROOT"] = "server:folder"
 
     Janky.setup(env)
     Janky.enable_mock!

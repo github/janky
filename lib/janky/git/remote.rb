@@ -2,7 +2,7 @@ module Janky
   module Git
     module Remote
       def self.setup(settings, url)
-        @gitroot = settings["JANKY_GITREMOTE_ROOT"]
+        @gitroot = settings["JANKY_GIT_REMOTE_ROOT"]
       end
 
       def self.repo_get(nwo, name)
