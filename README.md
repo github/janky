@@ -117,7 +117,8 @@ Required settings:
 * `JANKY_BASE_URL`: The application URL with a trailing slash. Example:
   `http://mf-doom-42.heroku.com/`.
 * `JANKY_BUILDER_DEFAULT`: The Jenkins server URL with a trailing slash.
-   Example: `http://jenkins.example.com/`.
+   Example: `http://jenkins.example.com/`. For basic auth, include the
+   credentials in the URL: `http://user:pass@jenkins.example.com/`.
 * `JANKY_CONFIG_DIR`: Directory where build config templates are stored.
   Typically set to `/app/config` on Heroku.
 * `JANKY_HUBOT_USER`: Login used to protect the Hubot API.
@@ -165,7 +166,7 @@ a few extra settings:
 Install the [janky script](http://git.io/hubot-janky) in your Hubot
 then set the `HUBOT_JANKY_URL` environment variable. Example:
 `http://user:secret@janky.example.com/_hubot/`, with user and password
-replaced by `JANKY_HUBOT_USER` and `JANKY_HUBOT_PASSWORD` repectively.
+replaced by `JANKY_HUBOT_USER` and `JANKY_HUBOT_PASSWORD` respectively.
 
 ### Custom Build Configuration
 
@@ -226,5 +227,5 @@ send a Pull Request.
 Copying
 -------
 
-Copyright © 2011, GitHub, Inc. See the `COPYING` file for license
+Copyright © 2011-2012, GitHub, Inc. See the `COPYING` file for license
 rights and limitations (MIT).

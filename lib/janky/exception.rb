@@ -48,6 +48,29 @@ module Janky
       end
     end
 
+    class Logger
+      def initialize(stream)
+        @stream = stream
+        @context = {}
+      end
+
+      def reset!
+        @context = {}
+      end
+
+      def report(e, context={})
+        @stream.puts "ERROR: #{e.class} - #{e.message}\n"
+        @context.each do |k, v|
+          @stream.puts "%12s %4s\n" % [k, v]
+        end
+        @stream.puts "\n#{e.backtrace.join("\n")}"
+      end
+
+      def push(context)
+        @context.update(context)
+      end
+    end
+
     class Mock
       def self.push(context)
       end

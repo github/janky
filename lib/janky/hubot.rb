@@ -4,7 +4,7 @@ module Janky
   # builds.
   #
   # The client side implementation is at
-  # <https://github.com/github/hubot/blob/master/scripts/ci.js>
+  # <https://github.com/github/hubot-scripts/blob/master/src/scripts/janky.coffee>
   class Hubot < Sinatra::Base
     register Helpers
 

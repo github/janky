@@ -137,7 +137,7 @@ module Janky
       :password => settings["JANKY_HUBOT_PASSWORD"]
     )
 
-    Janky::Exception.setup(Janky::Exception::Mock)
+    Janky::Exception.setup(Janky::Exception::Logger.new($stderr))
 
     chat_name = settings["JANKY_CHAT"] || "campfire"
     chat_settings = {}
