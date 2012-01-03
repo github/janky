@@ -13,6 +13,12 @@ module Janky
       else
         raise ArgumentError, "Invalid git service '#{desired}' requested. Valid values are: #{@registered_services.keys.join(', ')}"
       end
+
+      @receiver = Receiver.new(settings)
+    end
+
+    def self.receiver
+      @receiver
     end
 
     def self.repo_get(nwo, name = nil)

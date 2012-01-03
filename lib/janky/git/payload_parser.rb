@@ -1,6 +1,5 @@
 module Janky
   module Git
-    module GitHub
       class PayloadParser
         def initialize(json)
           @payload = Yajl.load(json)
@@ -16,7 +15,7 @@ module Janky
 
         def commits
           @payload["commits"].map do |commit|
-            GitHub::Commit.new(
+            Commit.new(
               commit["id"],
               commit["url"],
               commit["message"],
@@ -54,6 +53,5 @@ module Janky
           @payload["ref"].split("refs/heads/").last
         end
       end
-    end
   end
 end

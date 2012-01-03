@@ -5,8 +5,8 @@ module Janky
       def self.setup(settings, url)
         @user     = settings["JANKY_GITHUB_USER"]
         @password = settings["JANKY_GITHUB_PASSWORD"]
-        @secret   = settings["JANKY_GITHUB_HOOK_SECRET"]
-        @apiurl   = settings["JANKY_GITHUB_API_URL"] ||= "https://api.github.com"
+        @secret   = settings["JANKY_GITHUB_HOOK_SECRET"] || settings["JANKY_GIT_HOOK_SECRET"]
+        @apiurl   = settings["JANKY_GITHUB_API_URL"] || "https://api.github.com"
         @url      = url
       end
 
@@ -16,10 +16,6 @@ module Janky
 
       class << self
         attr_reader :secret
-      end
-
-      def self.receiver
-        @receiver ||= Receiver.new(@secret)
       end
 
       def self.repo_get(nwo, name)

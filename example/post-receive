@@ -1,0 +1,53 @@
+#!/usr/bin/ruby
+require 'rubygems'
+require 'net/http'
+require 'json'
+require 'openssl'
+
+repo_url = 'server:folder/project'
+janky_host = 'requestb.in'
+janky_port = '80'
+janky_path = '/13l1zw41'
+secret = 'secret'
+
+rev_old, rev_new, ref = STDIN.read.split(" ")
+
+message = `git log -1 #{rev_new} --pretty=format:%s`
+author_name = `git log -1 #{rev_new} --pretty=format:%aN`
+author_email = `git log -1 #{rev_new} --pretty=format:%aE`
+timestamp = `git log -1 #{rev_new} --pretty=format:%ai`
+
+body = {
+  :before => rev_old,
+  :after => rev_new,
+  :compare => "git diff #{rev_old} #{rev_new}",
+  :repository => {
+    :private => 0,
+    :url => repo_url
+  },
+  :commits => [
+    {
+      :id => rev_new,
+      :url => "#{repo_url}+#{rev_new}",
+      :message => message,
+      :timestamp => timestamp,
+      :author => {
+        :email => author_email,
+        :name => author_name
+      }
+    }
+  ],
+  :ref => ref
+}.to_json
+ 
+digest = OpenSSL::Digest::Digest.new("sha1")
+sig    = OpenSSL::HMAC.hexdigest(digest, secret, body)
+
+headers = {
+  'Content-Type' => 'application/json',
+  'HTTP_X_HUB_SIGNATURE' => "shaq=#{sig}"
+}
+
+req = Net::HTTP::Post.new(janky_path, initheader = {'Content-Type' =>'application/json'})
+req.body = body
+response = Net::HTTP.new(janky_host, janky_port).start {|http| http.request(req) }

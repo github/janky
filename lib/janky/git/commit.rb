@@ -1,6 +1,5 @@
 module Janky
   module Git
-    module GitHub
       class Commit
         def initialize(sha1, url, message, author, time)
           @sha1    = sha1
@@ -24,6 +23,5 @@ module Janky
             :timestamp => @time }
         end
       end
-    end
   end
 end

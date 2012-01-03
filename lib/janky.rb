@@ -20,12 +20,11 @@ require "janky/git"
 require "janky/git/github"
 require "janky/git/github/api"
 require "janky/git/github/mock"
-require "janky/git/github/payload"
-require "janky/git/github/commit"
-require "janky/git/github/payload_parser"
-require "janky/git/github/receiver"
 require "janky/git/remote"
-require "janky/github"
+require "janky/git/payload"
+require "janky/git/commit"
+require "janky/git/payload_parser"
+require "janky/git/receiver"
 require "janky/job_creator"
 require "janky/helpers"
 require "janky/hubot"
@@ -180,6 +179,7 @@ module Janky
   #
   # Returns nothing.
   def self.reset!
+    @app = nil
     Janky::Notifier.reset!
     Janky::Builder.reset!
   end
@@ -195,9 +195,14 @@ module Janky
       # Exception reporting middleware.
       use Janky::Exception::Middleware
 
-      # GitHub Post-Receive requests.
+      # Legacy GitHub Post-Receive requests.
       map "/_github" do
-        run Janky::Git::GitHub.receiver
+        run Janky::Git.receiver
+      end
+
+      # Git Post-Receive requests.
+      map "/_git" do
+        run Janky::Git.receiver
       end
 
       # Jenkins callback requests.

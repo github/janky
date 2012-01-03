@@ -1,6 +1,5 @@
 module Janky
   module Git
-    module GitHub
       class Payload
         def self.parse(json)
           parsed = PayloadParser.new(json)
@@ -31,6 +30,5 @@ module Janky
             :compare => @compare }.to_json
         end
       end
-    end
   end
 end
