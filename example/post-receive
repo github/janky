@@ -21,8 +21,9 @@ body = {
   :before => rev_old,
   :after => rev_new,
   :compare => "git diff #{rev_old} #{rev_new}",
+  :uri => repo_url,
   :repository => {
-    :private => 0,
+    :private => false,
     :url => repo_url
   },
   :commits => [
@@ -45,9 +46,9 @@ sig    = OpenSSL::HMAC.hexdigest(digest, secret, body)
 
 headers = {
   'Content-Type' => 'application/json',
-  'HTTP_X_HUB_SIGNATURE' => "shaq=#{sig}"
+  'HTTP_X_HUB_SIGNATURE' => "sha1=#{sig}"
 }
 
-req = Net::HTTP::Post.new(janky_path, initheader = {'Content-Type' =>'application/json'})
+req = Net::HTTP::Post.new(janky_path, initheader = headers)
 req.body = body
 response = Net::HTTP.new(janky_host, janky_port).start {|http| http.request(req) }
