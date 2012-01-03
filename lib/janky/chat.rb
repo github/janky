@@ -2,7 +2,7 @@ module Janky
   module Chat
     Room = Struct.new(:id, :name)
 
-    # Setup service used to notify chat rooms of build status.
+    # Setup the adapter used to notify chat rooms of build status.
     #
     # name     - Service name as a string.
     # settings - Service-specific setting hash.
@@ -10,12 +10,14 @@ module Janky
     #
     # Returns nothing.
     def self.setup(name, settings, default)
-      if !adapters[name]
+      klass = adapters[name]
+
+      if !klass
         raise Error, "Unknown chat service: #{name.inspect}. Available " \
           "services are #{adapters.keys.join(", ")}"
       end
 
-      @adapter = adapters[name].new(settings)
+      @adapter = klass.new(settings)
       @default_room_name = default
     end
 
