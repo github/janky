@@ -6,7 +6,7 @@ module Janky
       end
 
       def self.repo_get(nwo, name)
-        name ||= nwo[/[^\/]*\/?(\w*)/] && $1
+        name ||= nwo[/.*?\/?(.*)/] && $1
         uri = @gitroot + '/' + nwo
 
         [name, uri]
