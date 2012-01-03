@@ -16,13 +16,15 @@ require "janky/branch"
 require "janky/commit"
 require "janky/build"
 require "janky/build_request"
-require "janky/github"
-require "janky/github/api"
-require "janky/github/mock"
-require "janky/github/payload"
-require "janky/github/commit"
-require "janky/github/payload_parser"
-require "janky/github/receiver"
+require "janky/git"
+require "janky/git/github"
+require "janky/git/github/api"
+require "janky/git/github/mock"
+require "janky/git/remote"
+require "janky/git/payload"
+require "janky/git/commit"
+require "janky/git/payload_parser"
+require "janky/git/receiver"
 require "janky/job_creator"
 require "janky/helpers"
 require "janky/hubot"
@@ -104,10 +106,8 @@ module Janky
     # Setup the default Jenkins build host
     Janky::Builder[:default] = settings["JANKY_BUILDER_DEFAULT"]
 
-    Janky::GitHub.setup(
-      settings["JANKY_GITHUB_USER"],
-      settings["JANKY_GITHUB_PASSWORD"],
-      settings["JANKY_GITHUB_HOOK_SECRET"],
+    Janky::Git.setup(
+      settings,
       base_url + "/_github"
     )
 
@@ -151,7 +151,6 @@ module Janky
       JANKY_BASE_URL
       JANKY_BUILDER_DEFAULT
       JANKY_CONFIG_DIR
-      JANKY_GITHUB_USER JANKY_GITHUB_PASSWORD JANKY_GITHUB_HOOK_SECRET
       JANKY_HUBOT_USER JANKY_HUBOT_PASSWORD
       JANKY_CAMPFIRE_ACCOUNT JANKY_CAMPFIRE_TOKEN JANKY_CAMPFIRE_DEFAULT_ROOM]
   end
@@ -169,7 +168,7 @@ module Janky
   # Returns nothing.
   def self.enable_mock!
     Janky::Builder.enable_mock!
-    Janky::GitHub.enable_mock!
+    Janky::Git::GitHub.enable_mock!
     Janky::Notifier.enable_mock!
     Janky::Campfire.enable_mock!
     Janky::App.disable :github_team_id
@@ -194,9 +193,14 @@ module Janky
       # Exception reporting middleware.
       use Janky::Exception::Middleware
 
-      # GitHub Post-Receive requests.
+      # Legacy GitHub Post-Receive requests.
       map "/_github" do
-        run Janky::GitHub.receiver
+        run Janky::Git.receiver
+      end
+
+      # Git Post-Receive requests.
+      map "/_git" do
+        run Janky::Git.receiver
       end
 
       # Jenkins callback requests.
@@ -221,4 +225,13 @@ module Janky
       end
     }
   end
+
+  def self.add_git(name, service)
+    Janky::Git.registered_services ||= {}
+    Janky::Git.registered_services[name] = service
+  end
+
+  # Register all valid Janky::Git service implementations
+  Janky.add_git :github, Janky::Git::GitHub
+  Janky.add_git :remote, Janky::Git::Remote
 end

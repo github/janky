@@ -160,11 +160,11 @@ class JankyTest < Test::Unit::TestCase
   end
 
   test "hubot setup" do
-    Janky::GitHub.repo_make_private("github/github")
+    Janky::Git::GitHub.repo_make_private("github/github")
     assert hubot_setup("github/github").body.
       include?("git@github.com:github/github")
 
-    Janky::GitHub.repo_make_public("github/github")
+    Janky::Git::GitHub.repo_make_public("github/github")
     assert hubot_setup("github/github").body.
       include?("git://github.com/github/github")
 
@@ -173,7 +173,7 @@ class JankyTest < Test::Unit::TestCase
     hubot_setup("github/janky")
     assert_equal 2, hubot_status.body.split("\n").size
 
-    Janky::GitHub.repo_make_unauthorized("github/enterprise")
+    Janky::Git::GitHub.repo_make_unauthorized("github/enterprise")
     assert hubot_setup("github/enterprise").body.
       include?("Couldn't access github/enterprise")
 

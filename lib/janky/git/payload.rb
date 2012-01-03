@@ -1,5 +1,5 @@
 module Janky
-  module GitHub
+  module Git
     class Payload
       def self.parse(json)
         parsed = PayloadParser.new(json)

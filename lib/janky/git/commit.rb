@@ -1,5 +1,5 @@
 module Janky
-  module GitHub
+  module Git
     class Commit
       def initialize(sha1, url, message, author, time)
         @sha1    = sha1

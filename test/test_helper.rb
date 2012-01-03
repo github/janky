@@ -24,7 +24,7 @@ class Test::Unit::TestCase
   end
 
   def gh_commit(sha1 = "HEAD")
-    Janky::GitHub::Commit.new(
+    Janky::Git::Commit.new(
       sha1,
       "https://github.com/github/github/commit/#{sha1}",
       ":octocat:",
@@ -36,7 +36,7 @@ class Test::Unit::TestCase
   def gh_payload(repo, branch, commits)
     head = commits.first
 
-    Janky::GitHub::Payload.new(
+    Janky::Git::Payload.new(
       repo.uri,
       branch,
       head.sha1,
@@ -53,12 +53,29 @@ class Test::Unit::TestCase
     repo    = Janky::Repository.find_by_name!(repo_name)
     payload = gh_payload(repo, branch, [gh_commit(commit)])
     digest  = OpenSSL::Digest::Digest.new("sha1")
-    sig     = OpenSSL::HMAC.hexdigest(digest, Janky::GitHub.secret, payload.to_json)
+    sig     = OpenSSL::HMAC.hexdigest(digest, Janky::Git::GitHub.secret, payload.to_json)
 
     Rack::MockRequest.new(Janky.app).post("/_github",
       :input            => payload.to_json,
       "CONTENT_TYPE"    => "application/json",
       "HTTP_X_HUB_SIGNATURE" => "sha1=#{sig}"
+    )
+  end
+
+  def git_remote_payload(repo, branch, newrev)
+    { :uri => repo.uri,
+      :branch => branch,
+      :newrev => newrev,
+      :oldrev => 'master' }.to_json
+  end
+
+  def git_remote_post_receive(repo_name, branch = "master", commit = "HEAD")
+    repo    = Janky::Repository.find_by_name!(repo_name)
+    payload = git_remote_payload(repo, branch, [gh_commit(commit)])
+    
+    Rack::MockRequest.new(Janky.app).post("/_github",
+      :input            => payload,
+      "CONTENT_TYPE"    => "application/json"
     )
   end
 

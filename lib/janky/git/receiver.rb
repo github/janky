@@ -1,8 +1,8 @@
 module Janky
-  module GitHub
+  module Git
     # Rack app handling GitHub Post-Receive [1] requests.
     #
-    # The JSON payload is parsed into a GitHub::Payload. We then find the
+    # The JSON payload is parsed into a Git::Payload. We then find the
     # associated Repository record based on the Payload's repository git URL
     # and create the associated records: Branch, Commit and Build.
     #
@@ -10,8 +10,8 @@ module Janky
     #
     # [1]: http://help.github.com/post-receive-hooks/
     class Receiver
-      def initialize(secret)
-        @secret = secret
+      def initialize(settings)
+        @secret = settings["JANKY_GITHUB_HOOK_SECRET"] || settings["JANKY_GIT_HOOK_SECRET"]
       end
 
       def call(env)
@@ -48,7 +48,7 @@ module Janky
       end
 
       def payload
-        @payload ||= GitHub::Payload.parse(data)
+        @payload ||= Payload.parse(data)
       end
 
       def data
