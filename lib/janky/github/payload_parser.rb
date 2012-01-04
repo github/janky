@@ -1,7 +1,9 @@
 module Janky
   module GitHub
     class PayloadParser
-      def initialize(json)
+      def initialize(json, legacy_payload = false)
+        json = extract_json_from_legacy_data(json) if legacy_payload
+
         @payload = Yajl.load(json)
       end
 
@@ -51,6 +53,10 @@ module Janky
 
       def branch
         @payload["ref"].split("refs/heads/").last
+      end
+
+      def extract_json_from_legacy_data(data)
+        CGI::unescape(data.gsub(/^payload=/, ""))
       end
     end
   end
