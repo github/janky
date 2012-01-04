@@ -62,6 +62,17 @@ class Test::Unit::TestCase
     )
   end
 
+  def gh_legacy_post_receive(repo_name, branch = "master", commit = "HEAD")
+    repo    = Janky::Repository.find_by_name!(repo_name)
+    payload = gh_payload(repo, branch, [gh_commit(commit)])
+    legacy_payload = "payload=#{CGI::escape(payload.to_json)}"
+
+    Rack::MockRequest.new(Janky.app).post("/_github",
+      :input            => legacy_payload,
+      "CONTENT_TYPE"    => "application/x-www-form-urlencoded",
+    )
+  end
+
   def hubot_setup(nwo, name = nil)
     hubot_request("POST", "/_hubot/setup", :params => {
       :nwo   => nwo,
