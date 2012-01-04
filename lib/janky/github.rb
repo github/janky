@@ -1,9 +1,9 @@
 module Janky
   module GitHub
-    def self.setup(user, password, secret, url)
-      @user     = user
-      @password = password
-      @secret   = secret
+    def self.setup(settings, url)
+      @user     = settings["JANKY_GITHUB_USER"]
+      @password = settings["JANKY_GITHUB_PASSWORD"]
+      @secret   = settings["JANKY_GITHUB_HOOK_SECRET"]
       @url      = url
     end
 
