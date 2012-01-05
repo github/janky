@@ -4,9 +4,17 @@ module Janky
       @user     = settings["JANKY_GITHUB_USER"]
       @password = settings["JANKY_GITHUB_PASSWORD"]
       @secret   = settings["JANKY_GITHUB_HOOK_SECRET"]
-      @apiurl   = settings["JANKY_GITHUB_API_URL"] ||= "https://api.github.com"
-      @gitroot  = settings["JANKY_GITHUB_PRIVATE_GIT_ROOT"] ||= "git@github.com:"
       @url      = url
+      
+      enterprise_host = settings["JANKY_GITHUB_ENTERPRISE_HOST"]
+
+      if enterprise_host
+        @apiurl  = "https://#{enterprise_host}/api/v3/"
+        @gitroot = "git@#{enterprise_host}:"
+      else
+        @apiurl  = "https://api.github.com"
+        @gitroot = "git@github.com:"
+      end
     end
 
     class << self
