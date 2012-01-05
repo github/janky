@@ -1,9 +1,10 @@
 module Janky
   module GitHub
     class API
-      def initialize(user, password)
+      def initialize(user, password, apiurl)
         @user     = user
         @password = password
+        @apiurl   = apiurl
       end
 
       def create(nwo, secret, url)
@@ -55,7 +56,7 @@ module Janky
       end
 
       def http!
-        uri  = URI("https://api.github.com")
+        uri  = URI(@apiurl)
         http = Net::HTTP.new(uri.host, uri.port)
 
         http.use_ssl     = true
