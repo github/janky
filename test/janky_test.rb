@@ -268,4 +268,8 @@ class JankyTest < Test::Unit::TestCase
     assert hubot_build("janky", "master").not_found?
     assert hubot_build("github", "master").not_found?
   end
+
+  test "support legacy hooks payload data" do
+    assert gh_legacy_post_receive("github", "master")
+  end
 end

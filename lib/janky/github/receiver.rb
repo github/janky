@@ -21,6 +21,10 @@ module Janky
       def call!(env)
         @request = Rack::Request.new(env)
 
+        if !valid_content_type?
+          return Rack::Response.new("Invalid Content-Type", 400).finish
+        end
+
         if !valid_signature?
           return Rack::Response.new("Invalid signature", 403).finish
         end
@@ -41,14 +45,28 @@ module Janky
       end
 
       def valid_signature?
+        return true if legacy_payload_data?
+
         digest    = OpenSSL::Digest::Digest.new("sha1")
         signature = @request.env["HTTP_X_HUB_SIGNATURE"].split("=").last
 
         signature == OpenSSL::HMAC.hexdigest(digest, @secret, data)
       end
 
+      def valid_content_type?
+        if legacy_payload_data?
+          @request.content_type == "application/x-www-form-urlencoded"
+        else
+          @request.content_type == "application/json"
+        end
+      end
+
       def payload
-        @payload ||= GitHub::Payload.parse(data)
+          @payload ||= GitHub::Payload.parse(data, legacy_payload_data?)
+      end
+
+      def legacy_payload_data?
+        data =~ /^payload=/
       end
 
       def data
@@ -56,10 +74,6 @@ module Janky
       end
 
       def data!
-        if @request.content_type != "application/json"
-          return Rack::Response.new("Invalid Content-Type", 400).finish
-        end
-
         body = ""
         @request.body.each { |chunk| body << chunk }
         body

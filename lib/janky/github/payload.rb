@@ -1,8 +1,8 @@
 module Janky
   module GitHub
     class Payload
-      def self.parse(json)
-        parsed = PayloadParser.new(json)
+      def self.parse(json, legacy_payload = false)
+        parsed = PayloadParser.new(json, legacy_payload)
         new(parsed.uri, parsed.branch, parsed.head, parsed.commits, parsed.compare)
       end
 
