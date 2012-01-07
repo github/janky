@@ -38,7 +38,6 @@ require "janky/chat"
 require "janky/chat/campfire"
 require "janky/chat/hipchat"
 require "janky/chat/mock"
-require "janky/chat/room"
 require "janky/exception"
 require "janky/notifier"
 require "janky/notifier/chat"
@@ -149,8 +148,8 @@ module Janky
     if campfire_token = settings["JANKY_CAMPFIRE_TOKEN"]
       warn "JANKY_CAMPFIRE_TOKEN is deprecated. Please use " \
         "JANKY_CHAT_CAMPFIRE_TOKEN instead."
-      settings["JANKY_CHAT_CAMPFIRE_ACCOUNT"] ||=
-        settings["JANKY_CAMPFIRE_ACCOUNT"]
+      settings["JANKY_CHAT_CAMPFIRE_TOKEN"] ||=
+        settings["JANKY_CAMPFIRE_TOKEN"]
     end
 
     chat_name = settings["JANKY_CHAT"] || "campfire"
