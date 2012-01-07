@@ -2,7 +2,6 @@ module Janky
   module Chat
     class HipChat
       def initialize(settings)
-        puts "Chat Settings: #{settings}"
         @client = ::HipChat::Client.new(settings["JANKY_CHAT_HIPCHAT_TOKEN"])
         @from = settings["JANKY_CHAT_HIPCHAT_FROM"] || "CI"
       end
@@ -12,7 +11,6 @@ module Janky
       end
 
       def rooms
-        puts "Rooms: #{@client.rooms}" rescue nil
         @rooms ||= @client.rooms.map do |room|
           Room.new(room.room_id, room.name)
         end
