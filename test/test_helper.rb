@@ -17,8 +17,8 @@ class Test::Unit::TestCase
       "JANKY_GITHUB_HOOK_SECRET" => "secret",
       "JANKY_HUBOT_USER" => "hubot",
       "JANKY_HUBOT_PASSWORD" => "password",
-      "JANKY_CAMPFIRE_ACCOUNT" => "github",
-      "JANKY_CAMPFIRE_TOKEN" => "token",
+      "JANKY_CHAT_CAMPFIRE_ACCOUNT" => "github",
+      "JANKY_CHAT_CAMPFIRE_TOKEN" => "token",
       "JANKY_CHAT_DEFAULT_ROOM" => "Builds",
       "JANKY_CHAT_SERVICE" => "campfire"
     }
