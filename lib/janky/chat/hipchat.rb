@@ -7,7 +7,7 @@ module Janky
       end
 
       def speak(message, room_id, options = {:color => "yellow"})
-        @client[room_id].send(from, message, options[:color])
+        @client[room_id].send(@from, message, options[:color])
       end
 
       def rooms
