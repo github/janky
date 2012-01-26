@@ -8,6 +8,10 @@ module Janky
 
       def run(params, create_url)
         http     = Net::HTTP.new(create_url.host, create_url.port)
+        if create_url.scheme == "https"
+          http.use_ssl = true 
+        end
+
         request  = Net::HTTP::Post.new(create_url.path)
         if @username && @password
           request.basic_auth(@username, @password)
@@ -24,6 +28,10 @@ module Janky
 
       def output(url)
         http     = Net::HTTP.new(url.host, url.port)
+        if url.scheme == "https"
+          http.use_ssl = true
+        end
+
         request  = Net::HTTP::Get.new(url.path)
         if @username && @password
           request.basic_auth(@username, @password)
