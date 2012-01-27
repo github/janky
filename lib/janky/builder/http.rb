@@ -9,7 +9,7 @@ module Janky
       def run(params, create_url)
         http     = Net::HTTP.new(create_url.host, create_url.port)
         if create_url.scheme == "https"
-          http.use_ssl = true 
+          http.use_ssl = true
         end
 
         request  = Net::HTTP::Post.new(create_url.path)

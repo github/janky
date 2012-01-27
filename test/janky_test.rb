@@ -271,7 +271,7 @@ class JankyTest < Test::Unit::TestCase
 
   test "github owner is parsed correctly" do
     repo = Janky::Repository.setup("github/janky")
-    assert_equal "github", repo.github_owner 
+    assert_equal "github", repo.github_owner
     assert_equal "janky", repo.github_name
   end
 
@@ -280,5 +280,4 @@ class JankyTest < Test::Unit::TestCase
     assert_equal "digital-science", repo.github_owner
     assert_equal "central-ftp-manage", repo.github_name
   end
-
 end
