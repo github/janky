@@ -109,9 +109,7 @@ module Janky
     Janky::Builder[:default] = settings["JANKY_BUILDER_DEFAULT"]
 
     Janky::GitHub.setup(
-      settings["JANKY_GITHUB_USER"],
-      settings["JANKY_GITHUB_PASSWORD"],
-      settings["JANKY_GITHUB_HOOK_SECRET"],
+      settings,
       base_url + "/_github"
     )
 
