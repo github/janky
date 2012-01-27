@@ -212,6 +212,14 @@ module Janky
       commit.url
     end
 
+    def commit_message
+      commit.message
+    end
+
+    def commit_author
+      commit.author
+    end
+
     def number
       id.to_s
     end
