@@ -2,12 +2,12 @@ module Janky
   module Chat
     class HipChat
       def initialize(settings)
-        @client = ::HipChat::Client.new(settings["JANKY_HIPCHAT_TOKEN"])
-        @from = settings["JANKY_HIPCHAT_FROM"] || "CI"
+        @client = ::HipChat::Client.new(settings["JANKY_CHAT_HIPCHAT_TOKEN"])
+        @from = settings["JANKY_CHAT_HIPCHAT_FROM"] || "CI"
       end
 
       def speak(message, room_id, options = {:color => "yellow"})
-        @client[room_id].send(from, message, options[:color])
+        @client[room_id].send(@from, message, options)
       end
 
       def rooms

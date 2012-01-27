@@ -3,8 +3,8 @@ module Janky
     class Campfire
       def initialize(settings)
         Broach.settings = {
-          "account" => settings['JANKY_CAMPFIRE_ACCOUNT'],
-          "token"   => settings['JANKY_CAMPFIRE_TOKEN'],
+          "account" => settings['JANKY_CHAT_CAMPFIRE_ACCOUNT'],
+          "token"   => settings['JANKY_CHAT_CAMPFIRE_TOKEN'],
           "use_ssl" => true
         }
       end
