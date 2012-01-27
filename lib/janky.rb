@@ -38,7 +38,6 @@ require "janky/chat"
 require "janky/chat/campfire"
 require "janky/chat/hipchat"
 require "janky/chat/mock"
-require "janky/chat/room"
 require "janky/exception"
 require "janky/notifier"
 require "janky/notifier/chat"
@@ -156,7 +155,7 @@ module Janky
     chat_name = settings["JANKY_CHAT"] || "campfire"
     chat_settings = {}
     settings.each do |key, value|
-      if key =~ /^JANKY_CHAT_#{chat_name}_/
+      if key =~ /^JANKY_CHAT_#{chat_name}_/i
         chat_settings[key] = value
       end
     end

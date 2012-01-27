@@ -35,7 +35,7 @@ module Janky
       repo    = find_repo(repo_name)
       branch  = repo.branch_for(branch_name)
       build   = branch.current_build
-      room_id = params["room_id"] && Integer(params["room_id"])
+      room_id = params["room_id"] && Integer(params["room_id"]) rescue nil
 
       if build
         build.rerun(room_id)
@@ -105,12 +105,12 @@ module Janky
     get "/help" do
       content_type "text/plain"
 <<-EOS
-hubot ci build janky
-hubot ci build janky/fix-everything
-hubot ci setup github/janky [name]
-hubot ci toggle janky
-hubot ci rooms
-hubot ci set room janky The Danger Room
+ci build janky
+ci build janky/fix-everything
+ci setup github/janky [name]
+ci toggle janky
+ci rooms
+ci set room janky development
 EOS
     end
   end
