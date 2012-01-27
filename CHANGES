@@ -1,3 +1,27 @@
+= 0.9.9 / Not yet released
+
+ * HipChat support [Justin Smestad, Seth Chisamore]
+
+ * Support GitHub logins containing dashes. [Thom May]
+
+ * Support branches containing slashes in their name. [Andres Torres]
+
+ * Respond with proper status code to invalid builder requests. [Chris Mytton]
+
+ * Support for Jenkins servers running behind SSL. [Vivek Pandey,
+   Gavin Heavyside, Thom May]
+
+ * Support for Jenkins servers running under a path [Piet Jaspers]
+
+ * Deprecate JANKY_CAMPFIRE_ACCOUNT. Please use JANKY_CHAT_CAMPFIRE_ACCOUNT
+   instead.
+
+ * Deprecate JANKY_CAMPFIRE_TOKEN. Please use JANKY_CHAT_CAMPFIRE_TOKEN
+   instead.
+
+ * Deprecate JANKY_CAMPFIRE_DEFAULT_ROOM. Please use
+   JANKY_CHAT_DEFAULT_ROOM instead.
+
 = 0.9 / 2011-12-19
 
  * Initial public release.
