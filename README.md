@@ -96,7 +96,7 @@ Then push up it to a new Heroku app:
     $ heroku create --stack cedar
     $ bundle install
     $ git add Gemfile.lock
-    $ git commit Gemfile.lock -m 'Adding required Gemfile.lock file for Heroku deploy'
+    $ git commit Gemfile.lock -m "lock bundle"
     $ git push heroku master
 
 After configuring the app (see below), create the database:
