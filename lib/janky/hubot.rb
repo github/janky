@@ -31,7 +31,7 @@ module Janky
     end
 
     # Build a repository's branch.
-    post "/:repo_name/:branch" do |repo_name, branch_name|
+    post %r{\/([-_\.0-9a-zA-Z]+)\/([-_\.a-zA-z0-9\/]+)} do |repo_name, branch_name|
       repo    = find_repo(repo_name)
       branch  = repo.branch_for(branch_name)
       build   = branch.current_build
@@ -81,7 +81,7 @@ module Janky
     end
 
     # Get the status of a repository's branch.
-    get "/:repo_name/:branch_name" do |repo_name, branch_name|
+    get %r{\/([-_\.0-9a-zA-Z]+)\/([-_\.a-zA-z0-9\/]+)} do |repo_name, branch_name|
       limit = params["limit"]
 
       repo   = find_repo(repo_name)
