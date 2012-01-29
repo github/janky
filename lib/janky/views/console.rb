@@ -21,10 +21,6 @@ module Janky
         css_status_for(@build)
       end
 
-      def console_path
-        "/#{@build.number}/output"
-      end
-
       def commit_message
         @build.commit_message
       end
