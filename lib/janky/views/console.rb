@@ -17,8 +17,24 @@ module Janky
         "#{repo_path}/#{branch_name}"
       end
 
+      def status
+        css_status_for(@build)
+      end
+
+      def commit_message
+        @build.commit_message
+      end
+
       def commit_url
         @build.commit_url
+      end
+
+      def commit_author
+        @build.commit_author
+      end
+
+      def last_built_text
+        last_built_text_for(@build)
       end
 
       def commit_short_sha
