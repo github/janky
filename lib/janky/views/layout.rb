@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module Janky
   module Views
     class Layout < Mustache
