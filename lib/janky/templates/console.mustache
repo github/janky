@@ -1,4 +1,16 @@
-<p>
-<a href="{{ repo_path }}">{{ repo_name }}</a>/<a href="{{ branch_path }}">{{ branch_name }}</a>/<a href="{{ commit_url }}">{{ commit_short_sha }}</a>
-</p>
+<ul class="builds">
+  <li class="{{ status }}">
+    <span class="status"></span>
+    <p class="right sha1"><a title="{{commit_message}}" href="{{commit_url}}">{{commit_short_sha}}</a></p>
+    <h2>
+      <a href="{{repo_path}}">{{ repo_name }}</a>
+      <span>/</span>
+      <a href="{{branch_path}}">{{ branch_name }}</a>
+    </h2>
+    <p>
+      <span class="right">{{commit_author}}</span>
+      {{{ last_built_text }}}
+    </p>
+  </li>
+</ul>
 <pre>{{ output }}</pre>

@@ -25,6 +25,7 @@ a img{ border:none; }
 * html .clearfix {height: 1%;}
 .clearfix {display:inline-block;}
 .clearfix {display: block;}
+.right {float: right;}
 
 /* @end */
 
@@ -112,14 +113,21 @@ ul.builds li.building:hover{
 }
 
 ul.builds a{
-  display:block;
   text-decoration:none;
-  background:url(../images/disclosure-arrow.png) 100% 10px no-repeat;
 }
-ul.builds li:hover a{
-  background-position:100% -90px;
+
+ul.builds a.console{
+  float: right;
+  display:block;
+  width: 22px;
+  height: 40px;
+  margin-left: 10px;
+  background:url(../images/disclosure-arrow.png) 65% 10px no-repeat;
 }
-ul.builds .building a{
+ul.builds li:hover a.console{
+  background-position:65% -90px;
+}
+ul.builds .building a.console{
   background:none;
   cursor:default;
 }
@@ -144,16 +152,22 @@ ul.builds h2{
   font-size:16px;
   text-shadow:0 1px #fff;
 }
-ul.builds .good a h2{
+ul.builds h2 span{
+  font-weight: normal;
+  color: #666666;
+}
+ul.builds .good a{
   color:#358c00;
 }
-ul.builds .building a h2{
+ul.builds .building a{
   color:#e59741;
 }
-ul.builds .janky a h2{
+ul.builds .janky a{
   color:#ae0000;
 }
-
+ul.builds p.sha1{
+  margin-top: 2px;
+}
 ul.builds p{
   margin:-2px 0 0 0;
   font-size:13px;
