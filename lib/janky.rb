@@ -155,7 +155,7 @@ module Janky
     chat_name = settings["JANKY_CHAT"] || "campfire"
     chat_settings = {}
     settings.each do |key, value|
-      if key =~ /^JANKY_CHAT_#{chat_name}_/
+      if key =~ /^JANKY_CHAT_#{chat_name.upcase}_/
         chat_settings[key] = value
       end
     end
