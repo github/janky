@@ -159,7 +159,7 @@ module Janky
         chat_settings[key] = value
       end
     end
-    chat_room = ["JANKY_CHAT_DEFAULT_ROOM"] ||
+    chat_room = settings["JANKY_CHAT_DEFAULT_ROOM"] ||
       settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
     if settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
       warn "JANKY_CAMPFIRE_DEFAULT_ROOM is deprecated. Please use " \
