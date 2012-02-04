@@ -1,14 +1,25 @@
 module Janky
   module GitHub
-    def self.setup(user, password, secret, url)
-      @user     = user
-      @password = password
-      @secret   = secret
+    def self.setup(settings, url)
+      @user     = settings["JANKY_GITHUB_USER"]
+      @password = settings["JANKY_GITHUB_PASSWORD"]
+      @secret   = settings["JANKY_GITHUB_HOOK_SECRET"]
       @url      = url
+      
+      enterprise_host = settings["JANKY_GITHUB_ENTERPRISE_HOST"]
+
+      if enterprise_host
+        @apiurl  = "https://#{enterprise_host}/api/v3/"
+        @gitroot = "git@#{enterprise_host}:"
+      else
+        @apiurl  = "https://api.github.com"
+        @gitroot = "git@github.com:"
+      end
     end
 
     class << self
       attr_reader :secret
+      attr_reader :gitroot
     end
 
     def self.enable_mock!
@@ -61,7 +72,7 @@ module Janky
     end
 
     def self.api
-      @api ||= API.new(@user, @password)
+      @api ||= API.new(@user, @password, @apiurl)
     end
   end
 end

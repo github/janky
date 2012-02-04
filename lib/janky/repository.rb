@@ -86,14 +86,14 @@ module Janky
     #
     # Returns the user name as a String.
     def github_owner
-      uri[/github\.com[\/:]([a-zA-Z0-9\-_]+)\//] && $1
+      uri[/.*[\/:]([a-zA-Z0-9\-_]+)\//] && $1
     end
 
     # Name of this repository on GitHub.
     #
     # Returns the name as a String.
     def github_name
-      uri[/github\.com[\/:]([a-zA-Z0-9\-_]+)\/([a-zA-Z0-9\-_]+)/] && $2
+      uri[/.*[\/:]([a-zA-Z0-9\-_]+)\/([a-zA-Z0-9\-_]+)/] && $2
     end
 
     # Name of the Campfire room receiving build notifications.
