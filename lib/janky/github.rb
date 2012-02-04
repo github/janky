@@ -1,12 +1,10 @@
 module Janky
   module GitHub
-    def self.setup(settings, url)
-      @user     = settings["JANKY_GITHUB_USER"]
-      @password = settings["JANKY_GITHUB_PASSWORD"]
-      @secret   = settings["JANKY_GITHUB_HOOK_SECRET"]
+    def self.setup(settings, user, password, secret, url, enterprise_host=nil)
+      @user     = user
+      @password = password
+      @secret   = secret
       @url      = url
-      
-      enterprise_host = settings["JANKY_GITHUB_ENTERPRISE_HOST"]
 
       if enterprise_host
         @apiurl  = "https://#{enterprise_host}/api/v3/"
