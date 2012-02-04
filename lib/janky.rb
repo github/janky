@@ -152,7 +152,7 @@ module Janky
     if campfire_token = settings["JANKY_CAMPFIRE_TOKEN"]
       warn "JANKY_CAMPFIRE_TOKEN is deprecated. Please use " \
         "JANKY_CHAT_CAMPFIRE_TOKEN instead."
-      settings["JANKY_CHAT_CAMPFIRE_ACCOUNT"] ||=
+      settings["JANKY_CHAT_CAMPFIRE_TOKEN"] ||=
         settings["JANKY_CAMPFIRE_ACCOUNT"]
     end
 
@@ -163,7 +163,7 @@ module Janky
         chat_settings[key] = value
       end
     end
-    chat_room = ["JANKY_CHAT_DEFAULT_ROOM"] ||
+    chat_room = settings["JANKY_CHAT_DEFAULT_ROOM"] ||
       settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
     if settings["JANKY_CAMPFIRE_DEFAULT_ROOM"]
       warn "JANKY_CAMPFIRE_DEFAULT_ROOM is deprecated. Please use " \
