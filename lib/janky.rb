@@ -108,12 +108,15 @@ module Janky
     # Setup the default Jenkins build host
     Janky::Builder[:default] = settings["JANKY_BUILDER_DEFAULT"]
 
+    api_url = settings["JANKY_GITHUB_API_URL"] ||
+      "https://api.github.com/"
+    hook_url = base_url + "/_github"
     Janky::GitHub.setup(
       settings["JANKY_GITHUB_USER"],
       settings["JANKY_GITHUB_PASSWORD"],
       settings["JANKY_GITHUB_HOOK_SECRET"],
-      base_url + "/_github",
-      settings["JANKY_GITHUB_ENTERPRISE_HOST"],
+      api_url,
+      hook_url
     )
 
     if settings.key?("JANKY_SESSION_SECRET")

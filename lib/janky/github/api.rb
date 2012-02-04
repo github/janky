@@ -1,14 +1,14 @@
 module Janky
   module GitHub
     class API
-      def initialize(user, password, apiurl)
-        @user     = user
+      def initialize(url, user, password)
+        @url = url
+        @user = user
         @password = password
-        @apiurl   = apiurl
       end
 
       def create(nwo, secret, url)
-        request = Net::HTTP::Post.new("/repos/#{nwo}/hooks")
+        request = Net::HTTP::Post.new(build_path("repos/#{nwo}/hooks"))
         payload = build_payload(url, secret)
         request.body = Yajl.dump(payload)
         request.basic_auth(@user, @password)
@@ -17,15 +17,15 @@ module Janky
       end
 
       def trigger(hook_url)
-        path    = URI(hook_url).path
-        request = Net::HTTP::Post.new("#{path}/test")
+        path    = build_path(URI(hook_url).path + "/test")
+        request = Net::HTTP::Post.new(path)
         request.basic_auth(@user, @password)
 
         http.request(request)
       end
 
       def get(hook_url)
-        path    = URI(hook_url).path
+        path    = build_path(URI(hook_url).path)
         request = Net::HTTP::Get.new(path)
         request.basic_auth(@user, @password)
 
@@ -33,11 +33,19 @@ module Janky
       end
 
       def repo_get(nwo)
-        path    = "/repos/#{nwo}"
+        path    = build_path("repos/#{nwo}")
         request = Net::HTTP::Get.new(path)
         request.basic_auth(@user, @password)
 
         http.request(request)
+      end
+
+      def build_path(path)
+        if path[0] == ?/
+          URI.join(@url, path[1..-1])
+        else
+          URI.join(@url, path)
+        end
       end
 
       def build_payload(url, secret)
@@ -56,7 +64,7 @@ module Janky
       end
 
       def http!
-        uri  = URI(@apiurl)
+        uri  = URI(@url)
         http = Net::HTTP.new(uri.host, uri.port)
 
         http.use_ssl     = true

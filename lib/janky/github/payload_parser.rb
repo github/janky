@@ -41,7 +41,7 @@ module Janky
         repository = @payload["repository"]
 
         if repository["private"]
-          "#{GitHub::gitroot}#{URI(repository["url"]).path[1..-1]}"
+          "git@#{GitHub.git_host}:#{URI(repository["url"]).path[1..-1]}"
         else
           uri = URI(repository["url"])
           uri.scheme = "git"

@@ -1,23 +1,30 @@
 module Janky
   module GitHub
-    def self.setup(settings, user, password, secret, url, enterprise_host=nil)
-      @user     = user
+    # Setup the GitHub API client and Post-Receive hook endpoint.
+    #
+    # user     - API user as a String.
+    # password - API password as a String.
+    # api_url  - GitHub API URL as a String. Requires a trailing slash.
+    # hook_url - String URL handling Post-Receive requests.
+    #
+    # Returns nothing.
+    def self.setup(user, password, secret, github_url, hook_url)
+      @user = user
       @password = password
-      @secret   = secret
-      @url      = url
+      @secret = secret
+      @github_url = github_url
+      @hook_url = hook_url
 
-      if enterprise_host
-        @apiurl  = "https://#{enterprise_host}/api/v3/"
-        @gitroot = "git@#{enterprise_host}:"
-      else
-        @apiurl  = "https://api.github.com"
-        @gitroot = "git@github.com:"
+      if github_url[-1] != ?/
+        raise Error, "github_url missing trailing slash"
       end
+      @api_url = URI.join(github_url, "/api/v3/")
+      @git_host = URI(github_url).host
     end
 
     class << self
       attr_reader :secret
-      attr_reader :gitroot
+      attr_reader :git_host
     end
 
     def self.enable_mock!
@@ -70,7 +77,7 @@ module Janky
     end
 
     def self.api
-      @api ||= API.new(@user, @password, @apiurl)
+      @api ||= API.new(@url, @user, @password)
     end
   end
 end
