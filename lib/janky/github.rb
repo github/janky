@@ -62,7 +62,7 @@ module Janky
     end
 
     def self.hook_create(nwo)
-      response = api.create(nwo, @secret, @url)
+      response = api.create(nwo, @secret, @hook_url)
 
       if response.code == "201"
         Yajl.load(response.body)["url"]
@@ -77,7 +77,7 @@ module Janky
     end
 
     def self.api
-      @api ||= API.new(@url, @user, @password)
+      @api ||= API.new(@github_url, @user, @password)
     end
   end
 end

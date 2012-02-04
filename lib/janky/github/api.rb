@@ -42,9 +42,9 @@ module Janky
 
       def build_path(path)
         if path[0] == ?/
-          URI.join(@url, path[1..-1])
+          URI.join(@url, path[1..-1]).path
         else
-          URI.join(@url, path)
+          URI.join(@url, path).path
         end
       end
 
