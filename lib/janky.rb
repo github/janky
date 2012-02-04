@@ -57,9 +57,9 @@ module Janky
 
   # Setup the application, including the database and Jenkins connections.
   #
-  # settings - Hash of app settings. Typically ENV but any object responding
-  #            to #[] is valid. See required_settings for required keys.
-  #            The RACK_ENV setting is always required.
+  # settings - Hash of app settings. Typically ENV but any object that responds
+  #            to #[], #[]= and #each is valid. See required_settings for
+  #            required keys. The RACK_ENV key is always required.
   #
   # Raises an Error when required settings are missing.
   # Returns nothing.
