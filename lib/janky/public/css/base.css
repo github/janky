@@ -159,10 +159,19 @@ ul.builds h2 span{
 ul.builds .good a{
   color:#358c00;
 }
+ul.builds .good h2{
+  color:#358c00;
+}
 ul.builds .building a{
   color:#e59741;
 }
+ul.builds .building h2{
+  color:#e59741;
+}
 ul.builds .janky a{
+  color:#ae0000;
+}
+ul.builds .janky h2{
   color:#ae0000;
 }
 ul.builds p.sha1{
