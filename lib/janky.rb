@@ -134,6 +134,9 @@ module Janky
       })
     end
 
+    if settings["JANKY_BASE_URL"][-1] == ?/
+      raise Error, "JANKY_BASE_URL must not have a trailing slash"
+    end
     Janky::Hubot.set(
       :base_url => settings["JANKY_BASE_URL"],
       :username => settings["JANKY_HUBOT_USER"],
