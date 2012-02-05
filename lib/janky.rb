@@ -262,11 +262,16 @@ module Janky
     }
   end
 
-  def self.add_chat(name, service)
+  # Register a Chat service implementation.
+  #
+  # name    - Service name as a String, e.g. "irc".
+  # service - Constant for the implementation.
+  #
+  # Returns nothing.
+  def self.register_chat_service(name, service)
     Janky::ChatService.adapters[name] = service
   end
 
-  # Register all valid Janky::ChatService implementations
-  Janky.add_chat "campfire", Janky::ChatService::Campfire
-  Janky.add_chat "hipchat", Janky::ChatService::HipChat
+  register_chat_service "campfire", Janky::ChatService::Campfire
+  register_chat_service "hipchat", Janky::ChatService::HipChat
 end
