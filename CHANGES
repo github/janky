@@ -22,6 +22,9 @@
  * Deprecate JANKY_CAMPFIRE_DEFAULT_ROOM. Please use
    JANKY_CHAT_DEFAULT_ROOM instead.
 
+ * Both JANKY_BASE_URL and JANKY_DEFAULT_BUILDER now require a trailing
+   slash
+
 = 0.9 / 2011-12-19
 
  * Initial public release.

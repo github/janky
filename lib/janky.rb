@@ -79,7 +79,7 @@ module Janky
 
     if env != "production"
       settings["DATABASE_URL"] ||= "mysql2://root@localhost/janky_#{env}"
-      settings["JANKY_BASE_URL"] ||= "http://localhost:9393"
+      settings["JANKY_BASE_URL"] ||= "http://localhost:9393/"
       settings["JANKY_BUILDER_DEFAULT"] ||= "http://localhost:8080/"
       settings["JANKY_CONFIG_DIR"] ||= File.dirname(__FILE__)
     end
@@ -87,7 +87,8 @@ module Janky
     database = URI(settings["DATABASE_URL"])
     adapter  = database.scheme == "postgres" ? "postgresql" : database.scheme
     if settings["JANKY_BASE_URL"][-1] == ?/
-      raise Error, "JANKY_BASE_URL must not have a trailing slash"
+      warn "JANKY_BASE_URL must have a trailing slash"
+      settings["JANKY_BASE_URL"] = settings["JANKY_BASE_URL"] + "/"
     end
     base_url = URI(settings["JANKY_BASE_URL"]).to_s
 
@@ -106,7 +107,7 @@ module Janky
     end
 
     # Setup the callback URL of this Janky host.
-    Janky::Builder.setup(base_url + "/_builder")
+    Janky::Builder.setup(base_url + "_builder")
 
     # Setup the default Jenkins build host
     if settings["JANKY_BUILDER_DEFAULT"][-1] != ?/
@@ -116,7 +117,7 @@ module Janky
 
     api_url = settings["JANKY_GITHUB_API_URL"] ||
       "https://api.github.com/"
-    hook_url = base_url + "/_github"
+    hook_url = base_url + "_github"
     Janky::GitHub.setup(
       settings["JANKY_GITHUB_USER"],
       settings["JANKY_GITHUB_PASSWORD"],
