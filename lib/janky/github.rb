@@ -4,6 +4,7 @@ module Janky
     #
     # user     - API user as a String.
     # password - API password as a String.
+    # secret   - Secret used to sign hook requests from GitHub.
     # api_url  - GitHub API URL as a String. Requires a trailing slash.
     # hook_url - String URL handling Post-Receive requests.
     #
@@ -18,30 +19,24 @@ module Janky
     end
 
     class << self
-      attr_reader :secret
-      attr_reader :git_host
+      attr_reader :secret, :git_host
     end
 
-    def self.enable_mock!
-      @api = Mock.new(@user, @password)
-    end
-
-    def self.repo_make_private(nwo)
-      api.make_private(nwo)
-    end
-
-    def self.repo_make_public(nwo)
-      api.make_public(nwo)
-    end
-
-    def self.repo_make_unauthorized(nwo)
-      api.make_unauthorized(nwo)
-    end
-
+    # Rack app that handles Post-Receive hook requests from GitHub.
+    #
+    # Returns a GitHub::Receiver.
     def self.receiver
       @receiver ||= Receiver.new(@secret)
     end
 
+    # Fetch repository details.
+    # http://developer.github.com/v3/repos/#get
+    #
+    # nwo - Owner login and repo name String. e.g, github/janky.
+    #
+    # Returns the Hash representation of the repo, nil when it doesn't exists
+    #   or access was denied.
+    # Raises an Error for any unexpected response.
     def self.repo_get(nwo)
       response = api.repo_get(nwo)
 
@@ -56,6 +51,13 @@ module Janky
       end
     end
 
+    # Create a Post-Receive hook for the given repository.
+    # http://developer.github.com/v3/repos/hooks/#create-a-hook
+    #
+    # nwo - Owner login and repo name String.
+    #
+    # Returns the newly created hook URL as String when successful.
+    # Raises an Error for any other response.
     def self.hook_create(nwo)
       response = api.create(nwo, @secret, @hook_url)
 
@@ -67,12 +69,57 @@ module Janky
       end
     end
 
+    # Check existance of a hook.
+    # http://developer.github.com/v3/repos/hooks/#get-single-hook
+    #
+    # url - Hook URL as a String.
     def self.hook_exists?(url)
       api.get(url).code == "200"
     end
 
+    # Default API implementation that goes over the wire (HTTP).
+    #
+    # Returns nothing.
     def self.api
       @api ||= API.new(@github_url, @user, @password)
+    end
+
+    # Turn on mock mode, meaning no request goes over the wire. Useful in
+    # testing environments.
+    #
+    # Returns nothing.
+    def self.enable_mock!
+      @api = Mock.new(@user, @password)
+    end
+
+    # Make any subsequent response for the given repository look like as if
+    # it was a private repo.
+    #
+    # nwo - Repo's identifier as a String.
+    #
+    # Returns nothing.
+    def self.repo_make_private(nwo)
+      api.make_private(nwo)
+    end
+
+    # Make any subsequent request to the given repository succeed. Only
+    # available in mock mode.
+    #
+    # nwo - Repo's identifier as a String.
+    #
+    # Returns nothing.
+    def self.repo_make_public(nwo)
+      api.make_public(nwo)
+    end
+
+    # Make any subsequent request for the given repository fail with an
+    # unauthorized response. Only available when mocked.
+    #
+    # nwo - Repo's identifier as a String.
+    #
+    # Returns nothing.
+    def self.repo_make_unauthorized(nwo)
+      api.make_unauthorized(nwo)
     end
   end
 end
