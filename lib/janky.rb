@@ -223,10 +223,10 @@ module Janky
     Janky::Builder.reset!
   end
 
-  # The Janky Rack application, assembled from four apps. Exceptions
-  # raised during the request cycle are caught by the Exception
-  # middleware which typically report exceptions to an external
-  # service before re-raising the exception.
+  # The Janky Rack application, assembled from four apps. Exceptions raised
+  # during the request cycle are caught by the Exception middleware which
+  # typically reports them to an external service before re-raising the
+  # exception.
   #
   # Returns a memoized Rack application.
   def self.app
