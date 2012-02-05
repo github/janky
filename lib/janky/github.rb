@@ -14,11 +14,6 @@ module Janky
       @secret = secret
       @github_url = github_url
       @hook_url = hook_url
-
-      if github_url[-1] != ?/
-        raise Error, "github_url missing trailing slash"
-      end
-      @api_url = URI.join(github_url, "/api/v3/")
       @git_host = URI(github_url).host
     end
 

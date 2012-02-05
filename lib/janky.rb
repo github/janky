@@ -117,6 +117,9 @@ module Janky
 
     api_url = settings["JANKY_GITHUB_API_URL"] ||
       "https://api.github.com/"
+    if api_url[-1] != ?/
+      raise Error, "github_url must have a trailing slash"
+    end
     hook_url = base_url + "_github"
     Janky::GitHub.setup(
       settings["JANKY_GITHUB_USER"],
