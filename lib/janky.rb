@@ -109,6 +109,9 @@ module Janky
     Janky::Builder.setup(base_url + "/_builder")
 
     # Setup the default Jenkins build host
+    if settings["JANKY_BUILDER_DEFAULT"][-1] != ?/
+      raise Error, "JANKY_BUILDER_DEFAULT must have a trailing slash"
+    end
     Janky::Builder[:default] = settings["JANKY_BUILDER_DEFAULT"]
 
     api_url = settings["JANKY_GITHUB_API_URL"] ||
