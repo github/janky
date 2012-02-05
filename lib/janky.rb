@@ -86,6 +86,9 @@ module Janky
 
     database = URI(settings["DATABASE_URL"])
     adapter  = database.scheme == "postgres" ? "postgresql" : database.scheme
+    if settings["JANKY_BASE_URL"][-1] == ?/
+      raise Error, "JANKY_BASE_URL must not have a trailing slash"
+    end
     base_url = URI(settings["JANKY_BASE_URL"]).to_s
 
     ActiveRecord::Base.establish_connection(
@@ -134,9 +137,6 @@ module Janky
       })
     end
 
-    if settings["JANKY_BASE_URL"][-1] == ?/
-      raise Error, "JANKY_BASE_URL must not have a trailing slash"
-    end
     Janky::Hubot.set(
       :base_url => settings["JANKY_BASE_URL"],
       :username => settings["JANKY_HUBOT_USER"],
