@@ -32,7 +32,7 @@ module Janky
     # Fetch repository details.
     # http://developer.github.com/v3/repos/#get
     #
-    # nwo - Owner login and repo name String. e.g, github/janky.
+    # nwo - qualified "owner/repo" name.
     #
     # Returns the Hash representation of the repo, nil when it doesn't exists
     #   or access was denied.
@@ -54,7 +54,7 @@ module Janky
     # Create a Post-Receive hook for the given repository.
     # http://developer.github.com/v3/repos/hooks/#create-a-hook
     #
-    # nwo - Owner login and repo name String.
+    # nwo - qualified "owner/repo" name.
     #
     # Returns the newly created hook URL as String when successful.
     # Raises an Error for any other response.
@@ -95,7 +95,7 @@ module Janky
     # Make any subsequent response for the given repository look like as if
     # it was a private repo.
     #
-    # nwo - Repo's identifier as a String.
+    # nwo - qualified "owner/repo" name.
     #
     # Returns nothing.
     def self.repo_make_private(nwo)
@@ -105,7 +105,7 @@ module Janky
     # Make any subsequent request to the given repository succeed. Only
     # available in mock mode.
     #
-    # nwo - Repo's identifier as a String.
+    # nwo - qualified "owner/repo" name.
     #
     # Returns nothing.
     def self.repo_make_public(nwo)
@@ -115,7 +115,7 @@ module Janky
     # Make any subsequent request for the given repository fail with an
     # unauthorized response. Only available when mocked.
     #
-    # nwo - Repo's identifier as a String.
+    # nwo - qualified "owner/repo" name.
     #
     # Returns nothing.
     def self.repo_make_unauthorized(nwo)
