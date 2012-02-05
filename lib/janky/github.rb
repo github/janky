@@ -2,11 +2,11 @@ module Janky
   module GitHub
     # Setup the GitHub API client and Post-Receive hook endpoint.
     #
-    # user     - API user as a String.
-    # password - API password as a String.
-    # secret   - Secret used to sign hook requests from GitHub.
-    # api_url  - GitHub API URL as a String. Requires a trailing slash.
-    # hook_url - String URL handling Post-Receive requests.
+    # user       - API user as a String.
+    # password   - API password as a String.
+    # secret     - Secret used to sign hook requests from GitHub.
+    # github_url - GitHub API URL as a String. Requires a trailing slash.
+    # hook_url   - String URL handling Post-Receive requests.
     #
     # Returns nothing.
     def self.setup(user, password, secret, github_url, hook_url)
