@@ -9,7 +9,6 @@ require "yajl"
 require "yajl/json_gem"
 require "tilt"
 require "broach"
-require "hipchat"
 require "sinatra/auth/github"
 
 require "janky/repository"
@@ -36,7 +35,6 @@ require "janky/builder/payload"
 require "janky/builder/receiver"
 require "janky/chat_service"
 require "janky/chat_service/campfire"
-require "janky/chat_service/hipchat"
 require "janky/chat_service/mock"
 require "janky/exception"
 require "janky/notifier"
@@ -272,6 +270,5 @@ module Janky
     Janky::ChatService.adapters[name] = service
   end
 
-  register_chat_service "campfire", Janky::ChatService::Campfire
-  register_chat_service "hipchat", Janky::ChatService::HipChat
+  register_chat_service "campfire", ChatService::Campfire
 end

@@ -143,10 +143,19 @@ Janky notifies [Campfire][] chat rooms by default. Required settings:
 
 #### HipChat
 
+Required settings:
+
 * `JANKY_CHAT=hipchat`
 * `JANKY_CHAT_HIPCHAT_TOKEN`: authentication token
 * `JANKY_CHAT_HIPCHAT_FROM`: name that messages will appear be sent from.
   Defaults to `CI`.
+
+Installation:
+
+* Add `require "janky/chat_service/hipchat"` to the `config.ru` file.
+* `echo 'gem "hipchat", "~>0.4" >> Gemfile'`
+* `bundle`
+* `git commit -am "install hipchat"
 
 ### Authentication
 
