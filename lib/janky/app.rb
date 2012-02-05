@@ -47,7 +47,7 @@ module Janky
     get "/:build_id/output" do |build_id|
       @build = Build.find(build_id)
       authorize_repo(@build.repo)
-      mustache :console
+      mustache :console, :layout => false
     end
 
     get "/:repo_name" do |repo_name|
