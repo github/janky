@@ -180,7 +180,7 @@ module Janky
     # Returns the String room name.
     def room_name
       if room_id && room_id > 0
-        Chat.room_name(room_id)
+        ChatService.room_name(room_id)
       end
     end
 

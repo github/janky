@@ -34,13 +34,13 @@ require "janky/builder/http"
 require "janky/builder/mock"
 require "janky/builder/payload"
 require "janky/builder/receiver"
-require "janky/chat"
-require "janky/chat/campfire"
-require "janky/chat/hipchat"
-require "janky/chat/mock"
+require "janky/chat_service"
+require "janky/chat_service/campfire"
+require "janky/chat_service/hipchat"
+require "janky/chat_service/mock"
 require "janky/exception"
 require "janky/notifier"
-require "janky/notifier/chat"
+require "janky/notifier/chat_service"
 require "janky/notifier/mock"
 require "janky/notifier/multi"
 require "janky/app"
@@ -179,9 +179,9 @@ module Janky
       warn "JANKY_CAMPFIRE_DEFAULT_ROOM is deprecated. Please use " \
         "JANKY_CHAT_DEFAULT_ROOM instead."
     end
-    Chat.setup(chat_name, chat_settings, chat_room)
+    ChatService.setup(chat_name, chat_settings, chat_room)
 
-    Notifier.setup(Notifier::Chat)
+    Notifier.setup(Notifier::ChatService)
   end
 
   # List of settings required in production.
@@ -211,7 +211,7 @@ module Janky
     Janky::Builder.enable_mock!
     Janky::GitHub.enable_mock!
     Janky::Notifier.enable_mock!
-    Janky::Chat.enable_mock!
+    Janky::ChatService.enable_mock!
     Janky::App.disable :github_team_id
   end
 
@@ -263,10 +263,10 @@ module Janky
   end
 
   def self.add_chat(name, service)
-    Janky::Chat.adapters[name] = service
+    Janky::ChatService.adapters[name] = service
   end
 
-  # Register all valid Janky::Chat service implementations
-  Janky.add_chat "campfire", Janky::Chat::Campfire
-  Janky.add_chat "hipchat", Janky::Chat::HipChat
+  # Register all valid Janky::ChatService implementations
+  Janky.add_chat "campfire", Janky::ChatService::Campfire
+  Janky.add_chat "hipchat", Janky::ChatService::HipChat
 end

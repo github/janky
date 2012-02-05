@@ -72,7 +72,7 @@ class Test::Unit::TestCase
 
   def hubot_build(repo, branch, room_name = nil)
     params =
-      if room_id = Janky::Chat.room_id(room_name)
+      if room_id = Janky::ChatService.room_id(room_name)
         {"room_id" => room_id.to_s}
       else
         {}

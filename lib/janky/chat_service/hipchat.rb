@@ -1,5 +1,5 @@
 module Janky
-  module Chat
+  module ChatService
     class HipChat
       def initialize(settings)
         @client = ::HipChat::Client.new(settings["JANKY_CHAT_HIPCHAT_TOKEN"])

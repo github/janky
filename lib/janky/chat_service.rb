@@ -1,5 +1,5 @@
 module Janky
-  module Chat
+  module ChatService
     Room = Struct.new(:id, :name)
 
     # Setup the adapter used to notify chat rooms of build status.
@@ -76,7 +76,7 @@ module Janky
 
     # Memoized list of available rooms.
     #
-    # Returns an Array of Janky::Chat::Room objects.
+    # Returns an Array of Room objects.
     def self.rooms
       adapter.rooms
     end

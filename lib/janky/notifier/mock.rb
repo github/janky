@@ -24,7 +24,7 @@ module Janky
       end
 
       def success?(repo, branch, room_name)
-        room_name ||= Janky::Chat.default_room_name
+        room_name ||= Janky::ChatService.default_room_name
 
         builds = @notifications.select do |state, build|
           state == :completed &&
@@ -38,7 +38,7 @@ module Janky
       end
 
       def failure?(repo, branch, room_name)
-        room_name ||= Janky::Chat.default_room_name
+        room_name ||= Janky::ChatService.default_room_name
 
         builds = @notifications.select do |state, build|
           state == :completed &&

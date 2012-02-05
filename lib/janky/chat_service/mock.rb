@@ -1,5 +1,5 @@
 module Janky
-  module Chat
+  module ChatService
     # Mock chat implementation used in testing environments.
     class Mock
       def initialize

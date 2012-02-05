@@ -1,5 +1,5 @@
 module Janky
-  module Chat
+  module ChatService
     class Campfire
       def initialize(settings)
         Broach.settings = {
@@ -10,7 +10,7 @@ module Janky
       end
 
       def speak(message, room_id, opts={})
-        Broach.speak(Chat.room_name(room_id), message)
+        Broach.speak(ChatService.room_name(room_id), message)
       end
 
       def rooms

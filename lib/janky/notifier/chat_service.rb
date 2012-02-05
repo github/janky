@@ -1,6 +1,6 @@
 module Janky
   module Notifier
-    class Chat
+    class ChatService
       def self.completed(build)
         status = build.green? ? "was successful" : "failed"
         color = build.green? ? "green" : "red"
@@ -15,7 +15,7 @@ module Janky
           build.compare
         ]
 
-        ::Janky::Chat.speak(message, build.room_id, {:color => color})
+        ::Janky::ChatService.speak(message, build.room_id, {:color => color})
       end
     end
   end
