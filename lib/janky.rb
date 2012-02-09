@@ -113,18 +113,24 @@ module Janky
     end
     Janky::Builder[:default] = settings["JANKY_BUILDER_DEFAULT"]
 
-    api_url = settings["JANKY_GITHUB_API_URL"] ||
-      "https://api.github.com/"
+    if settings.key?("JANKY_GITHUB_API_URL")
+      api_url  = settings["JANKY_GITHUB_API_URL"]
+      git_host = URI(api_url).host
+    else
+      api_url = "https://api.github.com/"
+      git_host = "github.com"
+    end
     if api_url[-1] != ?/
-      raise Error, "github_url must have a trailing slash"
+      raise Error, "JANKY_GITHUB_API_URL must have a trailing slash"
     end
     hook_url = base_url + "_github"
     Janky::GitHub.setup(
       settings["JANKY_GITHUB_USER"],
       settings["JANKY_GITHUB_PASSWORD"],
       settings["JANKY_GITHUB_HOOK_SECRET"],
+      hook_url,
       api_url,
-      hook_url
+      git_host
     )
 
     if settings.key?("JANKY_SESSION_SECRET")

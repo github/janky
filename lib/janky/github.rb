@@ -2,20 +2,21 @@ module Janky
   module GitHub
     # Setup the GitHub API client and Post-Receive hook endpoint.
     #
-    # user       - API user as a String.
-    # password   - API password as a String.
-    # secret     - Secret used to sign hook requests from GitHub.
-    # github_url - GitHub API URL as a String. Requires a trailing slash.
-    # hook_url   - String URL handling Post-Receive requests.
+    # user     - API user as a String.
+    # password - API password as a String.
+    # secret   - Secret used to sign hook requests from GitHub.
+    # hook_url - String URL that handles Post-Receive requests.
+    # api_url  - GitHub API URL as a String. Requires a trailing slash.
+    # git_host - Hostname where git repos are hosted. e.g. "github.com"
     #
     # Returns nothing.
-    def self.setup(user, password, secret, github_url, hook_url)
+    def self.setup(user, password, secret, hook_url, api_url, git_host)
       @user = user
       @password = password
       @secret = secret
-      @github_url = github_url
       @hook_url = hook_url
-      @git_host = URI(github_url).host
+      @api_url = github_url
+      @git_host = git_host
     end
 
     class << self
@@ -81,7 +82,7 @@ module Janky
     #
     # Returns nothing.
     def self.api
-      @api ||= API.new(@github_url, @user, @password)
+      @api ||= API.new(@api_url, @user, @password)
     end
 
     # Turn on mock mode, meaning no request goes over the wire. Useful in
