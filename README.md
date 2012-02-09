@@ -137,6 +137,8 @@ Using Janky with [GitHub Enterprise][ghe] requires one extra setting:
 * `JANKY_GITHUB_API_URL`: Full API URL of the instance, *with* a trailing
   slash. Example: `https://github.example.com/api/v3/`.
 
+[ghe]: https://enterprise.github.com
+
 ### Chat Notification
 
 #### Campfire
