@@ -15,7 +15,7 @@ module Janky
       repo = Repository.setup(nwo, name)
 
       if repo
-        url  = "#{settings.base_url}/#{repo.name}"
+        url  = "#{settings.base_url}#{repo.name}"
         [201, "Setup #{repo.name} at #{repo.uri} | #{url}"]
       else
         [400, "Couldn't access #{nwo}. Check the permissions."]
