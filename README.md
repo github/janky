@@ -130,6 +130,13 @@ Required settings:
   GitHub.
 * `JANKY_CHAT_DEFAULT_ROOM`: Chat room where notifications are sent by default.
 
+#### GitHub Enterprise
+
+Using Janky with [GitHub Enterprise][ghe] requires one extra setting:
+
+* `JANKY_GITHUB_API_URL`: Full API URL of the instance, *with* a trailing
+  slash. Example: `https://github.example.com/api/v3/`.
+
 ### Chat Notification
 
 #### Campfire
