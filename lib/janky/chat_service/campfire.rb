@@ -2,10 +2,20 @@ module Janky
   module ChatService
     class Campfire
       def initialize(settings)
+        account = settings["JANKY_CHAT_CAMPFIRE_ACCOUNT"]
+        if account.nil? || account.empty?
+          raise Error, "JANKY_CHAT_CAMPFIRE_ACCOUNT setting is required"
+        end
+
+        token = settings["JANKY_CHAT_CAMPFIRE_TOKEN"]
+        if token.nil? || token.empty?
+          raise Error, "JANKY_CHAT_CAMPFIRE_TOKEN setting is required"
+        end
+
         Broach.settings = {
-          "account" => settings['JANKY_CHAT_CAMPFIRE_ACCOUNT'],
-          "token"   => settings['JANKY_CHAT_CAMPFIRE_TOKEN'],
-          "use_ssl" => true
+          "account" => account,
+          "token"   => token,
+          "use_ssl" => true,
         }
       end
 
