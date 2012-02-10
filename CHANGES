@@ -4,9 +4,9 @@
 
  * Support for GitHub Enterprise. [Dusty Burwell, Simon Rozet]
 
- * Support GitHub logins containing dashes. [Thom May]
+ * Support for GitHub logins containing dashes. [Thom May]
 
- * Support branches containing slashes in their name. [Andres Torres]
+ * Support for branches containing slashes in their name. [Andres Torres]
 
  * Respond with proper status code to invalid Jenkins notification
    requests. [Chris Mytton]
