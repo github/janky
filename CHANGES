@@ -1,4 +1,8 @@
-= 0.9.9 / Not yet released
+= 0.9.10 / 2011-02-11
+
+ * Fix an issue where Campfire settings are overridden on Heroku [Simon Rozet]
+
+= 0.9.9 / 2011-02-11
 
  * HipChat support [Justin Smestad, Seth Chisamore, Simon Rozet]
 
