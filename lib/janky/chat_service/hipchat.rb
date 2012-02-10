@@ -4,7 +4,12 @@ module Janky
   module ChatService
     class HipChat
       def initialize(settings)
-        @client = ::HipChat::Client.new(settings["JANKY_CHAT_HIPCHAT_TOKEN"])
+        token = settings["JANKY_CHAT_HIPCHAT_TOKEN"]
+        if token.nil? || token.empty?
+          raise Error, "JANKY_CHAT_HIPCHAT_TOKEN setting is required"
+        end
+
+        @client = ::HipChat::Client.new(token)
         @from = settings["JANKY_CHAT_HIPCHAT_FROM"] || "CI"
       end
 
