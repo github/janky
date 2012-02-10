@@ -52,7 +52,7 @@ available rooms:
 
 Then pick one:
 
-    hubot ci set janky room The Serious Room
+    hubot ci set room janky The Serious Room
 
 Get the status of a build:
 
