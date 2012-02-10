@@ -1,6 +1,6 @@
 #!/bin/sh
 : ${RACK_ENV:="development"}
-: ${JANKY_BASE_URL:="http://localhost:9393"}
+: ${JANKY_BASE_URL:="http://localhost:9393/"}
 export RACK_ENV JANKY_BASE_URL
 
 bin/shotgun -p9393 -sthin config.ru
