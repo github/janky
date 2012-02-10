@@ -15,7 +15,7 @@ module Janky
       @password = password
       @secret = secret
       @hook_url = hook_url
-      @api_url = github_url
+      @api_url = api_url
       @git_host = git_host
     end
 
