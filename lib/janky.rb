@@ -80,9 +80,9 @@ module Janky
       settings["JANKY_BASE_URL"] ||= "http://localhost:9393/"
       settings["JANKY_BUILDER_DEFAULT"] ||= "http://localhost:8080/"
       settings["JANKY_CONFIG_DIR"] ||= File.dirname(__FILE__)
-      settings["JANKY_CHAT"] = "campfire"
-      settings["JANKY_CHAT_CAMPFIRE_ACCOUNT"] = "account"
-      settings["JANKY_CHAT_CAMPFIRE_TOKEN"] = "token"
+      settings["JANKY_CHAT"] ||= "campfire"
+      settings["JANKY_CHAT_CAMPFIRE_ACCOUNT"] ||= "account"
+      settings["JANKY_CHAT_CAMPFIRE_TOKEN"] ||= "token"
     end
 
     database = URI(settings["DATABASE_URL"])
