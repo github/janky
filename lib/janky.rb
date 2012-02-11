@@ -10,6 +10,7 @@ require "yajl/json_gem"
 require "tilt"
 require "broach"
 require "sinatra/auth/github"
+require "rack/ssl"
 
 require "janky/repository"
 require "janky/branch"
@@ -238,6 +239,9 @@ module Janky
   # Returns a memoized Rack application.
   def self.app
     @app ||= Rack::Builder.app {
+      # Force SSL
+      use Rack::SSL if settings["JANKY_FORCE_SSL"]
+
       # Exception reporting middleware.
       use Janky::Exception::Middleware
 

@@ -17,6 +17,7 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
   s.add_dependency "activerecord", "~>3.1.0"
   s.add_dependency "broach", "~>0.2"
   s.add_dependency "replicate", "~>1.4"
+  s.add_dependency "rack-ssl", "~> 1.3.2"
 
   # development
   s.add_development_dependency "shotgun", "~>0.9"
