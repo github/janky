@@ -178,6 +178,7 @@ a few extra settings:
 * `JANKY_AUTH_CLIENT_ID`: The client ID of the OAuth application.
 * `JANKY_AUTH_CLIENT_SECRET`: The client secret of the OAuth application.
 * `JANKY_AUTH_ORGANIZATION`: The organization name. Example: "github".
+* `JANKY_FORCE_SSL`: Forces all connections to janky to https.
 
 ### Hubot
 
