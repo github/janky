@@ -162,7 +162,7 @@ Required settings:
 Installation:
 
 * Add `require "janky/chat_service/hipchat"` to the `config.ru` file.
-* `echo 'gem "hipchat", "~>0.4" >> Gemfile'`
+* `echo 'gem "hipchat", "~>0.4"' >> Gemfile`
 * `bundle`
 * `git commit -am "install hipchat"`
 
