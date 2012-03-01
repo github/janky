@@ -58,7 +58,7 @@ module Janky
       mustache :index
     end
 
-    get %r{\/([-_\.0-9a-zA-Z]+)\/([-_\.a-zA-z0-9\/]+)} do |repo_name, branch|
+    get %r{^(?!\/auth\/github\/callback)\/([-_\.0-9a-zA-Z]+)\/([-_\.a-zA-z0-9\/]+)} do |repo_name, branch|
       repo = find_repo(repo_name)
       authorize_repo(repo)
 
