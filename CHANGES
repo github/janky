@@ -1,6 +1,8 @@
 = 0.9.11 / 2011-03-01
 
- * Fix Hipchat setup instructions [Andre Sachs]
+ * Fix HipChat setup instructions. [Andre Sachs]
+
+ * Fix OAuth authentication bug introduced in version 0.9.9. [Lucas Mazza]
 
 = 0.9.10 / 2011-02-11
 
