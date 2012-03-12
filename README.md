@@ -115,7 +115,7 @@ command:
 Required settings:
 
 * `JANKY_BASE_URL`: The application URL **with** a trailing slash. Example:
-  `http://mf-doom-42.heroku.com/`.
+  `http://mf-doom-42.herokuapp.com/`.
 * `JANKY_BUILDER_DEFAULT`: The Jenkins server URL **with** a trailing slash.
    Example: `http://jenkins.example.com/`. For basic auth, include the
    credentials in the URL: `http://user:pass@jenkins.example.com/`.
