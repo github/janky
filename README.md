@@ -170,7 +170,7 @@ Installation:
 ### Authentication
 
 To restrict access to members of a GitHub organization, [register a new
-OAuth application on GitHub](https://github.com/account/applications)
+OAuth application on GitHub](https://github.com/settings/applications)
 with the callback set to `$JANKY_BASE_URL/auth/github/callback` then set
 a few extra settings:
 
