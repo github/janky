@@ -155,7 +155,7 @@ Janky notifies [Campfire][] chat rooms by default. Required settings:
 Required settings:
 
 * `JANKY_CHAT=hipchat`
-* `JANKY_CHAT_HIPCHAT_TOKEN`: authentication token
+* `JANKY_CHAT_HIPCHAT_TOKEN`: authentication token (This token needs to be an admin token, not a notification token.)
 * `JANKY_CHAT_HIPCHAT_FROM`: name that messages will appear be sent from.
   Defaults to `CI`.
 
