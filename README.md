@@ -124,7 +124,7 @@ Required settings:
 * `JANKY_HUBOT_USER`: Login used to protect the Hubot API.
 * `JANKY_HUBOT_PASSWORD`: Password for the Hubot API.
 * `JANKY_GITHUB_USER`: The login of the GitHub user used to access the
-  API. Requires Push and Pull privileges.
+  API. Requires Administrative privileges to set up service hooks.
 * `JANKY_GITHUB_PASSWORD`: The password for the GitHub user.
 * `JANKY_GITHUB_HOOK_SECRET`: Secret used to sign hook requests from
   GitHub.
