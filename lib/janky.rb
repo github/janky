@@ -281,4 +281,5 @@ module Janky
   end
 
   register_chat_service "campfire", ChatService::Campfire
+  register_chat_service "hipchat", ChatService::HipChat
 end
