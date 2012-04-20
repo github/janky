@@ -24,6 +24,4 @@ module Janky
       end
     end
   end
-
-  register_chat_service "hipchat", ChatService::HipChat
 end
