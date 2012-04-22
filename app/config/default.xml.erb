@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <name><%= name %></name>
+  <logRotator>
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>-1</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>JANKY_SHA1</name>
+          <description></description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>JANKY_ID</name>
+          <description></description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>JANKY_BRANCH</name>
+          <description></description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <com.tikal.hudson.plugins.notification.HudsonNotificationProperty>
+      <endpoints>
+        <com.tikal.hudson.plugins.notification.Endpoint>
+          <protocol>HTTP</protocol>
+          <url><%= callback_url %></url>
+        </com.tikal.hudson.plugins.notification.Endpoint>
+      </endpoints>
+    </com.tikal.hudson.plugins.notification.HudsonNotificationProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers class="vector"/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>
+if [ ! -d &quot;./.git&quot; ]; then
+  git init
+  git remote add origin <%= repo %>
+fi
+git fetch -q origin
+git reset -q --hard $JANKY_SHA1
+if [ -f script/cibuild ]; then
+  script/cibuild
+else
+  bundle install --path vendor/gems --binstubs
+  bundle exec rake
+fi</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

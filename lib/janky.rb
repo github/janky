@@ -35,6 +35,7 @@ require "janky/builder/payload"
 require "janky/builder/receiver"
 require "janky/chat_service"
 require "janky/chat_service/campfire"
+require "janky/chat_service/hipchat"
 require "janky/chat_service/mock"
 require "janky/exception"
 require "janky/notifier"
@@ -280,4 +281,5 @@ module Janky
   end
 
   register_chat_service "campfire", ChatService::Campfire
+  register_chat_service "hipchat", ChatService::HipChat
 end

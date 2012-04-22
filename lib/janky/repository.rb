@@ -163,12 +163,17 @@ module Janky
     #
     # Returns a String hash of this Repository name and uri.
     def job_name
-      md5 = Digest::MD5.new
-      md5 << name
-      md5 << uri
-      md5 << job_config_path.read
-      md5 << builder.callback_url.to_s
-      md5.hexdigest
+      name = ENV["JENKINS_BUILD_JOB_NAME"]
+      if name.nil? || name.empty?
+        md5 = Digest::MD5.new
+        md5 << name
+        md5 << uri
+        md5 << job_config_path.read
+        md5 << builder.callback_url.to_s
+        md5.hexdigest
+      else
+        name
+      end
     end
   end
 end
