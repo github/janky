@@ -163,6 +163,7 @@ module Janky
     #
     # Returns a String hash of this Repository name and uri.
     def job_name
+      #TODO add logic to provide a custom job name
       md5 = Digest::MD5.new
       md5 << name
       md5 << uri
