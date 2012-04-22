@@ -18,7 +18,21 @@ module Janky
       #
       # Returns the Jenkins build URL.
       def run(build)
-        Runner.new(@url, build, adapter).run
+        Runner.new(@url, build, adapter).run unless skip_build build
+      end
+
+      def skip_build(build)
+        is_skip_active = ENV["JANKY_SKIP_ACTIVE"]
+        if is_skip_active.nil? || is_skip_active.empty?
+          return false
+        end
+
+        skip_flag = ENV["JANKY_SKIP_FLAG"]
+        if is_skip_active.downcase! == "true" && (skip_flag.nil? || skip_flag.empty?)
+          return false
+        end
+
+        return build.commit_message.includes? skip_flag
       end
 
       # Retrieve the output of the given Build.
