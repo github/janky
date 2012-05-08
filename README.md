@@ -196,12 +196,21 @@ Required settings:
 
 Installation:
 
-* Add `require "janky/chat_service/hipchat"` to the `config/environment.rb` file
+* Add `require "janky/chat_service/hipchat"` to the `config.ru` file
   **before** the `Janky.setup(ENV)` line.
 * `echo 'gem "hipchat", "~>0.4"' >> Gemfile`
 * `bundle`
 * `git commit -am "install hipchat"`
 
+#### Hubot
+
+* `JANKY_CHAT=hubot`
+* `JANKY_CHAT_HUBOT_URL`: the url to the hubot instance
+
+Installation:
+
+* Add `require "janky/chat_service/hubot"` to the `config.ru` file
+  **before** the `Janky.setup(ENV)` line.
 
 ### Authentication
 
