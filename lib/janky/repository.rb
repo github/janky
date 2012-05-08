@@ -117,17 +117,10 @@ module Janky
       "#{GitHub.github_url}/#{nwo}/#{path}"
     end
 
-    # Name of the Campfire room receiving build notifications.
-    #
-    # Returns the name as a String.
-    def campfire_room
-      ChatService.room_name(room_id)
-    end
-
-    # Ditto but returns the Fixnum room id. Defaults to the one set
-    # in Campfire.setup.
-    def room_id
-      read_attribute(:room_id) || ChatService.default_room_id
+    # Returns the room. Defaults to the one set
+    # in setup.
+    def room
+      read_attribute(:room) || ChatService.default_room
     end
 
     # Setups GitHub and Jenkins for building this repository.

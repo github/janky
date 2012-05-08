@@ -30,55 +30,19 @@ module Janky
       @adapters ||= {}
     end
 
-    def self.default_room_id
-      room_id(default_room_name)
+    def self.default_room
+      default_room_name
     end
 
     # Send a message to a Chat room.
     #
     # message - The String message.
-    # room_id - The Integer room ID.
+    # room - The room.
     # options - Optional hash passed to the chat adapter.
     #
     # Returns nothing.
-    def self.speak(message, room_id, options = {})
-      adapter.speak(message, room_id, options)
-    end
-
-    # Get the ID of a room.
-    #
-    # slug - the String name of the room.
-    #
-    # Returns the room ID or nil for unknown rooms.
-    def self.room_id(name)
-      if room = rooms.detect { |room| room.name == name }
-        room.id
-      end
-    end
-
-    # Get the name of a room given its ID.
-    #
-    # id - the Fixnum room ID.
-    #
-    # Returns the name as a String or nil when not found.
-    def self.room_name(id)
-      if room = rooms.detect { |room| room.id.to_s == id.to_s }
-        room.name
-      end
-    end
-
-    # Get a list of all rooms names.
-    #
-    # Returns an Array of room name as Strings.
-    def self.room_names
-      rooms.map { |room| room.name }.sort
-    end
-
-    # Memoized list of available rooms.
-    #
-    # Returns an Array of Room objects.
-    def self.rooms
-      adapter.rooms
+    def self.speak(message, room, options = {})
+      adapter.speak(message, room, options)
     end
 
     # Enable mocking. Once enabled, messages are discarded.

@@ -127,12 +127,12 @@ module Janky
     # Run a copy of itself. Typically used to force a build in case of
     # temporary test failure or when auto-build is disabled.
     #
-    # new_room_id - optional Campfire room Fixnum ID. Defaults to the room of the
+    # new_room - optional room string. Defaults to the room of the
     #               build being re-run.
     #
     # Returns the build copy.
-    def rerun(new_room_id = nil)
-      build = branch.build_for(commit, new_room_id)
+    def rerun(new_room = nil)
+      build = branch.build_for(commit, new_room)
       build.run
       build
     end
@@ -206,13 +206,11 @@ module Janky
       end
     end
 
-    # The name of the Campfire room where notifications are sent.
+    # The name of the room where notifications are sent.
     #
     # Returns the String room name.
     def room_name
-      if room_id && room_id > 0
-        ChatService.room_name(room_id)
-      end
+      room
     end
 
     class << self

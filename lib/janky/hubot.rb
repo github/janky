@@ -34,21 +34,17 @@ module Janky
     post %r{\/([-_\.0-9a-zA-Z]+)\/([-_\.a-zA-z0-9\/]+)} do |repo_name, branch_name|
       repo    = find_repo(repo_name)
       branch  = repo.branch_for(branch_name)
-      room_id = (params["room_id"] && Integer(params["room_id"]) rescue nil)
+      room = (params["room"] rescue nil)
       user    = params["user"]
-      build   = branch.head_build_for(room_id, user)
+      build   = branch.head_build_for(room, user)
 
       if build
         build.run
+
         [201, "Going ham on #{build.repo_name}/#{build.branch_name}"]
       else
         [404, "Unknown branch #{branch_name.inspect}. Push again"]
       end
-    end
-
-    # Get a list of available rooms.
-    get "/rooms" do
-      Yajl.dump(ChatService.room_names)
     end
 
     # Update a repository's notification room.
@@ -56,12 +52,8 @@ module Janky
       repo = find_repo(repo_name)
       room = params["room"]
 
-      if room_id = ChatService.room_id(room)
-        repo.update_attributes!(:room_id => room_id)
-        [200, "Room for #{repo.name} updated to #{room}"]
-      else
-        [403, "Unknown room: #{room.inspect}"]
-      end
+      repo.update_attributes!(:room => room)
+      [200, "Room for #{repo.name} updated to #{room}"]
     end
 
     # Get the status of all projects.
@@ -73,7 +65,7 @@ module Janky
         "%-17s %-13s %-10s %40s" % [
           repo.name,
           master.status,
-          repo.campfire_room,
+          repo.room,
           repo.uri
         ]
       end
