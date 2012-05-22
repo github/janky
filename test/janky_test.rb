@@ -241,6 +241,25 @@ class JankyTest < Test::Unit::TestCase
     assert hubot_build("github", "rails3").not_found?
   end
 
+  test "getting latest commit" do
+    gh_post_receive("github", "master")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_not_equal "deadbeef", hubot_latest_build_sha("github", "master")
+
+    Janky::GitHub.set_branch_head("github/github", "master", "deadbeef")
+    hubot_build("github", "master")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_equal "deadbeef",                                         hubot_latest_build_sha("github", "master")
+    assert_equal "deadbeef",                                         Janky::Build.last.sha1
+    assert_equal "Test Author <test@github.com>",                    Janky::Build.last.commit_author
+    assert_equal "Test Message",                                     Janky::Build.last.commit_message
+    assert_equal "https://github.com/github/github/commit/deadbeef", Janky::Build.last.commit_url
+  end
+
   test "hubot rooms" do
     response = hubot_request("GET", "/_hubot/rooms")
     rooms    = Yajl.load(response.body)

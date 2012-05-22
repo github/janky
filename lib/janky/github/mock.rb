@@ -4,7 +4,8 @@ module Janky
       Response = Struct.new(:code, :body)
 
       def initialize(user, password)
-        @repos = {}
+        @repos       = {}
+        @branch_shas = {}
       end
 
       def make_private(nwo)
@@ -17,6 +18,10 @@ module Janky
 
       def make_unauthorized(nwo)
         @repos[nwo] = :unauthorized
+      end
+
+      def set_branch_head(nwo, branch, sha)
+        @branch_shas[[nwo, branch]] = sha
       end
 
       def create(nwo, secret, url)
@@ -41,6 +46,37 @@ module Janky
         else
           Response.new("200", Yajl.dump(repo))
         end
+      end
+
+      def branches(nwo)
+        data = []
+
+        @branch_shas.each do |(name_with_owner, branch), sha|
+          if nwo == name_with_owner
+            data << {
+              "name"   => branch,
+              "commit" => {
+                "sha" => sha
+              }
+            }
+          end
+        end
+
+        Response.new("200", Yajl.dump(data))
+      end
+
+      def commit(nwo, sha)
+        data = {
+          "commit" => {
+            "author" => {
+              "name"  => "Test Author",
+              "email" => "test@github.com"
+            },
+            "message" => "Test Message"
+          }
+        }
+
+        Response.new("200", Yajl.dump(data))
       end
     end
   end

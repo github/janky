@@ -96,6 +96,10 @@ module Janky
       uri[/.*[\/:]([a-zA-Z0-9\-_]+)\/([a-zA-Z0-9\-_]+)/] && $2
     end
 
+    def nwo
+      "#{github_owner}/#{github_name}"
+    end
+
     # Name of the Campfire room receiving build notifications.
     #
     # Returns the name as a String.
@@ -169,6 +173,10 @@ module Janky
       md5 << job_config_path.read
       md5 << builder.callback_url.to_s
       md5.hexdigest
+    end
+
+    def dotcom_url(path)
+      "#{GitHub.github_url}/#{self.nwo}/#{path}"
     end
   end
 end

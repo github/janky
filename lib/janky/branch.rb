@@ -71,6 +71,32 @@ module Janky
       )
     end
 
+    def build_for_head(room_id, user)
+      sha_to_build = GitHub.branch_head_sha(repository.nwo, name)
+      return nil if sha_to_build.nil?
+      commit_data  = GitHub.commit(repository.nwo, sha_to_build)
+
+      author_data   = commit_data["commit"]["author"]
+      commit_author =
+        if email = author_data["email"]
+          "#{author_data["name"]} <#{email}>"
+        else
+          author_data["name"]
+        end
+
+      commit = repository.commit_for({
+        :sha1       => sha_to_build,
+        :author     => commit_author,
+        :message    => commit_data["commit"]["message"],
+        :repository => repository,
+        :url        => repository.dotcom_url("commit/#{sha_to_build}")
+      })
+
+      current_sha = current_build ? current_build.sha1 : "#{sha_to_build}^"
+      compare     = repository.dotcom_url("compare/#{current_sha}...#{commit.sha1}")
+      build_for(commit, user, room_id, compare)
+    end
+
     # The current build, e.g. the most recent one.
     #
     # Returns a Build.

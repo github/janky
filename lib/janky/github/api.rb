@@ -40,6 +40,22 @@ module Janky
         http.request(request)
       end
 
+      def branches(nwo)
+        path    = build_path("repos/#{nwo}/branches")
+        request = Net::HTTP::Get.new(path)
+        request.basic_auth(@user, @password)
+
+        http.request(request)
+      end
+
+      def commit(nwo, sha)
+        path    = build_path("repos/#{nwo}/commits/#{sha}")
+        request = Net::HTTP::Get.new(path)
+        request.basic_auth(@user, @password)
+
+        http.request(request)
+      end
+
       def build_path(path)
         if path[0] == ?/
           URI.join(@url, path[1..-1]).path

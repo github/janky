@@ -11,16 +11,21 @@ module Janky
     #
     # Returns nothing.
     def self.setup(user, password, secret, hook_url, api_url, git_host)
-      @user = user
-      @password = password
-      @secret = secret
-      @hook_url = hook_url
-      @api_url = api_url
-      @git_host = git_host
+      @user       = user
+      @password   = password
+      @secret     = secret
+      @hook_url   = hook_url
+      @api_url    = api_url
+      @git_host   = git_host
     end
 
     class << self
       attr_reader :secret, :git_host
+    end
+
+    def self.github_url
+      api_uri = URI.parse(@api_url)
+      "#{api_uri.scheme}://#{@git_host}"
     end
 
     # Rack app that handles Post-Receive hook requests from GitHub.
@@ -50,6 +55,30 @@ module Janky
         Exception.push_http_response(response)
         raise Error, "Failed to get hook"
       end
+    end
+
+    def self.branch_head_sha(nwo, branch)
+      response = api.branches(nwo)
+
+      if response.code != "200"
+        Exception.push_http_response(response)
+        raise Error, "Failed to get branches"
+      end
+
+      branches = Yajl.load(response.body)
+      branch   = branches.detect { |b| b["name"] == branch }
+      branch && branch["commit"]["sha"]
+    end
+
+    def self.commit(nwo, sha)
+      response = api.commit(nwo, sha)
+
+      if response.code != "200"
+        Exception.push_http_response(response)
+        raise Error, "Failed to get commit"
+      end
+
+      Yajl.load(response.body)
     end
 
     # Create a Post-Receive hook for the given repository.
@@ -121,6 +150,10 @@ module Janky
     # Returns nothing.
     def self.repo_make_unauthorized(nwo)
       api.make_unauthorized(nwo)
+    end
+
+    def self.set_branch_head(nwo, branch, sha)
+      api.set_branch_head(nwo, branch, sha)
     end
   end
 end

@@ -34,13 +34,11 @@ module Janky
     post %r{\/([-_\.0-9a-zA-Z]+)\/([-_\.a-zA-z0-9\/]+)} do |repo_name, branch_name|
       repo    = find_repo(repo_name)
       branch  = repo.branch_for(branch_name)
-      build   = branch.current_build
-
       room_id = (params["room_id"] && Integer(params["room_id"]) rescue nil)
+      build   = branch.build_for_head(room_id, user)
 
       if build
-        build.rerun(room_id)
-
+        build.run
         [201, "Going ham on #{build.repo_name}/#{build.branch_name}"]
       else
         [404, "Unknown branch #{branch_name.inspect}. Push again"]

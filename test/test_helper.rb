@@ -54,7 +54,10 @@ class Test::Unit::TestCase
     repo    = Janky::Repository.find_by_name!(repo_name)
     payload = gh_payload(repo, branch, [gh_commit(commit)])
     digest  = OpenSSL::Digest::Digest.new("sha1")
-    sig     = OpenSSL::HMAC.hexdigest(digest, Janky::GitHub.secret, payload.to_json)
+    sig     = OpenSSL::HMAC.hexdigest(digest, Janky::GitHub.secret,
+                payload.to_json)
+
+    Janky::GitHub.set_branch_head(repo.nwo, branch, commit)
 
     Rack::MockRequest.new(Janky.app).post("/_github",
       :input            => payload.to_json,
@@ -87,6 +90,11 @@ class Test::Unit::TestCase
     else
       hubot_request("GET", "/_hubot")
     end
+  end
+
+  def hubot_latest_build_sha(repo, branch)
+    response = hubot_status(repo, branch)
+    Yajl.load(response.body).first["sha1"]
   end
 
   def hubot_request(method, path, opts={})
