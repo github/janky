@@ -3,6 +3,14 @@ module Janky
     belongs_to :branch
     belongs_to :commit
 
+    default_scope do
+      columns = (column_names - ["output"]).map do |column_name|
+        "`#{table_name}`.`#{column_name}`"
+      end
+
+      select(columns)
+    end
+
     # Transition the Build to the started state.
     #
     # id  - the Fixnum ID used to find the build.
