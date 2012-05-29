@@ -93,14 +93,18 @@ module Janky
     end
     base_url = URI(settings["JANKY_BASE_URL"]).to_s
 
-    ActiveRecord::Base.establish_connection(
+    connection = {
       :adapter   => adapter,
       :host      => database.host,
       :database  => database.path[1..-1],
       :username  => database.user,
       :password  => database.password,
-      :reconnect => true
-    )
+      :reconnect => true,
+    }
+    if socket = settings["JANKY_DATABASE_SOCKET"]
+      connection[:socket] = socket
+    end
+    ActiveRecord::Base.establish_connection(connection)
 
     self.jobs_config_dir = config_dir = Pathname(settings["JANKY_CONFIG_DIR"])
     if !config_dir.directory?
