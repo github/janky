@@ -220,6 +220,28 @@ class JankyTest < Test::Unit::TestCase
     assert hubot_status.ok?
   end
 
+  test "build user" do
+    gh_post_receive("github", "master", "HEAD", "the dude")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    response = hubot_status("github", "master")
+    data = Yajl.load(response.body)
+    assert_equal 1, data.size
+    build = data[0]
+    assert_equal "the dude", build["user"]
+
+    hubot_build("github", "master", nil, "the boyscout")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    response = hubot_status("github", "master")
+    data = Yajl.load(response.body)
+    assert_equal 2, data.size
+    build = data[0]
+    assert_equal "the boyscout", build["user"]
+  end
+
   test "hubot status repo" do
     gh_post_receive("github")
     Janky::Builder.start!

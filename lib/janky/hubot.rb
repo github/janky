@@ -37,6 +37,8 @@ module Janky
       build   = branch.current_build
 
       room_id = (params["room_id"] && Integer(params["room_id"]) rescue nil)
+      user    = params["user"]
+      build   = branch.build_for_head(room_id, user)
 
       if build
         build.rerun(room_id)
@@ -91,6 +93,7 @@ module Janky
         { :sha1     => build.sha1,
           :repo     => build.repo_name,
           :branch   => build.branch_name,
+          :user     => build.user,
           :green    => build.green?,
           :building => branch.building?,
           :number   => build.number,

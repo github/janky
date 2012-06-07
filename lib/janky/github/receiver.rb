@@ -32,6 +32,7 @@ module Janky
         result = BuildRequest.handle(
           payload.uri,
           payload.branch,
+          payload.pusher,
           payload.head_commit,
           payload.compare,
           @request.POST["room"]

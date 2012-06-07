@@ -49,13 +49,14 @@ module Janky
     # Create a build for the given commit.
     #
     # commit  - the Janky::Commit instance to build.
+    # user    - The login of the GitHub user who pushed.
     # compare - optional String GitHub Compare View URL. Defaults to the
     #           commit last build, if any.
     # room_id - optional Fixnum Campfire room ID. Defaults to the room set on
     #           the repository.
     #
     # Returns the newly created Janky::Build.
-    def build_for(commit, room_id = nil, compare = nil)
+    def build_for(commit, user, room_id = nil, compare = nil)
       if compare.nil? && build = commit.last_build
         compare = build.compare
       end
@@ -64,8 +65,9 @@ module Janky
         room_id = repository.room_id
       end
 
-      builds.create(
+      builds.create!(
         :compare => compare,
+        :user    => user,
         :commit  => commit,
         :room_id => room_id
       )
