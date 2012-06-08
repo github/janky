@@ -6,9 +6,5 @@ module Janky
     def last_build
       builds.last
     end
-
-    def short_sha
-      sha1[0..7]
-    end
   end
 end

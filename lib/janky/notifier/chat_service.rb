@@ -7,7 +7,7 @@ module Janky
 
         message = "Build #%s (%s) of %s/%s %s (%ss) %s" % [
           build.number,
-          build.sha1,
+          build.sha1[0..7],
           build.repo_name,
           build.branch_name,
           status,
