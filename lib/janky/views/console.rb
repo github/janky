@@ -22,7 +22,7 @@ module Janky
       end
 
       def commit_short_sha
-        @build.sha1[0..7]
+        @build.short_sha1
       end
 
       def output

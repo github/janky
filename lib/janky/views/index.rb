@@ -14,7 +14,7 @@ module Janky
             :status          => css_status_for(build),
             :last_built_text => last_built_text_for(build),
             :message         => build.commit_message,
-            :sha1            => build.sha1,
+            :sha1            => build.short_sha1,
             :author          => build.commit_author.split("<").first
           }
         end

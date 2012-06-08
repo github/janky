@@ -216,6 +216,10 @@ module Janky
       commit.sha1
     end
 
+    def short_sha1
+      sha1[0,7]
+    end
+
     def commit_url
       commit.url
     end
