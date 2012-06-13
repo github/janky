@@ -5,7 +5,11 @@ module Janky
 
     default_scope do
       columns = (column_names - ["output"]).map do |column_name|
-        "`#{table_name}`.`#{column_name}`"
+        if Build.connection.adapter_name == "MySQL"
+          "`#{table_name}`.`#{column_name}`"
+        else
+          "\"#{table_name}\".\"#{column_name}\""
+        end
       end
 
       select(columns)
