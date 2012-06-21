@@ -15,6 +15,22 @@ module Janky
 
         http.request(request)
       end
+ 
+      def comment_issue(user, repo, number, message)
+        path    = build_path("repos/#{user}/#{repo}/issues/#{number}/comments")
+        request = Net::HTTP::Post.new(path)
+        request.body = Yajl.dump("body" => message)
+        request.basic_auth(@user, @password)
+
+        http.request(request)
+      end
+
+      def pull_requests(user, repo)
+        request = Net::HTTP::Get.new(build_path("repos/#{user}/#{repo}/pulls"))
+        request.basic_auth(@user, @password)
+
+        http.request(request)
+      end
 
       def trigger(hook_url)
         path    = build_path(URI(hook_url).path + "/test")

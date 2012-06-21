@@ -38,6 +38,47 @@ module Janky
       @receiver ||= Receiver.new(@secret)
     end
 
+    # Fetch pull_requests details.
+    #
+    # user - user name 'owner'
+    # repo - repo name 'repo'
+    #
+    def self.pull_request_get(user, repo)
+      response = api.pull_requests(user, repo)
+
+      case response.code
+      when "200"
+        Yajl.load(response.body)
+      when "403", "404"
+        nil
+      else
+        Exception.push_http_response(response)
+        raise Error, "Failed to get hook"
+      end
+    end
+
+    #
+    # comment in a issue
+    #
+    # user - user name 'owner'
+    # repo - repo name 'repo'
+    # issue - issue number
+    # message - message body
+    #
+    def self.comment_issue(user, repo, issue, message)
+      response = api.comment_issue(user, repo, issue, message)
+
+      case response.code
+      when "201"
+        Yajl.load(response.body)
+      when "403", "404"
+        nil
+      else
+        Exception.push_http_response(response)
+        raise Error, "Failed to get hook"
+      end
+    end
+
     # Fetch repository details.
     # http://developer.github.com/v3/repos/#get
     #
