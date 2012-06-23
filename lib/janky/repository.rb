@@ -148,7 +148,7 @@ module Janky
       elsif default.readable?
         default
       else
-        raise Error, "no config.xml template for repo #{id.inspect}"
+        raise Error, "no config.xml.erb template for repo #{id.inspect}"
       end
     end
 
