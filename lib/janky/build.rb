@@ -5,7 +5,7 @@ module Janky
 
     default_scope do
       columns = (column_names - ["output"]).map do |column_name|
-        "`#{table_name}`.`#{column_name}`"
+        arel_table[column_name]
       end
 
       select(columns)
