@@ -35,7 +35,7 @@ module Janky
       repo    = find_repo(repo_name)
       branch  = repo.branch_for(branch_name)
       room_id = (params["room_id"] && Integer(params["room_id"]) rescue nil)
-      build   = branch.build_for_head(room_id, user)
+      build   = branch.build_for_head(room_id)
 
       if build
         build.run
