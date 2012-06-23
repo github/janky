@@ -84,7 +84,7 @@ module Janky
 
       commit_data = GitHub.commit(repository.nwo, sha_to_build)
       commit_message = commit_data["commit"]["message"]
-      commit_url = repository.dotcom_url("commit/#{sha_to_build}")
+      commit_url = repository.github_url("commit/#{sha_to_build}")
       author_data = commit_data["commit"]["author"]
       commit_author =
         if email = author_data["email"]
@@ -102,7 +102,7 @@ module Janky
       })
 
       current_sha = current_build ? current_build.sha1 : "#{sha_to_build}^"
-      compare_url = repository.dotcom_url("compare/#{current_sha}...#{commit.sha1}")
+      compare_url = repository.github_url("compare/#{current_sha}...#{commit.sha1}")
       build_for(commit, room_id, compare_url)
     end
 
