@@ -9,7 +9,7 @@ class Test::Unit::TestCase
     define_method("test_#{name.gsub(/\s+/,'_')}".to_sym, block)
   end
 
-  def environment
+  def default_environment
     { "RACK_ENV" => "test",
       "JANKY_CONFIG_DIR" => File.dirname(__FILE__),
       "JANKY_GITHUB_USER" => "hubot",
@@ -22,6 +22,16 @@ class Test::Unit::TestCase
       "JANKY_CHAT_DEFAULT_ROOM" => "Builds",
       "JANKY_CHAT" => "campfire"
     }
+  end
+
+  def environment
+    env = default_environment
+    ENV.each do |key, value|
+      if key =~ /^JANKY_/
+        env[key] = value
+      end
+    end
+    env
   end
 
   def gh_commit(sha1 = "HEAD")
