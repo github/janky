@@ -174,7 +174,7 @@ module Janky
       warn "JANKY_CAMPFIRE_TOKEN is deprecated. Please use " \
         "JANKY_CHAT_CAMPFIRE_TOKEN instead."
       settings["JANKY_CHAT_CAMPFIRE_TOKEN"] ||=
-        settings["JANKY_CAMPFIRE_ACCOUNT"]
+        settings["JANKY_CAMPFIRE_TOKEN"]
     end
 
     chat_name = settings["JANKY_CHAT"] || "campfire"
