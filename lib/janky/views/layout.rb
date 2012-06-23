@@ -2,7 +2,6 @@
 module Janky
   module Views
     class Layout < Mustache
-
       def title
         ENV["JANKY_PAGE_TITLE"] || "Janky Hubot"
       end
@@ -14,7 +13,6 @@ module Janky
       def root
         @request.env['SCRIPT_NAME']
       end
-
     end
   end
 end
