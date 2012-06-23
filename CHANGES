@@ -1,3 +1,14 @@
+= 0.9.12 / 2012-06-23
+
+ * Upgrade OAuth authentication gem to use GitHub API v3. [Corey Donohoe]
+
+ * Upgrade to ActiveRecord 3.2.X. [Simon Rozet]
+
+ * Allow configuring the path to the database socket with JANKY_DATABASE_SOCKET
+   setting. [Simon Rozet]
+
+ * Add a few indexes on the builds table to improve performance. [Simon Rozet]
+
 = 0.9.11 / 2011-03-01
 
  * Fix HipChat setup instructions. [Andre Sachs]
