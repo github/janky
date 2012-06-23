@@ -7,7 +7,10 @@
  * Allow configuring the path to the database socket with JANKY_DATABASE_SOCKET
    setting. [Simon Rozet]
 
- * Add a few indexes on the builds table to improve performance. [Simon Rozet]
+ * Add a few indexes on the builds table to improve performance. [Simon Rozet].
+
+ * Eager load the builds.output column to improve performance. [Simon Rozet,
+  Jesse Dearing, Rafael Mendonça França]
 
 = 0.9.11 / 2011-03-01
 
