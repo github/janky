@@ -10,7 +10,14 @@
  * Add a few indexes on the builds table to improve performance. [Simon Rozet].
 
  * Eager load the builds.output column to improve performance. [Simon Rozet,
-  Jesse Dearing, Rafael Mendonça França]
+   Jesse Dearing, Rafael Mendonça França]
+
+ * Fix deprecation logic for Campfire settings. [Piet Jaspers]
+
+ * Destroy all associated records after destroying a repository record. [Eric
+   Holmes]
+
+ * Handle commit messages longer than 255 characters. [Shay Frendt]
 
 = 0.9.11 / 2011-03-01
 
