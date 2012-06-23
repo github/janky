@@ -253,10 +253,10 @@ class JankyTest < Test::Unit::TestCase
     Janky::Builder.start!
     Janky::Builder.complete!
 
-    assert_equal "deadbeef",                                         hubot_latest_build_sha("github", "master")
-    assert_equal "deadbeef",                                         Janky::Build.last.sha1
-    assert_equal "Test Author <test@github.com>",                    Janky::Build.last.commit_author
-    assert_equal "Test Message",                                     Janky::Build.last.commit_message
+    assert_equal "deadbeef", hubot_latest_build_sha("github", "master")
+    assert_equal "deadbeef", Janky::Build.last.sha1
+    assert_equal "Test Author <test@github.com>", Janky::Build.last.commit_author
+    assert_equal "Test Message", Janky::Build.last.commit_message
     assert_equal "https://github.com/github/github/commit/deadbeef", Janky::Build.last.commit_url
   end
 
