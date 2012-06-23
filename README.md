@@ -130,6 +130,13 @@ Required settings:
   GitHub.
 * `JANKY_CHAT_DEFAULT_ROOM`: Chat room where notifications are sent by default.
 
+Optional database settings:
+
+* `DATABASE_URL`: Database connection URL. Example:
+  `postgres://user:password@host:port/db_name`.
+* `JANKY_DATABASE_SOCKET`: Path to the database socket. Example:
+  `/var/run/mysql5/mysqld.sock`.
+
 #### GitHub Enterprise
 
 Using Janky with [GitHub Enterprise][ghe] requires one extra setting:
