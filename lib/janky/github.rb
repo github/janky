@@ -11,18 +11,21 @@ module Janky
     #
     # Returns nothing.
     def self.setup(user, password, secret, hook_url, api_url, git_host)
-      @user       = user
-      @password   = password
-      @secret     = secret
-      @hook_url   = hook_url
-      @api_url    = api_url
-      @git_host   = git_host
+      @user = user
+      @password = password
+      @secret = secret
+      @hook_url = hook_url
+      @api_url = api_url
+      @git_host = git_host
     end
 
     class << self
       attr_reader :secret, :git_host
     end
 
+    # URL of the GitHub website.
+    #
+    # Retuns the URL as a String. Example: https://github.com
     def self.github_url
       api_uri = URI.parse(@api_url)
       "#{api_uri.scheme}://#{@git_host}"
@@ -57,6 +60,12 @@ module Janky
       end
     end
 
+    # Fetch the SHA1 of the given branch HEAD.
+    #
+    # nwo    - qualified "owner/repo" name.
+    # branch - Name of the branch as a String.
+    #
+    # Returns the SHA1 as a String or nil when the branch doesn't exists.
     def self.branch_head_sha(nwo, branch)
       response = api.branches(nwo)
 
@@ -70,6 +79,24 @@ module Janky
       branch && branch["commit"]["sha"]
     end
 
+    # Fetch commit details for the given SHA1.
+    #
+    # nwo - qualified "owner/repo" name.
+    # sha - SHA1 of the commit as a String.
+    #
+    # Example
+    #
+    #   commit("github/janky", "35fff49dc18376845dd37e785c1ea88c6133f928")
+    #   => { "commit" => {
+    #          "author" => {
+    #            "name"  => "Simon Rozet",
+    #            "email" => "sr@github.com",
+    #          },
+    #          "message" => "document and clean up Branch#build_for_head",
+    #        }
+    #      }
+    #
+    # Returns the commit Hash.
     def self.commit(nwo, sha)
       response = api.commit(nwo, sha)
 
@@ -152,6 +179,7 @@ module Janky
       api.make_unauthorized(nwo)
     end
 
+    # Set the SHA of the named branch for the given repo. Mock only.
     def self.set_branch_head(nwo, branch, sha)
       api.set_branch_head(nwo, branch, sha)
     end

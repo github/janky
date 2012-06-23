@@ -4,7 +4,7 @@ module Janky
       Response = Struct.new(:code, :body)
 
       def initialize(user, password)
-        @repos       = {}
+        @repos = {}
         @branch_shas = {}
       end
 
