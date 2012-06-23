@@ -1,7 +1,7 @@
 module Janky
   class Branch < ActiveRecord::Base
     belongs_to :repository
-    has_many :builds
+    has_many :builds, :dependent => :destroy
 
     # Is this branch green?
     #

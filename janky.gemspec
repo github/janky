@@ -11,7 +11,7 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
   # runtime
   s.add_dependency "rake", "~>0.9.2"
   s.add_dependency "sinatra", "~>1.3"
-  s.add_dependency "sinatra_auth_github", "~>0.3.1"
+  s.add_dependency "sinatra_auth_github", "~>0.7.0"
   s.add_dependency "mustache", "~>0.11"
   s.add_dependency "yajl-ruby", "~>1.1.0"
   s.add_dependency "activerecord", "~>3.2.0"
