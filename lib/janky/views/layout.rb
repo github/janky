@@ -4,7 +4,7 @@ module Janky
     class Layout < Mustache
 
       def title
-        ENV["PAGE_TITLE"] || "Janky Hubot"
+        ENV["JANKY_PAGE_TITLE"] || "Janky Hubot"
       end
 
       def page_class
