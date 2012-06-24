@@ -60,6 +60,10 @@ lib/janky/database/migrate/1317384618_add_repo_hook_url.rb
 lib/janky/database/migrate/1317384619_add_build_room_id.rb
 lib/janky/database/migrate/1317384629_drop_default_room_id.rb
 lib/janky/database/migrate/1317384649_github_team_id.rb
+lib/janky/database/migrate/1317384650_add_build_indexes.rb
+lib/janky/database/migrate/1317384651_add_more_build_indexes.rb
+lib/janky/database/migrate/1317384652_change_commit_message_to_text.rb
+lib/janky/database/migrate/1317384653_add_build_pusher.rb
 lib/janky/database/schema.rb
 lib/janky/database/seed.dump.gz
 lib/janky/exception.rb
