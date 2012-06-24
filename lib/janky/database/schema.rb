@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 1317384652) do
     t.datetime "updated_at"
     t.text     "output"
     t.integer  "room_id"
+    t.string   "user"
   end
 
   add_index "builds", ["branch_id"], :name => "index_builds_on_branch_id"
