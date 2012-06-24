@@ -1,3 +1,21 @@
+= 0.9.13 / 2012-06-24
+
+ * Pull down the branch HEAD commit from the GitHub API for manual builds.
+   This ensures that the latest code is built even when the webhook fails.
+   [Jake Douglas, Simon Rozet]
+
+ * Record the name of the user that triggered a build in the database. This
+   is mostly useful for applications consuming the Janky API and isn't exposed
+   anywhere in the UI. [Jake Douglas, Simon Rozet]
+
+ * Use full SHA1s when interacting with other systems to avoid ambiguous
+   commits. [Jake Douglas]
+
+ * Deprecate support for Ruby < 1.9.3. [Simon Rozet]
+
+ * Add missing database migrations that were wrongfully omitted from the
+   0.9.12 gem package. [Simon Rozet]
+
 = 0.9.12 / 2012-06-23
 
  * Upgrade OAuth authentication gem to use GitHub API v3. [Corey Donohoe]
