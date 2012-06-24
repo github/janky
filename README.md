@@ -166,6 +166,7 @@ Required settings:
   admin token, not a notification token.)
 * `JANKY_CHAT_HIPCHAT_FROM`: name that messages will appear be sent from.
   Defaults to `CI`.
+* `JANKY_HUBOT_USER` should be XMPP/Jabber username in format xxxxx_xxxxxx rather than email
 
 Installation:
 
@@ -174,6 +175,7 @@ Installation:
 * `echo 'gem "hipchat", "~>0.4"' >> Gemfile`
 * `bundle`
 * `git commit -am "install hipchat"`
+
 
 ### Authentication
 
@@ -192,7 +194,7 @@ a few extra settings:
 
 Install the [janky script](http://git.io/hubot-janky) in your Hubot
 then set the `HUBOT_JANKY_URL` environment variable. Example:
-`http://user:secret@janky.example.com/_hubot/`, with user and password
+`http://user:password@janky.example.com/_hubot/`, with user and password
 replaced by `JANKY_HUBOT_USER` and `JANKY_HUBOT_PASSWORD` respectively.
 
 ### Custom Build Configuration
