@@ -4,7 +4,7 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
   s.description = "Janky is a Continuous Integration server"
   s.summary = "Continuous Integration server built on top of Jenkins and " \
     "designed for GitHub and Hubot"
-  s.authors = ["GitHub, Inc."]
+  s.authors = ["Simon Rozet"]
   s.homepage = "https://github.com/github/janky"
   s.has_rdoc = false
 
