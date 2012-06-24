@@ -43,7 +43,7 @@ module Janky
     #
     # Returns an Array of Builds.
     def self.started
-      where("started_at IS NOT NULL").order("started_at DESC")
+      where("started_at IS NOT NULL").order("started_at DESC, id DESC")
     end
 
     # Find all completed builds, most recent first.

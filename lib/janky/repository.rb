@@ -96,6 +96,27 @@ module Janky
       uri[/.*[\/:]([a-zA-Z0-9\-_]+)\/([a-zA-Z0-9\-_]+)/] && $2
     end
 
+    # Fully qualified GitHub name for this repository.
+    #
+    # Returns the name as a String. Example: github/janky.
+    def nwo
+      "#{github_owner}/#{github_name}"
+    end
+
+    # Append the given path to the GitHub URL of this repository.
+    #
+    # path - String path. No slash necessary at the front.
+    #
+    # Examples
+    #
+    #   github_url("issues")
+    #   => "https://github.com/github/janky/issues"
+    #
+    # Returns the URL as a String.
+    def github_url(path)
+      "#{GitHub.github_url}/#{nwo}/#{path}"
+    end
+
     # Name of the Campfire room receiving build notifications.
     #
     # Returns the name as a String.

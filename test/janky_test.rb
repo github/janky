@@ -220,6 +220,28 @@ class JankyTest < Test::Unit::TestCase
     assert hubot_status.ok?
   end
 
+  test "build user" do
+    gh_post_receive("github", "master", "HEAD", "the dude")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    response = hubot_status("github", "master")
+    data = Yajl.load(response.body)
+    assert_equal 1, data.size
+    build = data[0]
+    assert_equal "the dude", build["user"]
+
+    hubot_build("github", "master", nil, "the boyscout")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    response = hubot_status("github", "master")
+    data = Yajl.load(response.body)
+    assert_equal 2, data.size
+    build = data[0]
+    assert_equal "the boyscout", build["user"]
+  end
+
   test "hubot status repo" do
     gh_post_receive("github")
     Janky::Builder.start!
@@ -239,6 +261,25 @@ class JankyTest < Test::Unit::TestCase
     Janky::Builder.complete!
 
     assert hubot_build("github", "rails3").not_found?
+  end
+
+  test "getting latest commit" do
+    gh_post_receive("github", "master")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_not_equal "deadbeef", hubot_latest_build_sha("github", "master")
+
+    Janky::GitHub.set_branch_head("github/github", "master", "deadbeef")
+    hubot_build("github", "master")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_equal "deadbeef", hubot_latest_build_sha("github", "master")
+    assert_equal "deadbeef", Janky::Build.last.sha1
+    assert_equal "Test Author <test@github.com>", Janky::Build.last.commit_author
+    assert_equal "Test Message", Janky::Build.last.commit_message
+    assert_equal "https://github.com/github/github/commit/deadbeef", Janky::Build.last.commit_url
   end
 
   test "hubot rooms" do
