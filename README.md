@@ -103,6 +103,8 @@ After configuring the app (see below), create the database:
 
     $ heroku run rake db:migrate
 
+**NOTE:** Ruby version 1.9.3 is required to run Janky.
+
 [gist]: https://gist.github.com/1497335
 
 ### Configuring

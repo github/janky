@@ -1,3 +1,8 @@
+if RUBY_VERSION < "1.9.3"
+  warn "Support for Ruby versions lesser than 1.9.3 is deprecated and will be " \
+    "removed in Janky 1.0."
+end
+
 require "net/http"
 require "digest/md5"
 
