@@ -81,7 +81,7 @@ module Janky
     # user    - Ditto.
     #
     # Returns the newly created Janky::Build.
-    def build_for_head(room_id, user)
+    def head_build_for(room_id, user)
       sha_to_build = GitHub.branch_head_sha(repository.nwo, name)
       return if !sha_to_build
 
