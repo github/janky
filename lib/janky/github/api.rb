@@ -83,6 +83,7 @@ module Janky
       def build_payload(url, secret)
         { "name"   => "web",
           "active" => true,
+          "events" => ["push", "pull_request"],
           "config" => {
             "url"          => url,
             "secret"       => secret,

@@ -21,6 +21,11 @@ module Janky
       def call!(env)
         @request = Rack::Request.new(env)
 
+        if pull_request?
+          post_last_build if pull_request_opened?
+          return Rack::Response.new("OK", 200).finish
+        end
+
         if !valid_signature?
           return Rack::Response.new("Invalid signature", 403).finish
         end
@@ -46,6 +51,28 @@ module Janky
         signature = @request.env["HTTP_X_HUB_SIGNATURE"].split("=").last
 
         signature == OpenSSL::HMAC.hexdigest(digest, @secret, data)
+      end
+
+      def pull_request?
+        @request.env["HTTP_X_GITHUB_EVENT"] == "pull_request"
+      end
+
+      def pull_request_opened?
+        pull_request["action"] == "opened" 
+      end
+
+      def pull_request
+        @pull_request ||= Yajl.load(data)
+      end
+
+      def last_build
+        commit = ::Janky::Commit.find_by_sha1(pull_request["pull_request"]["head"]["sha"])
+        return unless commit
+        commit.last_build
+      end
+
+      def post_last_build
+        ::Janky::Notifier::GithubPullRequestService.new(ENV).completed(last_build) if last_build
       end
 
       def payload
