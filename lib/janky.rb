@@ -89,7 +89,6 @@ module Janky
       settings["JANKY_CHAT"] ||= "campfire"
       settings["JANKY_CHAT_CAMPFIRE_ACCOUNT"] ||= "account"
       settings["JANKY_CHAT_CAMPFIRE_TOKEN"] ||= "token"
-      settings["JANKY_CHAT_CAMPFIRE_TOKEN"] ||= "token"
       settings["JANKY_ENABLE_PULL_REQUEST"] ||= "false"
     end
 
