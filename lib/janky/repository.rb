@@ -93,7 +93,7 @@ module Janky
     #
     # Returns the name as a String.
     def github_name
-      uri[/.*[\/:]([a-zA-Z0-9\-_]+)\/([a-zA-Z0-9\-_]+)/] && $2
+      uri[/.*[\/:]([a-zA-Z0-9\-_]+)\/([a-zA-Z0-9\-_\.]+)/] && $2
     end
 
     # Fully qualified GitHub name for this repository.
