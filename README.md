@@ -196,7 +196,7 @@ Required settings:
 
 Installation:
 
-* Add `require "janky/chat_service/hipchat"` to the `config.ru` file
+* Add `require "janky/chat_service/hipchat"` to the `config/environment.rb` file
   **before** the `Janky.setup(ENV)` line.
 * `echo 'gem "hipchat", "~>0.4"' >> Gemfile`
 * `bundle`
@@ -209,7 +209,7 @@ Installation:
 
 Installation:
 
-* Add `require "janky/chat_service/hubot"` to the `config.ru` file
+* Add `require "janky/chat_service/hubot"` to the `config/environment.rb` file
   **before** the `Janky.setup(ENV)` line.
 
 ### Authentication
