@@ -27,7 +27,7 @@ module Janky
         post = Net::HTTP::Post.new("#{path}/janky")
         post.basic_auth(user, pass) if user && pass
         post["Content-Type"] = "application/json"
-        post.body = {message: message, room: room}.to_json
+        post.body = {:message => message, :room => room}.to_json
         response = http.request(post)
         unless response.code == "200"
           Exception.push_http_response(response)
