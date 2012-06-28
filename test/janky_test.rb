@@ -321,4 +321,10 @@ class JankyTest < Test::Unit::TestCase
     assert_equal "digital-science", repo.github_owner
     assert_equal "central-ftp-manage", repo.github_name
   end
+
+  test "repository with period is parsed correctly" do
+    repo = Janky::Repository.setup("github/pygments.rb")
+    assert_equal "github", repo.github_owner
+    assert_equal "pygments.rb", repo.github_name
+  end
 end
