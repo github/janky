@@ -198,12 +198,11 @@ module Janky
         "JANKY_CHAT_DEFAULT_ROOM instead."
     end
     ChatService.setup(chat_name, chat_settings, chat_room)
-    active_notifiers = [Notifier::ChatService]
 
-
-    if settings["JANKY_ENABLE_PULL_REQUEST"] == "true"
-      active_notifiers << Notifier::GithubPullRequestService.new(settings)
-    end
+    active_notifiers = [
+      Notifier::ChatService,
+      Notifier::GithubPullRequestService.new(settings)
+    ]
 
     Notifier.setup(active_notifiers)
   end
