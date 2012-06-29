@@ -44,6 +44,7 @@ require "janky/chat_service/mock"
 require "janky/exception"
 require "janky/notifier"
 require "janky/notifier/chat_service"
+require "janky/notifier/github_pull_request_service"
 require "janky/notifier/mock"
 require "janky/notifier/multi"
 require "janky/app"
@@ -88,6 +89,7 @@ module Janky
       settings["JANKY_CHAT"] ||= "campfire"
       settings["JANKY_CHAT_CAMPFIRE_ACCOUNT"] ||= "account"
       settings["JANKY_CHAT_CAMPFIRE_TOKEN"] ||= "token"
+      settings["JANKY_ENABLE_PULL_REQUEST"] ||= "false"
     end
 
     database = URI(settings["DATABASE_URL"])
@@ -197,8 +199,14 @@ module Janky
     end
     ChatService.setup(chat_name, chat_settings, chat_room)
 
-    Notifier.setup(Notifier::ChatService)
+    active_notifiers = [
+      Notifier::ChatService,
+      Notifier::GithubPullRequestService.new(settings)
+    ]
+
+    Notifier.setup(active_notifiers)
   end
+
 
   # List of settings required in production.
   #

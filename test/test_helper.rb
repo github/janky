@@ -20,7 +20,8 @@ class Test::Unit::TestCase
       "JANKY_CHAT_CAMPFIRE_ACCOUNT" => "github",
       "JANKY_CHAT_CAMPFIRE_TOKEN" => "token",
       "JANKY_CHAT_DEFAULT_ROOM" => "Builds",
-      "JANKY_CHAT" => "campfire"
+      "JANKY_CHAT" => "campfire",
+      "JANKY_ENABLE_PULL_REQUEST" => "false"
     }
   end
 

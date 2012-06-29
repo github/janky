@@ -148,6 +148,14 @@ Using Janky with [GitHub Enterprise][ghe] requires one extra setting:
 
 [ghe]: https://enterprise.github.com
 
+### Github Pull Request
+
+To have the build status in the pull request as a comment, enable the
+setting:
+
+* `JANKY_ENABLE_PULL_REQUEST`: Enable comment on pull request if commit
+  belongs to one. Default: false
+
 ### Chat Notification
 
 #### Campfire
