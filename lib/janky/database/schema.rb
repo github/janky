@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1317384652) do
+ActiveRecord::Schema.define(:version => 1317384654) do
 
   create_table "branches", :force => true do |t|
     t.string   "name",          :null => false
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 1317384652) do
     t.text     "output"
     t.integer  "room_id"
     t.string   "user"
+    t.datetime "queued_at"
   end
 
   add_index "builds", ["branch_id"], :name => "index_builds_on_branch_id"
