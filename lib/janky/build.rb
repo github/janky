@@ -193,6 +193,7 @@ module Janky
     end
 
     class << self
+      # The full URL of the web app as a String, including the protocol.
       attr_accessor :base_url
     end
 
