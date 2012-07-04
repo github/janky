@@ -25,7 +25,9 @@ module Janky
           "good"
         elsif build.building?
           "building"
-        else
+        elsif build.pending?
+          "pending"
+        elsif build.red?
           "janky"
         end
       end
@@ -35,6 +37,8 @@ module Janky
           "Build started <span class='relatize'>#{build.started_at}</span>…"
         elsif build.completed?
           "Built in <span>#{build.duration}</span> seconds"
+        elsif build.pending?
+          "Build queued <span class='relatize'>#{build.queued_at}</span>…"
         end
       end
     end

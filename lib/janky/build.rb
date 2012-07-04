@@ -76,6 +76,13 @@ module Janky
       ! queued_at.nil?
     end
 
+    # Is this build currently sitting in the queue waiting to be built?
+    #
+    # Returns true if the build is queued and not started, false otherwise.
+    def pending?
+      queued? && !started?
+    end
+
     # Is this build currently being built?
     #
     # Returns a Boolean.

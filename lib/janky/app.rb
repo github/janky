@@ -54,7 +54,7 @@ module Janky
       repo = find_repo(repo_name)
       authorize_repo(repo)
 
-      @builds = repo.builds.started.first(50)
+      @builds = repo.builds.queued.first(50)
       mustache :index
     end
 
@@ -62,7 +62,7 @@ module Janky
       repo = find_repo(repo_name)
       authorize_repo(repo)
 
-      @builds = repo.branch_for(branch).builds.started.first(50)
+      @builds = repo.branch_for(branch).queued_builds.first(50)
       mustache :index
     end
   end
