@@ -333,4 +333,12 @@ class JankyTest < Test::Unit::TestCase
     assert_equal "github", repo.github_owner
     assert_equal "pygments.rb", repo.github_name
   end
+
+  test "build janky url" do
+    gh_post_receive("github")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_equal "http://localhost:9393/1/output", Janky::Build.last.web_url
+  end
 end

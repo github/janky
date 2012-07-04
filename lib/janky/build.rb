@@ -215,6 +215,19 @@ module Janky
       end
     end
 
+    class << self
+      # The full URL of the web app as a String, including the protocol.
+      attr_accessor :base_url
+    end
+
+    # URL of this build's web page, served by Janky::App.
+    #
+    # Returns the URL as a String.
+    def web_url
+      return if new_record?
+      self.class.base_url + "#{id}/output"
+    end
+
     def repo_id
       repository.id
     end
@@ -225,6 +238,10 @@ module Janky
 
     def repo_name
       repository.name
+    end
+
+    def repo_nwo
+      repository.nwo
     end
 
     def repository

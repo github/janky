@@ -97,6 +97,7 @@ module Janky
       settings["JANKY_BASE_URL"] = settings["JANKY_BASE_URL"] + "/"
     end
     base_url = URI(settings["JANKY_BASE_URL"]).to_s
+    Build.base_url = base_url
 
     connection = {
       :adapter   => adapter,
@@ -212,10 +213,10 @@ module Janky
       JANKY_HUBOT_USER JANKY_HUBOT_PASSWORD]
   end
 
-  # Directory where Jenkins job configuration templates are located.
-  #
-  # Returns the directory as a Pathname.
   class << self
+    # Directory where Jenkins job configuration templates are located.
+    #
+    # Returns the directory as a Pathname.
     attr_accessor :jobs_config_dir
   end
 
