@@ -109,6 +109,7 @@ module Janky
     # Returns nothing.
     def run
       builder.run(self)
+      update_attributes!(:queued_at => Time.now)
     end
 
     # See Repository#builder.
