@@ -216,6 +216,10 @@ module Janky
       repository.name
     end
 
+    def repo_nwo
+      repository.nwo
+    end
+
     def repository
       branch.repository
     end
