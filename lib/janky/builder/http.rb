@@ -24,8 +24,6 @@ module Janky
           Exception.push_http_response(response)
           raise Error, "Failed to create build"
         end
-
-        true
       end
 
       def output(url)
