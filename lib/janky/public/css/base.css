@@ -172,10 +172,10 @@ ul.builds .building h2{
   color:#e59741;
 }
 ul.builds .pending a{
-  color:gray;
+  color:#e59741;
 }
 ul.builds .pending h2{
-  color:gray;
+  color:#e59741;
 }
 ul.builds .janky a{
   color:#ae0000;
