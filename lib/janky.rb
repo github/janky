@@ -273,7 +273,6 @@ module Janky
 
       # Web dashboard
       map "/" do
-        use Janky::NoAuth
         run Janky::App
       end
     }
