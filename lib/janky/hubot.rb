@@ -94,6 +94,7 @@ module Janky
           :green    => build.green?,
           :building => branch.building?,
           :queued   => build.queued?,
+          :pending  => build.pending?,
           :number   => build.number,
           :status   => (build.green? ? "was successful" : "failed"),
           :compare  => build.compare,

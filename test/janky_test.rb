@@ -248,6 +248,7 @@ class JankyTest < Test::Unit::TestCase
     assert_equal 1, payload.size
     build = payload[0]
     assert build["queued"]
+    assert build["pending"]
     assert !build["building"]
 
     Janky::Builder.start!
