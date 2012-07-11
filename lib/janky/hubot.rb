@@ -92,7 +92,7 @@ module Janky
           :branch   => build.branch_name,
           :user     => build.user,
           :green    => build.green?,
-          :building => branch.building?,
+          :building => build.building?,
           :queued   => build.queued?,
           :pending  => build.pending?,
           :number   => build.number,
