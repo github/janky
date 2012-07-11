@@ -40,7 +40,7 @@ module Janky
 
     get "/?" do
       authorize_index
-      @builds = Build.started.first(50)
+      @builds = Build.queued.first(50)
       mustache :index
     end
 
