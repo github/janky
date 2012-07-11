@@ -146,6 +146,9 @@ ul.builds .building .status{
 ul.builds .janky .status{
   background-position:0 -200px;
 }
+ul.builds .pending .status{
+  background-position:0 -100px;
+}
 
 ul.builds h2{
   margin:0;
@@ -166,6 +169,12 @@ ul.builds .building a{
   color:#e59741;
 }
 ul.builds .building h2{
+  color:#e59741;
+}
+ul.builds .pending a{
+  color:#e59741;
+}
+ul.builds .pending h2{
   color:#e59741;
 }
 ul.builds .janky a{

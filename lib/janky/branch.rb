@@ -46,6 +46,11 @@ module Janky
       builds.completed
     end
 
+    # See Build.queued.
+    def queued_builds
+      builds.queued
+    end
+
     # Create a build for the given commit.
     #
     # commit  - the Janky::Commit instance to build.
