@@ -39,6 +39,13 @@ module Janky
       end
     end
 
+    # Find all builds that have been queued in Jenkins, most recent first.
+    #
+    # Returns an Array of Build objects.
+    def self.queued
+      where("queued_at IS NOT NULL").order("queued_at DESC, id DESC")
+    end
+
     # Find all started builds, most recent first.
     #
     # Returns an Array of Builds.
@@ -59,6 +66,21 @@ module Janky
     # Returns an Array of Builds.
     def self.green
       completed.where(:green => true)
+    end
+
+    # Has this build been queued in Jenkins?
+    #
+    # Returns true when the build is complete or currently being built,
+    #   false otherwise.
+    def queued?
+      ! queued_at.nil?
+    end
+
+    # Is this build currently sitting in the queue waiting to be built?
+    #
+    # Returns true if the build is queued and not started, false otherwise.
+    def pending?
+      queued? && !started?
     end
 
     # Is this build currently being built?
@@ -94,6 +116,7 @@ module Janky
     # Returns nothing.
     def run
       builder.run(self)
+      update_attributes!(:queued_at => Time.now)
     end
 
     # See Repository#builder.

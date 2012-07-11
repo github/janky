@@ -244,6 +244,12 @@ class JankyTest < Test::Unit::TestCase
 
   test "hubot status repo" do
     gh_post_receive("github")
+    payload = Yajl.load(hubot_status("github", "master").body)
+    assert_equal 1, payload.size
+    build = payload[0]
+    assert build["queued"]
+    assert !build["building"]
+
     Janky::Builder.start!
     Janky::Builder.complete!
     hubot_build("github", "master")

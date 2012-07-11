@@ -86,13 +86,14 @@ module Janky
 
       repo   = find_repo(repo_name)
       branch = repo.branch_for(branch_name)
-      builds = branch.completed_builds.limit(limit).map do |build|
+      builds = branch.queued_builds.limit(limit).map do |build|
         { :sha1     => build.sha1,
           :repo     => build.repo_name,
           :branch   => build.branch_name,
           :user     => build.user,
           :green    => build.green?,
           :building => branch.building?,
+          :queued   => build.queued?,
           :number   => build.number,
           :status   => (build.green? ? "was successful" : "failed"),
           :compare  => build.compare,
