@@ -56,6 +56,14 @@ module Janky
         http.request(request)
       end
 
+      def pull_requests(nwo)
+        path    = build_path("repos/#{nwo}/pulls")
+        request = Net::HTTP::Get.new(path)
+        request.basic_auth(@user, @password)
+
+        http.request(request)
+      end
+
       def build_path(path)
         if path[0] == ?/
           URI.join(@url, path[1..-1]).path
