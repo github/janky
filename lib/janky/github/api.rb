@@ -79,6 +79,7 @@ module Janky
         request.set_form_data('body' => body)
 
         http.request(request)
+      end
 
       def build_path(path)
         if path[0] == ?/
