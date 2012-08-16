@@ -183,5 +183,15 @@ module Janky
     def self.set_branch_head(nwo, branch, sha)
       api.set_branch_head(nwo, branch, sha)
     end
+
+    # Comment on a specific pull request
+    def self.comment_on_pull_request(nwo, pr_number, body)
+      api.comment_on_pull_request(nwo, pr_number, body)
+    end
+
+    # Get a list of all pull requests for the given repository
+    def self.get_all_pull_requests(nwo)
+      api.all_pull_requests(nwo)
+    end
   end
 end

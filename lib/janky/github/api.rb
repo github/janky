@@ -76,7 +76,7 @@ module Janky
         path    = build_path("repos/#{nwo}/issues/#{issue_number}/comments")
         request = Net::HTTP::Post.new(path)
         request.basic_auth(@user, @password)
-        request.set_form_data('body' => body)
+        request.body = body
 
         http.request(request)
       end
