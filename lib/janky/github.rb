@@ -193,5 +193,18 @@ module Janky
     def self.get_all_pull_requests(nwo)
       api.all_pull_requests(nwo)
     end
+
+    def self.get_pull_request_number(nwo, branch_name)
+      response = get_all_pull_requests(nwo)
+      pr_number = 1
+
+      response.each do |pull_request|
+        if pull_request["label"] == branch_name
+          pr_number = pull_request["number"]
+        end
+      end
+
+      pr_number
+    end
   end
 end
