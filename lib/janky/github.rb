@@ -194,6 +194,7 @@ module Janky
       api.all_pull_requests(nwo)
     end
 
+    # Get the pull request number that deals with a given branch
     def self.get_pull_request_number(nwo, branch_name)
       response = get_all_pull_requests(nwo)
       pr_number = 1
