@@ -197,15 +197,14 @@ module Janky
     # Get the pull request number that deals with a given branch
     def self.get_pull_request_number(nwo, branch_name)
       response = get_all_pull_requests(nwo)
-      pr_number = 1
 
       response.each do |pull_request|
         if pull_request["label"] == branch_name
-          pr_number = pull_request["number"]
+          return pull_request["number"]
         end
       end
 
-      pr_number
+      nil
     end
   end
 end
