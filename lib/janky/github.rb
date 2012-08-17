@@ -185,8 +185,8 @@ module Janky
     end
 
     # Comment on a specific pull request
-    def self.comment_on_pull_request(nwo, pr_number, body)
-      api.comment_on_pull_request(nwo, pr_number, body)
+    def self.comment_on_pull_request(nwo, pr_number, comment)
+      api.comment_on_pull_request(nwo, pr_number, comment)
     end
 
     # Get a list of all pull requests for the given repository

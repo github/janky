@@ -72,11 +72,12 @@ module Janky
         http.request(request)
       end
 
-      def comment_on_pull_request(nwo, pr_number, body)
-        path    = build_path("repos/#{nwo}/pulls/#{pr_number}/comments")
+      def comment_on_pull_request(nwo, pr_number, comment)
+        path    = build_path("repos/#{nwo}/issues/#{pr_number}/comments")
         request = Net::HTTP::Post.new(path)
+        request.set_form_data({"body" => comment})
+
         request.basic_auth(@user, @password)
-        request.body = body
 
         http.request(request)
       end
