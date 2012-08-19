@@ -182,14 +182,9 @@ module Janky
 
     # Calculate the name of the Jenkins job.
     #
-    # Returns a String hash of this Repository name and uri.
+    # Returns the String name.
     def job_name
-      md5 = Digest::MD5.new
-      md5 << name
-      md5 << uri
-      md5 << job_config_path.read
-      md5 << builder.callback_url.to_s
-      md5.hexdigest
+      "#{github_owner}-#{github_name}"
     end
   end
 end
