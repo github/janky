@@ -56,6 +56,31 @@ module Janky
         http.request(request)
       end
 
+      def all_pull_requests(nwo)
+        path    = build_path("repos/#{nwo}/pulls")
+        request = Net::HTTP::Get.new(path)
+        request.basic_auth(@user, @password)
+
+        http.request(request)
+      end
+
+      def pull_request(nwo, number)
+        path    = build_path("repos/#{nwo}/pull/#{number}")
+        request = Net::HTTP::Get.new(path)
+        request.basic_auth(@user, @password)
+
+        http.request(request)
+      end
+
+      def comment_on_pull_request(nwo, pr_number, comment)
+        path    = build_path("repos/#{nwo}/issues/#{pr_number}/comments")
+        request = Net::HTTP::Post.new(path)
+        request.basic_auth(@user, @password)
+        request.body = Yajl.dump({ "body" => comment })
+
+        http.request(request)
+      end
+
       def build_path(path)
         if path[0] == ?/
           URI.join(@url, path[1..-1]).path
