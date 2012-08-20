@@ -198,9 +198,6 @@ module Janky
         "JANKY_CHAT_DEFAULT_ROOM instead."
     end
     ChatService.setup(chat_name, chat_settings, chat_room)
-
-    Notifier.setup(Notifier::ChatService)
-    Notifier.setup(Notifier::PullRequestBuildStatus)
   end
 
   # List of settings required in production.
