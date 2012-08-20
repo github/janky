@@ -200,7 +200,7 @@ module Janky
       all_pull_requests = JSON.parse(response.body)
 
       all_pull_requests.each do |pull_request|
-        if pull_request["head"]["label"] == branch_name
+        if pull_request["head"]["ref"] == branch_name
           return pull_request["number"]
         end
       end
