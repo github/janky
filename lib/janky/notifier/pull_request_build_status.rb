@@ -6,7 +6,7 @@ module Janky
           if build.green?
             ::Janky::GitHub.comment_on_pull_request(build.repo_nwo, pr_number, ":green_heart: @ #{build.sha1}")
           else
-            ::Janky::GitHub.comment_on_pull_request(build.repo_nwo, pr_number, ":broken_heart: @ #{build.sha1}")
+            ::Janky::GitHub.comment_on_pull_request(build.repo_nwo, pr_number, ":broken_heart: @ #{build.sha1} \n\n#{build.web_url}")
           end
         end
       end
