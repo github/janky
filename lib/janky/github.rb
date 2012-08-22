@@ -183,5 +183,29 @@ module Janky
     def self.set_branch_head(nwo, branch, sha)
       api.set_branch_head(nwo, branch, sha)
     end
+
+    # Comment on a specific pull request
+    def self.comment_on_pull_request(nwo, pr_number, comment)
+      api.comment_on_pull_request(nwo, pr_number, comment)
+    end
+
+    # Get a list of all pull requests for the given repository
+    def self.get_all_pull_requests(nwo)
+      api.all_pull_requests(nwo)
+    end
+
+    # Get the pull request number that deals with a given branch
+    def self.get_pull_request_number(nwo, branch_name)
+      response = get_all_pull_requests(nwo)
+      all_pull_requests = JSON.parse(response.body)
+
+      all_pull_requests.each do |pull_request|
+        if pull_request["head"]["ref"] == branch_name
+          return pull_request["number"]
+        end
+      end
+
+      nil
+    end
   end
 end

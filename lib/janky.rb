@@ -46,6 +46,7 @@ require "janky/notifier"
 require "janky/notifier/chat_service"
 require "janky/notifier/mock"
 require "janky/notifier/multi"
+require "janky/notifier/pull_request_build_status"
 require "janky/app"
 require "janky/views/layout"
 require "janky/views/index"
@@ -198,7 +199,7 @@ module Janky
     end
     ChatService.setup(chat_name, chat_settings, chat_room)
 
-    Notifier.setup(Notifier::ChatService)
+    Janky::Notifier.setup([Janky::Notifier::ChatService, Janky::Notifier::PullRequestBuildStatus])
   end
 
   # List of settings required in production.
