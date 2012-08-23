@@ -228,6 +228,14 @@ module Janky
       self.class.base_url + "#{id}/output"
     end
 
+    # URL of the web page for this build's branch, served by Janky::App.
+    #
+    # Returns the URL as a String.
+    def branch_url
+      return if new_record?
+      self.class.base_url + "#{repo_name}/#{branch_name}"
+    end
+
     def repo_id
       repository.id
     end
