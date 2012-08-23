@@ -49,6 +49,7 @@ require "janky/notifier/multi"
 require "janky/app"
 require "janky/views/layout"
 require "janky/views/index"
+require "janky/views/console"
 
 # This is Janky, a continuous integration server. Checkout the 'app'
 # method on this module for an overview of the different components
