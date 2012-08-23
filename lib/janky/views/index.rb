@@ -5,7 +5,7 @@ module Janky
       def jobs
         @builds.collect do |build|
           {
-            :console_path    => "/#{build.number}/output",
+            :jenkins_url     => build.url,
             :compare_url     => build.compare,
             :repo_path       => "/#{build.repo_name}",
             :branch_path     => "/#{build.repo_name}/#{build.branch_name}",
