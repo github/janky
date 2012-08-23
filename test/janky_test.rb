@@ -338,6 +338,7 @@ class JankyTest < Test::Unit::TestCase
     Janky::Builder.start!
     Janky::Builder.complete!
 
-    assert_equal "http://localhost:8080/job/" + Janky::Build.last.repo_job_name, Janky::Build.last.url
+    build_page = Janky::Build.last.repo_job_name + "/" + Janky::Build.last.number + "/"
+    assert_equal "http://localhost:8080/job/" + build_page, Janky::Build.last.url
   end
 end
