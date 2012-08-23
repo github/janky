@@ -116,7 +116,7 @@ ul.builds a{
   text-decoration:none;
 }
 
-ul.builds a.jenkins{
+ul.builds a.console{
   float: right;
   display:block;
   width: 22px;
@@ -124,7 +124,7 @@ ul.builds a.jenkins{
   margin-left: 10px;
   background:url(../images/disclosure-arrow.png) 65% 10px no-repeat;
 }
-ul.builds li:hover a.jenkins{
+ul.builds li:hover a.console{
   background-position:65% -90px;
 }
 
