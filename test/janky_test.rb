@@ -155,6 +155,8 @@ class JankyTest < Test::Unit::TestCase
 
     assert get("/github/master").ok?
     assert get("/github/strato").ok?
+
+    assert get("#{Janky::Build.last.id}/output").ok?
   end
 
   test "hubot setup" do
