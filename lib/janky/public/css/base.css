@@ -127,10 +127,6 @@ ul.builds a.jenkins{
 ul.builds li:hover a.jenkins{
   background-position:65% -90px;
 }
-ul.builds .building a.jenkins{
-  background:none;
-  cursor:default;
-}
 
 ul.builds .status{
   float:left;
