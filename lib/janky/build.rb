@@ -3,9 +3,6 @@ module Janky
     belongs_to :branch
     belongs_to :commit
 
-    # The full URL of this build's web page on Jenkins as a String.
-    attr_accessor :url
-
     default_scope do
       columns = (column_names - ["output"]).map do |column_name|
         arel_table[column_name]
@@ -221,6 +218,9 @@ module Janky
     class << self
       # The full URL of the web app as a String, including the protocol.
       attr_accessor :base_url
+
+      # The full URL of this build's web page on Jenkins as a String.
+      attr_reader :url
     end
 
     def repo_id
