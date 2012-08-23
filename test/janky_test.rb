@@ -340,6 +340,6 @@ class JankyTest < Test::Unit::TestCase
     Janky::Builder.start!
     Janky::Builder.complete!
 
-    assert_equal "http://localhost:9393/1/output", Janky::Build.last.web_url
+    assert_equal "http://localhost:9393/1/output", Janky::Build.last.url
   end
 end
