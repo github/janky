@@ -155,8 +155,6 @@ class JankyTest < Test::Unit::TestCase
 
     assert get("/github/master").ok?
     assert get("/github/strato").ok?
-
-    assert get("#{Janky::Build.last.id}/output").ok?
   end
 
   test "hubot setup" do
@@ -340,6 +338,6 @@ class JankyTest < Test::Unit::TestCase
     Janky::Builder.start!
     Janky::Builder.complete!
 
-    assert_equal "http://localhost:9393/1/output", Janky::Build.last.url
+    assert_equal "http://localhost:8080/job/" + Janky::Build.last.repo_job_name, Janky::Build.last.url
   end
 end
