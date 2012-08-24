@@ -218,6 +218,9 @@ module Janky
     class << self
       # The full URL of the web app as a String, including the protocol.
       attr_accessor :base_url
+
+      # The full URL to the Jenkins build page, as a String.
+      attr_reader :url
     end
 
     # URL of this build's web page, served by Janky::App.
