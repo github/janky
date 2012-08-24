@@ -12,7 +12,7 @@ module Janky
           build.branch_name,
           status,
           build.duration,
-          build.branch_url
+          build.web_url
         ]
 
         ::Janky::ChatService.speak(message, build.room_id, {:color => color})
