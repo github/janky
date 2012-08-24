@@ -28,6 +28,10 @@ module Janky
       def output
         @build.output
       end
+
+      def jenkins_url
+        @build.url
+      end
     end
   end
 end
