@@ -221,33 +221,33 @@ Hacking
 
 Get your environment up and running:
 
-    $ script/bootstrap
+    script/bootstrap
 
 Create the databases:
 
-    $ mysqladmin -uroot create janky_development
-    $ mysqladmin -uroot create janky_test
+    mysqladmin -uroot create janky_development
+    mysqladmin -uroot create janky_test
 
 Create the tables:
 
-    $ RACK_ENV=development bin/rake db:migrate
-    $ RACK_ENV=test bin/rake db:migrate
+    RACK_ENV=development bin/rake db:migrate
+    RACK_ENV=test bin/rake db:migrate
 
 Seed some data into the development database:
 
-    $ bin/rake db:seed
+    bin/rake db:seed
 
 Start the server:
 
-    $ script/server
+    script/server
 
 Open the app:
 
-    $ open http://localhost:9393/
+    open http://localhost:9393/
 
 Run the test suite:
 
-    $ bin/rake
+    bin/rake
 
 Contributing
 ------------
