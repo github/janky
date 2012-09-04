@@ -247,7 +247,7 @@ Open the app:
 
 Run the test suite:
 
-    bin/rake
+    script/test
 
 Contributing
 ------------

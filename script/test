@@ -1,0 +1,2 @@
+#!/bin/sh
+testrb test/*_test.rb
