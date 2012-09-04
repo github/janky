@@ -18,9 +18,7 @@ task "db:seed" do
   end
 end
 
-require "rake/testtask"
-Rake::TestTask.new(:test) do |t|
-  t.test_files = FileList["test/*_test.rb"]
-  t.ruby_opts << '-Itest -Ilib'
+task :test do
+  abort "Use script/test to run the test suite."
 end
 task :default => :test
