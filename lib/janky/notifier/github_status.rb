@@ -7,14 +7,15 @@ module Janky
     # "success" or "failure" when the build is complete.
     class GithubStatus
       # Initialize with an OAuth token to POST Statuses with
-      def initialize(token)
+      def initialize(token, api_url)
         @token = token
+        @api_url = URI(api_url)
       end
 
       # Create a Pending Status for the Commit when it starts.
       def started(build)
         repo   = build.repo_nwo
-        path  = "/repos/#{repo}/statuses/#{build.sha1}"
+        path  = "repos/#{repo}/statuses/#{build.sha1}"
 
         post(path, "pending", build.web_url, "Build ##{build.number} started")
       end
@@ -22,7 +23,7 @@ module Janky
       # Create a Success or Failure Status for the Commit.
       def completed(build)
         repo   = build.repo_nwo
-        path   = "/repos/#{repo}/statuses/#{build.sha1}"
+        path   = "repos/#{repo}/statuses/#{build.sha1}"
         status = build.green? ? "success" : "failure"
 
         desc = case status
@@ -35,9 +36,8 @@ module Janky
 
       # Internal: POST the new status to the API
       def post(path, status, url, desc)
-        uri  = URI.parse("https://api.github.com")
-        http = Net::HTTP.new(uri.host, uri.port)
-        post = Net::HTTP::Post.new(path)
+        http = Net::HTTP.new(@api_url.host, @api_url.port)
+        post = Net::HTTP::Post.new("#{@api_url.path}/#{path}")
 
         http.use_ssl = true
 
