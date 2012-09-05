@@ -148,6 +148,17 @@ Using Janky with [GitHub Enterprise][ghe] requires one extra setting:
 
 [ghe]: https://enterprise.github.com
 
+### GitHub Status API
+
+https://github.com/blog/1227-commit-status-api
+
+To update pull requests with the build status generate an OAuth token
+like so:
+
+  curl
+
+then set `JANKY_GITHUB_STATUS_TOKEN`.
+
 ### Chat Notification
 
 #### Campfire
