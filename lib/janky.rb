@@ -46,7 +46,7 @@ require "janky/notifier"
 require "janky/notifier/chat_service"
 require "janky/notifier/mock"
 require "janky/notifier/multi"
-require "janky/github_status"
+require "janky/notifier/github_status"
 require "janky/app"
 require "janky/views/layout"
 require "janky/views/index"
@@ -200,7 +200,7 @@ module Janky
     ChatService.setup(chat_name, chat_settings, chat_room)
 
     if token = settings["JANKY_GITHUB_STATUS_TOKEN"]
-      Notifier.setup([GithubStatus.new(token), Notifier::ChatService])
+      Notifier.setup([Notifier::GithubStatus.new(token), Notifier::ChatService])
     else
       Notifier.setup(Notifier::ChatService)
     end
