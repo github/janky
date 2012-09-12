@@ -37,7 +37,7 @@ module Janky
       # Internal: POST the new status to the API
       def post(path, status, url, desc)
         http = Net::HTTP.new(@api_url.host, @api_url.port)
-        post = Net::HTTP::Post.new("#{@api_url.path}/#{path}")
+        post = Net::HTTP::Post.new("#{@api_url.path}#{path}")
 
         http.use_ssl = true
 
