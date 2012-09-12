@@ -1,2 +1,2 @@
 #!/bin/sh
-testrb test/*_test.rb
+testrb ./test/*_test.rb
