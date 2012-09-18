@@ -5,8 +5,8 @@ module Janky
       @callback_url = callback_url
     end
 
-    def run(name, uri, template_path)
-      creator.run(name, uri, template_path)
+    def run(name, uri, template_path, layout_path)
+      creator.run(name, uri, template_path, layout_path)
     end
 
     def creator
@@ -24,13 +24,22 @@ module Janky
         @callback_url = callback_url
       end
 
-      def run(name, uri, template_path)
+      def run(name, uri, template_path, layout_path)
         template = Tilt.new(template_path.to_s)
-        config   = template.render(Object.new, {
-          :name         => name,
-          :repo         => uri,
-          :callback_url => @callback_url
-        })
+        locals = {
+          :name => name,
+          :repo => uri,
+          :callback_url => @callback_url,
+        }
+
+        if layout_path
+          layout_template = Tilt.new(layout_path.to_s)
+          config = layout_template.render(Object.new, locals) do
+            template.render(Object.new, locals)
+          end
+        else
+          config = template.render(Object.new, locals)
+        end
 
         exception_context(config, name, uri)
 
