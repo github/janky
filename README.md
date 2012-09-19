@@ -139,6 +139,16 @@ Optional database settings:
 * `JANKY_DATABASE_SOCKET`: Path to the database socket. Example:
   `/var/run/mysql5/mysqld.sock`.
 
+Optional view settings:
+
+* `JANKY_PAGE_TITLE`: Title for the page.
+* `JANKY_CSS_HREF`: Add your own styles instead of the defaults. Example:
+  `http://example.com/custom.css`
+* `JANKY_CSS_OVERRIDE_HREF`: Add your own styles on top of the defaults. Example
+  `http://example.com/custom.css`
+* `JANKY_FAVICON_HTML`: HTML for the favicon in the head. Default:
+  `'<link rel="icon" href="https://example.com/favicon.ico">'`.
+
 #### GitHub Enterprise
 
 Using Janky with [GitHub Enterprise][ghe] requires one extra setting:
