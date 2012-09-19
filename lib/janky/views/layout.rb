@@ -21,6 +21,10 @@ module Janky
       def css_override_href
         ENV["JANKY_CSS_OVERRIDE_HREF"]
       end
+
+      def favicon_html
+        ENV["JANKY_FAVICON_HTML"]
+      end
     end
   end
 end
