@@ -13,6 +13,10 @@ module Janky
       def root
         @request.env['SCRIPT_NAME']
       end
+
+      def css_href
+        ENV["JANKY_CSS_HREF"] || "/css/base.css"
+      end
     end
   end
 end
