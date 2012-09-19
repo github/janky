@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
 	<title>{{title}}</title>
   <link rel="stylesheet" href="{{css_href}}" type="text/css" />
+  {{#css_override_href}}
+  <link rel="stylesheet" href="{{css_override_href}}" type="text/css" />
+  {{/css_override_href}}
 	<script src="/javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/javascripts/jquery.relatize.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/javascripts/application.js" type="text/javascript" charset="utf-8"></script>

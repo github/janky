@@ -17,6 +17,10 @@ module Janky
       def css_href
         ENV["JANKY_CSS_HREF"] || "/css/base.css"
       end
+
+      def css_override_href
+        ENV["JANKY_CSS_OVERRIDE_HREF"]
+      end
     end
   end
 end
