@@ -23,6 +23,8 @@ module Janky
     end
 
     def handle
+      return if commit.message =~ /\[ci skip\]/i
+
       current_build = commit.last_build
       build = branch.build_for(commit, @pusher, @room_id, @compare)
 

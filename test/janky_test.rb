@@ -68,6 +68,26 @@ class JankyTest < Test::Unit::TestCase
     assert Janky::Notifier.success?("github", "master", "enterprise")
   end
 
+  test "ignores the build with [ci skip] in the message" do
+    gh_post_receive("github", "master", "sha1", "user", "[ci skip]")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert Janky::Notifier.empty?
+
+    gh_post_receive("github", "master", "sha1", "user", "Multiline message\n[ci skip]")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert Janky::Notifier.empty?
+
+    gh_post_receive("github", "master", "sha1", "user", "[ci skip] skiped build")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert Janky::Notifier.empty?
+  end
+
   test "dup commit same branch" do
     Janky::Builder.green!
     gh_post_receive("github", "master", "sha1")
