@@ -65,6 +65,7 @@ lib/janky/database/migrate/1317384650_add_build_indexes.rb
 lib/janky/database/migrate/1317384651_add_more_build_indexes.rb
 lib/janky/database/migrate/1317384652_change_commit_message_to_text.rb
 lib/janky/database/migrate/1317384653_add_build_pusher.rb
+lib/janky/database/migrate/1317384654_add_build_queued_at.rb
 lib/janky/database/schema.rb
 lib/janky/database/seed.dump.gz
 lib/janky/exception.rb
@@ -80,6 +81,7 @@ lib/janky/hubot.rb
 lib/janky/job_creator.rb
 lib/janky/notifier.rb
 lib/janky/notifier/chat_service.rb
+lib/janky/notifier/github_status.rb
 lib/janky/notifier/mock.rb
 lib/janky/notifier/multi.rb
 lib/janky/public/css/base.css
