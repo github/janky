@@ -190,6 +190,7 @@ module Janky
       md5 << job_config_path.read
       md5 << builder.callback_url.to_s
       md5.hexdigest
+      "#{github_owner}-#{github_name}-#{md5.hexdigest}"
     end
   end
 end
