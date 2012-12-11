@@ -15,4 +15,4 @@ ruby -v
 env
 bundle install --binstubs --path vendor/gems
 bin/rake db:migrate --trace
-script/test
+bundle exec script/test
