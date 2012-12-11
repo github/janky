@@ -9,7 +9,7 @@ class RepositoryTest < Test::Unit::TestCase
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  test "job name is includes github owner and project" do
+  test "job name includes github owner and project" do
     repo = Janky::Repository.setup("github/janky")
     assert_match /\Agithub-janky-.+/, repo.job_name
   end
@@ -30,5 +30,15 @@ class RepositoryTest < Test::Unit::TestCase
     repo = Janky::Repository.setup("github/pygments.rb")
     assert_equal "github", repo.github_owner
     assert_equal "pygments.rb", repo.github_name
+  end
+
+  test "raises if there is no job config" do
+    repo = Janky::Repository.setup("github/pygments.rb")
+    # ensure we get file not found for job configs
+    Janky.stubs(:jobs_config_dir).returns(Pathname("/tmp/"))
+    assert_raise(Janky::Error) do
+      puts repo.job_config_path
+      repo.job_config_path
+    end
   end
 end
