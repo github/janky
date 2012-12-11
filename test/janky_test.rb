@@ -317,31 +317,13 @@ class JankyTest < Test::Unit::TestCase
     assert hubot_build("github", "master").not_found?
   end
 
-  test "github owner is parsed correctly" do
-    repo = Janky::Repository.setup("github/janky")
-    assert_equal "github", repo.github_owner
-    assert_equal "janky", repo.github_name
-  end
-
-  test "owner with a dash is parsed correctly" do
-    repo = Janky::Repository.setup("digital-science/central-ftp-manage")
-    assert_equal "digital-science", repo.github_owner
-    assert_equal "central-ftp-manage", repo.github_name
-  end
-
-  test "repository with period is parsed correctly" do
-    repo = Janky::Repository.setup("github/pygments.rb")
-    assert_equal "github", repo.github_owner
-    assert_equal "pygments.rb", repo.github_name
-  end
-
   test "build janky url" do
     gh_post_receive("github")
     Janky::Builder.start!
     Janky::Builder.complete!
 
     assert_equal "http://localhost:9393/1/output", Janky::Build.last.web_url
-    
+
     build_page = Janky::Build.last.repo_job_name + "/" + Janky::Build.last.number + "/"
     assert_equal "http://localhost:8080/job/" + build_page, Janky::Build.last.url
   end

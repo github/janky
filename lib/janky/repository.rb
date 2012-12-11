@@ -130,7 +130,7 @@ module Janky
       read_attribute(:room_id) || ChatService.default_room_id
     end
 
-    # Setups GitHub and Jenkins for build this repository.
+    # Setups GitHub and Jenkins for building this repository.
     #
     # Returns nothing.
     def setup

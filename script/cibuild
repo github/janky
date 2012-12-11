@@ -15,4 +15,4 @@ ruby -v
 env
 bundle install --binstubs --path vendor/gems
 bin/rake db:migrate --trace
-bundle exec ruby -Ilib -Itest test/janky_test.rb
+bundle exec script/test
