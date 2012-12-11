@@ -77,7 +77,10 @@ Installing
 
 Janky requires access to a Jenkins server. Version **1.427** is
 recommended. Refer to the Jenkins [documentation][doc] for installation
-instructions and install the [Notification Plugin][np] version 1.4.
+instructions and install the [Notification Plugin][np] version 1.4. 
+
+Remember to set the Jenkins URL in `http://your-jenkins-server.com/configure`.
+Janky will still trigger builds but will not update the build status without this set.
 
 [doc]: https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins
 [np]: https://wiki.jenkins-ci.org/display/JENKINS/Notification+Plugin
