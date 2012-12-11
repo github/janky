@@ -130,7 +130,7 @@ module Janky
       read_attribute(:room_id) || ChatService.default_room_id
     end
 
-    # Setups GitHub and Jenkins for build this repository.
+    # Setups GitHub and Jenkins for building this repository.
     #
     # Returns nothing.
     def setup
@@ -189,7 +189,7 @@ module Janky
       md5 << uri
       md5 << job_config_path.read
       md5 << builder.callback_url.to_s
-      md5.hexdigest
+      "#{github_owner}-#{github_name}-#{md5.hexdigest}"
     end
   end
 end
