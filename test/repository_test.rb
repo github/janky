@@ -1,6 +1,6 @@
 require File.expand_path("../test_helper", __FILE__)
 
-class JankyTest < Test::Unit::TestCase
+class RepositoryTest < Test::Unit::TestCase
   def setup
     Janky.setup(environment)
     Janky.enable_mock!
