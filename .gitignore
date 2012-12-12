@@ -4,3 +4,4 @@ vendor/gems
 Gemfile.lock
 *.gem
 .rbenv-version
+.idea
