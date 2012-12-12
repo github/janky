@@ -1,5 +1,7 @@
 = 0.9.14 / 2012-??-??
 
+ * Many doc changes and improvements
+
  * Make the Jenkins job name human readable [Riley Guerin]
 
  * Added GithubStatus Notifier for GitHub Status API: see https://github.com/blog/1227-status-api
