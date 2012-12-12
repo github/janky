@@ -2,7 +2,7 @@
 
  * Make the Jenkins job name human readable [Riley Guerin]
 
- * Added support for GitHub Status API: see https://github.com/blog/1227-status-api
+ * Added GithubStatus Notifier for GitHub Status API: see https://github.com/blog/1227-status-api
 
  * Added Build#queued_at for tracking when builds were queued vs actually built
 
