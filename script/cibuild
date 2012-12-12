@@ -14,5 +14,6 @@ hostname
 ruby -v
 env
 bundle install --binstubs --path vendor/gems
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS janky_test"
 bin/rake db:migrate --trace
 bundle exec script/test
