@@ -8,10 +8,11 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
   s.homepage = "https://github.com/github/janky"
   s.has_rdoc = false
 
-  s.post_install_message = "Important: If you are upgrading from Janky 0.9.13, you will need to run:\n\n" \
-    "$ rake db:migrate\n\n" \
-    "You will also need to add a JANKY_BRANCH parameter to your config/default.xml.erb.\n\n" \
-    "See https://github.com/github/janky/commit/0fc6214e3a75cc138aed46a2493980440e848aa3#commitcomment-1815400 for details.\n\n"
+  s.post_install_message = <<-EOL
+If you are upgrading from Janky 0.9.13, you will want to add a JANKY_BRANCH parameter
+to your config/default.xml.erb. See
+https://github.com/github/janky/commit/0fc6214e3a75cc138aed46a2493980440e848aa3#commitcomment-1815400 for details.
+EOL
 
   # runtime
   s.add_dependency "rake", "~>0.9.2"
