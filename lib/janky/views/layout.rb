@@ -13,6 +13,18 @@ module Janky
       def root
         @request.env['SCRIPT_NAME']
       end
+
+      def css_href
+        ENV["JANKY_CSS_HREF"] || "/css/base.css"
+      end
+
+      def css_override_href
+        ENV["JANKY_CSS_OVERRIDE_HREF"]
+      end
+
+      def favicon_html
+        ENV["JANKY_FAVICON_HTML"]
+      end
     end
   end
 end
