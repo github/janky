@@ -107,6 +107,18 @@ After configuring the app (see below), create the database:
 
 [gist]: https://gist.github.com/1497335
 
+Upgrading
+---------
+
+We **strongly recommend** backing up your Janky database before upgrading.
+
+The general process is to then upgrade the gem, and then run migrate.  Here is how
+you do that on a local box you have access to (this process will differ for Heroku):
+    
+    cd [PATH-TO-JANKY]
+    gem update janky
+    rake db:migrate
+
 ### Configuring
 
 Janky is configured using environment variables. Use the `heroku config`
