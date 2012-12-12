@@ -276,7 +276,9 @@ Contributing
 ------------
 
 Fork the [Janky repository on GitHub](https://github.com/github/janky) and
-send a Pull Request.
+send a Pull Request.  Note that any changes to behavior without tests will
+be rejected.  If you are adding significant new features, please add both 
+tests and documentation.
 
 Copying
 -------
