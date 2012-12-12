@@ -202,6 +202,7 @@ a few extra settings:
 * `JANKY_AUTH_CLIENT_ID`: The client ID of the OAuth application.
 * `JANKY_AUTH_CLIENT_SECRET`: The client secret of the OAuth application.
 * `JANKY_AUTH_ORGANIZATION`: The organization name. Example: "github".
+* `JANKY_AUTH_TEAM_ID`: An optional team ID to give auth to.
 
 ### Hubot
 
