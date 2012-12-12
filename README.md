@@ -167,7 +167,7 @@ https://github.com/blog/1227-commit-status-api
 To update pull requests with the build status generate an OAuth token
 like so:
 
-  curl -u username:password -d '{ "scopes": [ "repo:status" ], "note": "janky" }' https://api.github.com/authorizations
+    curl -u username:password -d '{ "scopes": [ "repo:status" ], "note": "janky" }' https://api.github.com/authorizations
 
 then set `JANKY_GITHUB_STATUS_TOKEN`.
 
