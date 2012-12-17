@@ -108,6 +108,36 @@ module Janky
       Yajl.load(response.body)
     end
 
+    # Fetch commit details for the given pull request.
+    #
+    # nwo    - qualified "owner/repo" name.
+    # number - number of the pull request
+    #
+    # Example
+    #
+    #   commit("github/janky", 5)
+    #   => { "commit" => {
+    #          "author" => {
+    #            "name"  => "Simon Rozet",
+    #            "email" => "sr@github.com",
+    #          },
+    #          "message" => "document and clean up Branch#build_for_head",
+    #        }
+    #      }
+    #
+    # Returns the commit Hash.
+    def self.pull_request_commit(nwo, number)
+      response = api.pull_request_commit(nwo, number)
+
+      if response.code != "200"
+        Exception.push_http_response(response)
+        raise Error, "Failed to get pull request commit"
+      end
+
+      Yajl.load(response.body)
+    end
+
+
     # Create a Post-Receive hook for the given repository.
     # http://developer.github.com/v3/repos/hooks/#create-a-hook
     #

@@ -19,9 +19,10 @@ module Janky
 
       def json_params
         Yajl.dump(:parameter => [
-          { :name => "JANKY_SHA1",   :value => @build.sha1 },
-          { :name => "JANKY_BRANCH", :value => @build.branch_name },
-          { :name => "JANKY_ID",     :value => @build.id }
+          { :name => "JANKY_SHA1",       :value => @build.sha1 },
+          { :name => "JANKY_BRANCH",     :value => @build.branch_name },
+          { :name => "JANKY_ID",         :value => @build.id },
+          { :name => "JANKY_COMMIT_URL", :value => @build.commit_url }
         ])
       end
 

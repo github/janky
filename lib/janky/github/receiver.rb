@@ -29,6 +29,10 @@ module Janky
           return Rack::Response.new("Invalid Content-Type", 400).finish
         end
 
+        if payload.pull_request and payload.pull_action == 'closed'
+          return Rack::Response.new("Ignored", 400).finish
+        end
+
         if !payload.head_commit
           return Rack::Response.new("Ignored", 400).finish
         end
@@ -54,6 +58,11 @@ module Janky
 
       def payload
         @payload ||= GitHub::Payload.parse(data)
+        if @payload.pull_request
+          commits = GitHub.pull_request_commit(@payload.nwo, @payload.pull_number)
+          @payload.set_pull_request_commits(commits)
+        end
+        @payload
       end
 
       def data
