@@ -1,5 +1,7 @@
 module Janky
   class Repository < ActiveRecord::Base
+    attr_accessor :job_template
+
     has_many :branches, :dependent => :destroy
     has_many :commits, :dependent => :destroy
     has_many :builds, :through => :branches
@@ -8,13 +10,13 @@ module Janky
 
     default_scope(order("name"))
 
-    def self.setup(nwo, name = nil)
+    def self.setup(nwo, name = nil, template = nil)
       if nwo.nil?
         raise ArgumentError, "nwo can't be nil"
       end
 
       if repo = Repository.find_by_name(nwo)
-        repo.setup
+        repo.setup(template)
         return repo
       end
 
@@ -33,7 +35,7 @@ module Janky
           Repository.create!(:name => name, :uri => uri)
         end
 
-      repo.setup
+      repo.setup(template)
       repo
     end
 
@@ -133,7 +135,8 @@ module Janky
     # Setups GitHub and Jenkins for building this repository.
     #
     # Returns nothing.
-    def setup
+    def setup(template = nil)
+      @job_template = template
       setup_job
       setup_hook
     end
@@ -156,15 +159,19 @@ module Janky
       builder.setup(job_name, uri, job_config_path)
     end
 
-    # The path of the Jenkins configuration template. Try "<repo-name>.xml.erb"
-    # first then fallback to "default.xml.erb" under the root config directory.
+    # The path of the Jenkins configuration template. Try "<template>.xml.erb"
+    # first, "<repo-name>.xml.erb" second, and then fallback to
+    # "default.xml.erb" under the root config directory.
     #
     # Returns the template path as a Pathname.
     def job_config_path
+      user_override = Janky.jobs_config_dir.join("#{@job_template.downcase}.xml.erb")
       custom = Janky.jobs_config_dir.join("#{name.downcase}.xml.erb")
       default = Janky.jobs_config_dir.join("default.xml.erb")
 
-      if custom.readable?
+      if user_override.readable?
+        user_override
+      elsif custom.readable?
         custom
       elsif default.readable?
         default
@@ -187,7 +194,6 @@ module Janky
       md5 = Digest::MD5.new
       md5 << name
       md5 << uri
-      md5 << job_config_path.read
       md5 << builder.callback_url.to_s
       "#{github_owner}-#{github_name}-#{md5.hexdigest}"
     end

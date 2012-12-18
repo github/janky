@@ -12,11 +12,12 @@ module Janky
     post "/setup" do
       nwo  = params["nwo"]
       name = params["name"]
-      repo = Repository.setup(nwo, name)
+      tmpl = params["template"]
+      repo = Repository.setup(nwo, name, tmpl)
 
       if repo
         url  = "#{settings.base_url}#{repo.name}"
-        [201, "Setup #{repo.name} at #{repo.uri} | #{url}"]
+        [201, "Setup #{repo.name} at #{repo.uri} with #{repo.job_config_path.basename} | #{url}"]
       else
         [400, "Couldn't access #{nwo}. Check the permissions."]
       end
@@ -111,6 +112,7 @@ module Janky
 ci build janky
 ci build janky/fix-everything
 ci setup github/janky [name]
+ci setup github/janky name template
 ci toggle janky
 ci rooms
 ci set room janky development

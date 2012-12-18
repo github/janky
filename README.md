@@ -31,6 +31,10 @@ anything unless it needs to. It takes an optional name argument:
 
     hubot ci setup github/janky janky-ruby1.9.2
 
+It also takes an optional template name argument:
+
+    hubot ci setup github/janky janky-ruby1.9.2 ruby-build
+
 All branches are built automatically on push. Disable auto build with:
 
     hubot ci toggle janky
@@ -114,7 +118,7 @@ We **strongly recommend** backing up your Janky database before upgrading.
 
 The general process is to then upgrade the gem, and then run migrate.  Here is how
 you do that on a local box you have access to (this process will differ for Heroku):
-    
+
     cd [PATH-TO-JANKY]
     gem update janky
     rake db:migrate
@@ -234,8 +238,10 @@ For more control you can add a `script/cibuild` at the root of your
 repository for Jenkins to execute instead.
 
 For total control, whole Jenkins' `config.xml` files can be associated
-with Janky builds. Given a build called `windows`, Janky will try
-`config/jobs/windows.xml.erb` before falling back to the default
+with Janky builds. Given a build called `windows` and a template name
+of `psake`, Janky will try `config/jobs/psake.xml.erb` to use a template,
+`config/jobs/windows.xml.erb` to try the job name if the template does
+not exit,  before finally falling back to the default
 configuration, `config/jobs/default.xml.erb`. After updating or adding
 a custom config, run `hubot ci setup` again to update the Jenkins
 server.
@@ -278,7 +284,7 @@ Contributing
 
 Fork the [Janky repository on GitHub](https://github.com/github/janky) and
 send a Pull Request.  Note that any changes to behavior without tests will
-be rejected.  If you are adding significant new features, please add both 
+be rejected.  If you are adding significant new features, please add both
 tests and documentation.
 
 Copying
