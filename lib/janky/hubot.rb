@@ -114,6 +114,9 @@ ci setup github/janky [name]
 ci toggle janky
 ci rooms
 ci set room janky development
+ci status
+ci status janky
+ci status janky/master
 EOS
     end
   end
