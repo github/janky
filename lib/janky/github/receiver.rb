@@ -25,6 +25,10 @@ module Janky
           return Rack::Response.new("Invalid signature", 403).finish
         end
 
+        if @request.content_type != "application/json"
+          return Rack::Response.new("Invalid Content-Type", 400).finish
+        end
+
         if !payload.head_commit
           return Rack::Response.new("Ignored", 400).finish
         end
@@ -57,10 +61,6 @@ module Janky
       end
 
       def data!
-        if @request.content_type != "application/json"
-          return Rack::Response.new("Invalid Content-Type", 400).finish
-        end
-
         body = ""
         @request.body.each { |chunk| body << chunk }
         body
