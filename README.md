@@ -119,7 +119,8 @@ you do that on a local box you have access to (this process will differ for Hero
     gem update janky
     rake db:migrate
 
-### Configuring
+Configuring
+-----------
 
 Janky is configured using environment variables. Use the `heroku config`
 command:
@@ -151,7 +152,7 @@ Optional database settings:
 * `JANKY_DATABASE_SOCKET`: Path to the database socket. Example:
   `/var/run/mysql5/mysqld.sock`.
 
-#### GitHub Enterprise
+### GitHub Enterprise
 
 Using Janky with [GitHub Enterprise][ghe] requires one extra setting:
 
