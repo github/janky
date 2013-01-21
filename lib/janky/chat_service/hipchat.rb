@@ -14,10 +14,11 @@ module Janky
       end
 
       def speak(message, room_id, options = {})
-        options.merge!({
+        default = {
           :color => "yellow",
           :message_format => "text"
-        }) { |key, value, default| value }
+        }
+        options = default.merge(options)
         @client[room_id].send(@from, message, options)
       end
 
