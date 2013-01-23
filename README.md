@@ -114,7 +114,7 @@ We **strongly recommend** backing up your Janky database before upgrading.
 
 The general process is to then upgrade the gem, and then run migrate.  Here is how
 you do that on a local box you have access to (this process will differ for Heroku):
-    
+
     cd [PATH-TO-JANKY]
     gem update janky
     rake db:migrate
@@ -144,6 +144,20 @@ Required settings:
 * `JANKY_GITHUB_HOOK_SECRET`: Secret used to sign hook requests from
   GitHub.
 * `JANKY_CHAT_DEFAULT_ROOM`: Chat room where notifications are sent by default.
+
+Optional Github event settings:
+
+* `JANKY_GITHUB_EVENT_TYPES`: A comma separated list of event types that Janky
+will respond to from GitHub.  Presently, `pull_request` and `push` are supported,
+and the default value responds to both `pull_request,push`.  If you follow the
+[fork & pull][] model, and have additional Jenkins jobs that are initiated by
+pushes to the master branch (i.e. those initiated directly by GitHub and
+received by Jenkins), then it is recommended to set this to `pull_request`.  If
+everyone is working on a shared repo, then `push` will likely be sufficient.
+See [Event Types][] for more details on the different types / payloads.
+
+[fork&pull]: https://help.github.com/articles/using-pull-requests
+[Event Types]: http://developer.github.com/v3/activity/events/types/
 
 Optional database settings:
 
@@ -278,7 +292,7 @@ Contributing
 
 Fork the [Janky repository on GitHub](https://github.com/github/janky) and
 send a Pull Request.  Note that any changes to behavior without tests will
-be rejected.  If you are adding significant new features, please add both 
+be rejected.  If you are adding significant new features, please add both
 tests and documentation.
 
 Copying

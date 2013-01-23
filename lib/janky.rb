@@ -138,10 +138,22 @@ module Janky
       raise Error, "JANKY_GITHUB_API_URL must have a trailing slash"
     end
     hook_url = base_url + "_github"
+    valid_events = ['pull_request', 'push']
+    if settings.key?("JANKY_GITHUB_EVENT_TYPES")
+      events = settings["JANKY_GITHUB_EVENT_TYPES"].split(',') \
+        .each { |e| e.strip! }
+    else
+      events = valid_events
+    end
+    extra = events.select { |e| !valid_events.include?(e) }
+    if events.nil? or events.empty? or !extra.empty?
+      raise Error, "JANKY_GITHUB_EVENT_TYPES must have #{valid_events.join(' or ')}"
+    end
     Janky::GitHub.setup(
       settings["JANKY_GITHUB_USER"],
       settings["JANKY_GITHUB_PASSWORD"],
       settings["JANKY_GITHUB_HOOK_SECRET"],
+      events,
       hook_url,
       api_url,
       git_host

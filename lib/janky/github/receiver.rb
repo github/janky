@@ -10,8 +10,9 @@ module Janky
     #
     # [1]: http://help.github.com/post-receive-hooks/
     class Receiver
-      def initialize(secret)
+      def initialize(secret, events)
         @secret = secret
+        @events = events
       end
 
       def call(env)
@@ -27,6 +28,14 @@ module Janky
 
         if @request.content_type != "application/json"
           return Rack::Response.new("Invalid Content-Type", 400).finish
+        end
+
+        if not @events.include?('pull_request') and payload.pull_request
+          return Rack::Response.new("Ignored", 400).finish
+        end
+
+        if not @events.include?('push') and not payload.pull_request
+          return Rack::Response.new("Ignored", 400).finish
         end
 
         if payload.pull_request and payload.pull_action == 'closed'

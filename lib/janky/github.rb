@@ -5,22 +5,24 @@ module Janky
     # user     - API user as a String.
     # password - API password as a String.
     # secret   - Secret used to sign hook requests from GitHub.
+    # events   - Event types that Janky builds for - "pull_request" and "push"
     # hook_url - String URL that handles Post-Receive requests.
     # api_url  - GitHub API URL as a String. Requires a trailing slash.
     # git_host - Hostname where git repos are hosted. e.g. "github.com"
     #
     # Returns nothing.
-    def self.setup(user, password, secret, hook_url, api_url, git_host)
+    def self.setup(user, password, secret, events, hook_url, api_url, git_host)
       @user = user
       @password = password
       @secret = secret
+      @events = events
       @hook_url = hook_url
       @api_url = api_url
       @git_host = git_host
     end
 
     class << self
-      attr_reader :secret, :git_host
+      attr_reader :secret, :events, :git_host
     end
 
     # URL of the GitHub website.
@@ -35,7 +37,7 @@ module Janky
     #
     # Returns a GitHub::Receiver.
     def self.receiver
-      @receiver ||= Receiver.new(@secret)
+      @receiver ||= Receiver.new(@secret, @events)
     end
 
     # Fetch repository details.
