@@ -90,7 +90,7 @@ Grab all the necessary files from [the gist][gist]:
 
     $ git clone git://gist.github.com/1497335 janky
 
-Then push up it to a new Heroku app:
+Then push it up to a new Heroku app:
 
     $ cd janky
     $ heroku create --stack cedar
