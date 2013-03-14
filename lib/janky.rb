@@ -93,6 +93,7 @@ module Janky
 
     database = URI(settings["DATABASE_URL"])
     adapter  = database.scheme == "postgres" ? "postgresql" : database.scheme
+    encoding = database.scheme == "postgres" ? "unicode" : "utf8"
     if settings["JANKY_BASE_URL"][-1] != ?/
       warn "JANKY_BASE_URL must have a trailing slash"
       settings["JANKY_BASE_URL"] = settings["JANKY_BASE_URL"] + "/"
@@ -102,11 +103,13 @@ module Janky
 
     connection = {
       :adapter   => adapter,
-      :host      => database.host,
+      :encoding  => encoding,
+      :pool      => 5,
       :database  => database.path[1..-1],
       :username  => database.user,
       :password  => database.password,
-      :reconnect => true,
+      :host      => database.host,
+      :port      => database.port
     }
     if socket = settings["JANKY_DATABASE_SOCKET"]
       connection[:socket] = socket
