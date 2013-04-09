@@ -66,18 +66,7 @@ module Janky
 
     # Get the status of all projects.
     get "/" do
-      content_type "text/plain"
-      repos = Repository.all(:include => [:branches, :commits, :builds]).map do |repo|
-        master = repo.branch_for("master")
-
-        "%-17s %-13s %-10s %40s" % [
-          repo.name,
-          master.status,
-          repo.campfire_room,
-          repo.uri
-        ]
-      end
-      repos.join("\n")
+      branch_summary 'master'
     end
 
     # Get the lasts builds
@@ -98,6 +87,11 @@ module Janky
       end
 
       builds.to_json
+    end
+
+    # Get the status of a branch across all projects.
+    get %r{\/\*\/([-_\+\.a-zA-z0-9\/]+)} do |branch_name|
+      branch_summary branch_name
     end
 
     # Get the status of a repository's branch.
@@ -135,6 +129,21 @@ EOS
     end
 
     private
+
+    def branch_summary(branch_name)
+      content_type "text/plain"
+      repos = Repository.all(:include => [:branches, :commits, :builds]).map do |repo|
+        master = repo.branch_for(branch_name)
+
+        "%-17s %-13s %-10s %40s" % [
+          repo.name,
+          master.status,
+          repo.campfire_room,
+          repo.uri
+        ]
+      end
+      repos.join("\n")
+    end
 
     def build_to_hash(build)
       { :sha1     => build.sha1,
