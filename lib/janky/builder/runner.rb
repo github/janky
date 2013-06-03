@@ -12,6 +12,10 @@ module Janky
         @adapter.run(json_params, create_url)
       end
 
+      def stop
+        @adapter.stop(stop_url)
+      end
+
       def output
         context_push
         @adapter.output(output_url)
@@ -31,6 +35,10 @@ module Janky
 
       def create_url
         URI("#{@base_url}job/#{@build.repo_job_name}/build")
+      end
+
+      def stop_url
+        URI(@build.url + "stop")
       end
 
       def context_push

@@ -119,6 +119,13 @@ module Janky
       update_attributes!(:queued_at => Time.now)
     end
 
+    # Stop a Jenkins build using the appropriate builder.
+    #
+    # Returns nothing.
+    def stop
+      builder.stop(self)
+    end
+
     # See Repository#builder.
     def builder
       branch.repository.builder

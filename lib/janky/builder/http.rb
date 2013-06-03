@@ -26,6 +26,25 @@ module Janky
         end
       end
 
+      def stop(stop_url)
+        http     = Net::HTTP.new(stop_url.host, stop_url.port)
+        if stop_url.scheme == "https"
+          http.use_ssl = true
+        end
+
+        request  = Net::HTTP::Post.new(stop_url.path)
+        if @username && @password
+          request.basic_auth(@username, @password)
+        end
+
+        response = http.request(request)
+
+        if response.code != "302"
+          Exception.push_http_response(response)
+          raise Error, "Failed to stop build"
+        end
+      end
+
       def output(url)
         http     = Net::HTTP.new(url.host, url.port)
         if url.scheme == "https"
