@@ -193,6 +193,7 @@ Required settings:
 * `JANKY_CHAT_HIPCHAT_FROM`: name that messages will appear be sent from.
   Defaults to `CI`.
 * `JANKY_HUBOT_USER` should be XMPP/Jabber username in format xxxxx_xxxxxx rather than email
+* `JANKY_CHAT_DEFAULT_ROOM` should be the name of the room instead of the XMPP format, for example: `Engineers` instead of xxxx_xxxxxx.
 
 Installation:
 
