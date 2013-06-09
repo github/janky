@@ -1,12 +1,14 @@
 = 0.9.14 / 2013-02-26
 
- * Many doc changes and improvements
+ * Many doc changes and improvements [Rob Sanheim]
 
  * Make the Jenkins job name human readable [Riley Guerin]
 
- * Added GithubStatus Notifier for GitHub Status API: see https://github.com/blog/1227-status-api
+ * Added GithubStatus Notifier for GitHub Status API.
+   See https://github.com/blog/1227-status-api [Rob Sainheim]
 
- * Added Build#queued_at for tracking when builds were queued vs actually built
+ * Added Build#queued_at for tracking when builds were queued vs actually
+   built. [Simon Rozet]
 
 = 0.9.13 / 2012-06-24
 
