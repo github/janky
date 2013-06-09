@@ -259,9 +259,6 @@ module Janky
   # Returns a memoized Rack application.
   def self.app
     @app ||= Rack::Builder.app {
-      # Exception reporting middleware.
-      use Janky::Exception::Middleware
-
       # GitHub Post-Receive requests.
       map "/_github" do
         run Janky::GitHub.receiver
