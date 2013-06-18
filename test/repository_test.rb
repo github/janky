@@ -14,6 +14,11 @@ class RepositoryTest < Test::Unit::TestCase
     assert_match /\Agithub-janky-.+/, repo.job_name
   end
 
+  test "job name includes truncated MD5 digest" do
+    repo = Janky::Repository.setup("github/janky")
+    assert_match /-[0-9a-f]{12}$/, repo.job_name
+  end
+
   test "github owner is parsed correctly" do
     repo = Janky::Repository.setup("github/janky")
     assert_equal "github", repo.github_owner
