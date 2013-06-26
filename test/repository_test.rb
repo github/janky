@@ -9,9 +9,14 @@ class RepositoryTest < Test::Unit::TestCase
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  test "job name includes github owner and project" do
+  test "job name includes repo name" do
     repo = Janky::Repository.setup("github/janky")
-    assert_match /\Agithub-janky-.+/, repo.job_name
+    assert_match /\Ajanky-.+/, repo.job_name
+  end
+
+  test "job name includes custom name" do
+    repo = Janky::Repository.setup("github/janky", "janky2")
+    assert_match /\Ajanky2-.+/, repo.job_name
   end
 
   test "job name includes truncated MD5 digest" do
