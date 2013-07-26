@@ -7,6 +7,7 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
   s.authors = ["Simon Rozet"]
   s.homepage = "https://github.com/github/janky"
   s.has_rdoc = false
+  s.license = ["MIT"]
 
   s.post_install_message = <<-EOL
 If you are upgrading from Janky 0.9.13, you will want to add a JANKY_BRANCH parameter
