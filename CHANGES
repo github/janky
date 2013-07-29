@@ -1,8 +1,9 @@
 = 0.9.15 / 2013-07-25
 
-* Upgrade sinatra_auth_github to make this work better with latest GitHub.com requirements
+ * Upgrade sinatra_auth_github to make this work better with latest GitHub.com
+   requirements
 
-* Truncate MD5 digests in job names to 12 characters
+ * Truncate MD5 digests in job names to 12 characters
 
 = 0.9.14 / 2013-02-26
 
