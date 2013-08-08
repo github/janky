@@ -119,5 +119,9 @@ ci status janky
 ci status janky/master
 EOS
     end
+
+    get "/boomtown" do
+      fail "BOOM (janky)"
+    end
   end
 end
