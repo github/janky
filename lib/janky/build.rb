@@ -11,6 +11,10 @@ module Janky
       select(columns)
     end
 
+    scope :building, -> {
+      where("started_at IS NOT NULL AND completed_at IS NULL")
+    }
+
     # Transition the Build to the started state.
     #
     # id  - the Fixnum ID used to find the build.
