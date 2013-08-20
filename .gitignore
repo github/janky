@@ -3,4 +3,4 @@ bin
 vendor/gems
 Gemfile.lock
 *.gem
-.rbenv-version
+.ruby-version
