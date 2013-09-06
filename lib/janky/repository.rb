@@ -6,7 +6,7 @@ module Janky
 
     replicate_associations :builds, :commits, :branches
 
-    default_scope(order("name"))
+    default_scope { order("name") }
 
     def self.setup(nwo, name = nil)
       if nwo.nil?
