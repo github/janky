@@ -67,7 +67,7 @@ module Janky
     # Get the status of all projects.
     get "/" do
       content_type "text/plain"
-      repos = Repository.all(:include => [:branches, :commits, :builds]).map do |repo|
+      repos = Repository.includes([:branches, :commits, :builds]).to_a.map do |repo|
         master = repo.branch_for("master")
 
         "%-17s %-13s %-10s %40s" % [
