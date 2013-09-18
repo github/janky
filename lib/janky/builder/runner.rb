@@ -45,4 +45,3 @@ module Janky
     end
   end
 end
-

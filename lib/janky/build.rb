@@ -155,7 +155,13 @@ module Janky
     # Returns the String output.
     def output_remote
       if started?
-        builder.output(self)
+        output = builder.output(self)
+
+        output_limit = self.class.columns_hash['output'].limit
+        return output if output_limit.nil? || output.size < output_limit
+
+        truncation_warning = "\n\nThis build's output is too long for Janky, see Jenkins for the full output"
+        output.slice(0..-((output.size - output_limit) + truncation_warning.size + 1)) + truncation_warning
       end
     end
 
