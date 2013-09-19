@@ -161,7 +161,7 @@ module Janky
         return output if output_limit.nil? || output.size < output_limit
 
         truncation_warning = "This build's output is too long for Janky, reduce how much is logged so that it can be stored fully\n\n"
-        truncation_warning + output.slice((output.size - (output_limit + truncation_warning.size))..output.size)
+        truncation_warning + output.slice((output.size - (output_limit - truncation_warning.size))..output.size)
       end
     end
 
