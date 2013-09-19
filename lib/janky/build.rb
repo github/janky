@@ -160,8 +160,8 @@ module Janky
         output_limit = self.class.columns_hash['output'].limit
         return output if output_limit.nil? || output.size < output_limit
 
-        truncation_warning = "\n\nThis build's output is too long for Janky, see Jenkins for the full output"
-        output.slice(0..-((output.size - output_limit) + truncation_warning.size + 1)) + truncation_warning
+        truncation_warning = "This build's output is too long for Janky, reduce how much is logged so that it can be stored fully\n\n"
+        truncation_warning + output.slice((output.size - (output_limit + truncation_warning.size))..output.size)
       end
     end
 
