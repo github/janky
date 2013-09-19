@@ -29,10 +29,6 @@ module Janky
         @build.output
       end
 
-      def output_url
-        jenkins_url + "console"
-      end
-
       def jenkins_url
         @build.url
       end
