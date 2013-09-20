@@ -110,6 +110,11 @@ class Test::Unit::TestCase
     end
   end
 
+  def hubot_last(options = {})
+    hubot_request "GET",
+      "/_hubot/builds?limit=#{options[:limit]}&building=#{options[:building]}"
+  end
+
   def hubot_latest_build_sha(repo, branch)
     response = hubot_status(repo, branch)
     Yajl.load(response.body).first["sha1"]
