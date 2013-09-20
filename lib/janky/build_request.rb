@@ -1,7 +1,7 @@
 module Janky
   class BuildRequest
     def self.handle(repo_uri, branch_name, pusher, commit, compare, room_id)
-      repos = Repository.find_all_by_uri(repo_uri)
+      repos = Repository.where(uri: repo_uri).to_a
       repos.each do |repo|
         begin
           new(repo, branch_name, pusher, commit, compare, room_id).handle
