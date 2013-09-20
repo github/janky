@@ -34,10 +34,9 @@ module Janky
 
         exception_context(config, name, uri)
 
-        if !@adapter.exists?(@server_url, name)
-          @adapter.run(@server_url, name, config)
-          true
-        end
+        exists = @adapter.exists?(@server_url, name)
+        @adapter.run(@server_url, name, config, exists)
+        true
       end
 
       def exception_context(config, name, uri)
@@ -53,7 +52,7 @@ module Janky
     end
 
     class Mock
-      def run(server_url, name, config)
+      def run(server_url, name, config, exists)
         name   || raise(Error, "no name")
         config || raise(Error, "no config")
         (URI === server_url) || raise(Error, "server_url is not a URI")
@@ -92,7 +91,7 @@ module Janky
         end
       end
 
-      def self.run(server_url, name, config)
+      def self.run(server_url, name, config, exists)
         uri  = server_url
         user = uri.user
         pass = uri.password
@@ -102,7 +101,13 @@ module Janky
           http.use_ssl = true
         end
 
-        post = Net::HTTP::Post.new("#{path}/createItem?name=#{name}")
+        if exists
+          location = "job/#{name}/config.xml"
+        else
+          location = "createItem?name=#{name}"
+        end
+
+        post = Net::HTTP::Post.new("#{path}/#{location}")
         post.basic_auth(user, pass) if user && pass
         post["Content-Type"] = "application/xml"
         post.body = config
