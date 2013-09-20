@@ -1,3 +1,7 @@
+= 0.10.0 / 2013-09-19
+
+ * Upgrade sinatra_auth_github to work with latest octokit
+
 = 0.9.15 / 2013-07-25
 
  * Upgrade sinatra_auth_github to make this work better with latest GitHub.com
