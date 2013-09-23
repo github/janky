@@ -3,6 +3,13 @@ module Janky
     belongs_to :branch
     belongs_to :commit
 
+    # Use validates_each so that `output_limit` is evaluated when the database
+    # connection is up
+    validates_each :output do |record, attr, value|
+      length = output_limit
+      record.errors.add(attr, "output must be less than #{length} characters") unless length.nil? || value.size <= length
+    end
+
     default_scope do
       columns = (column_names - ["output"]).map do |column_name|
         arel_table[column_name]
