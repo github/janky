@@ -150,6 +150,37 @@ module Janky
       end
     end
 
+    # Output is truncatable so that it fits in the database
+    #
+    # We can hit the column size limit or the MySQL max_allowed_packet limit
+    def self.output_limit
+      limits = []
+
+      column_limit = columns_hash['output'].limit
+      limits << column_limit unless column_limit.nil?
+
+      conn = connection
+      max_packet_limit = if conn.is_a? ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter
+        result = conn.execute("SHOW VARIABLES LIKE 'max_allowed_packet';")
+
+        variables = {}
+        result.each do |row|
+          variables.merge! Hash[*row]
+        end
+
+        # Remove 1KB from the max allowed packet for leeway, ensures large
+        # output combined with the other columns doesn't exceed the max allowed
+        # packet size
+        variables['max_allowed_packet'].to_i - 1024
+      else
+        nil
+      end
+
+      limits << max_packet_limit unless max_packet_limit.nil?
+
+      limits.min
+    end
+
     # Retrieve the build output from the Jenkins server.
     #
     # Returns the String output.
@@ -157,11 +188,11 @@ module Janky
       if started?
         output = builder.output(self)
 
-        output_limit = self.class.columns_hash['output'].limit
-        return output if output_limit.nil? || output.size < output_limit
+        limit = self.class.output_limit
+        return output if limit.nil? || output.size < limit
 
         truncation_warning = "This build's output is too long for Janky, reduce how much is logged so that it can be stored fully\n\n"
-        truncation_warning + output.slice((output.size - (output_limit - truncation_warning.size))..output.size)
+        truncation_warning + output.slice((output.size - (limit - truncation_warning.size))..output.size)
       end
     end
 
