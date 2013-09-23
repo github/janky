@@ -23,6 +23,17 @@ class JankyTest < Test::Unit::TestCase
     assert Janky::Notifier.success?("github", "master")
   end
 
+  test "green build with huge output" do
+    output_size = (Janky::Build.output_limit + 1000)
+
+    Janky::Builder.green_huge_output!(output_size)
+    gh_post_receive("github")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert Janky::Notifier.success?("github", "master")
+  end
+
   test "fail build" do
     Janky::Builder.red!
     gh_post_receive("github")
