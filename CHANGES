@@ -1,3 +1,8 @@
+= 0.10.2 / 2013-10-02
+
+ * Revert AR deprecation warnings
+ * Revert previous configure jobs throwing error change
+
 = 0.10.1 / 2013-09-20
 
  * Refresh landing page every 5 seconds for updates
