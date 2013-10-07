@@ -7,6 +7,7 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
   s.authors = ["Simon Rozet"]
   s.homepage = "https://github.com/github/janky"
   s.has_rdoc = false
+  s.license  = "MIT"
 
   s.post_install_message = <<-EOL
 If you are upgrading from Janky 0.9.13, you will want to add a JANKY_BRANCH parameter
@@ -17,7 +18,7 @@ EOL
   # runtime
   s.add_dependency "rake", "~>0.9.2"
   s.add_dependency "sinatra", "~>1.3"
-  s.add_dependency "sinatra_auth_github", "~>0.7.0"
+  s.add_dependency "sinatra_auth_github", "~>1.0.0"
   s.add_dependency "mustache", "~>0.11"
   s.add_dependency "yajl-ruby", "~>1.1.0"
   s.add_dependency "activerecord", "~>3.2.0"

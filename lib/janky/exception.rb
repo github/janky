@@ -23,31 +23,6 @@ module Janky
       )
     end
 
-    class Middleware
-      def initialize(app)
-        @app = app
-      end
-
-      def call(env)
-        request = Rack::Request.new(env)
-        Exception.reset!
-        Exception.push(
-          :app          => "janky",
-          :method       => request.request_method,
-          :user_agent   => request.user_agent,
-          :params       => (request.params.inspect rescue nil),
-          :session      => (request.session.inspect rescue nil),
-          :referrer     => request.referrer,
-          :remote_ip    => request.ip,
-          :url          => request.url
-        )
-        @app.call(env)
-      rescue Object => boom
-        Exception.report(boom)
-        raise
-      end
-    end
-
     class Logger
       def initialize(stream)
         @stream = stream

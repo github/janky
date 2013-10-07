@@ -1,12 +1,37 @@
+= 0.10.2 / 2013-10-02
+
+ * Revert AR deprecation warnings
+ * Revert previous configure jobs throwing error change
+
+= 0.10.1 / 2013-09-20
+
+ * Refresh landing page every 5 seconds for updates
+ * Previously configured jobs reconfigure instead of throwing errors
+ * Add an API endpoint to get a json response full of build statuses
+ * Fixup stupid AR deprecation warnings
+
+= 0.10.0 / 2013-09-19
+
+ * Upgrade sinatra_auth_github to work with latest octokit
+
+= 0.9.15 / 2013-07-25
+
+ * Upgrade sinatra_auth_github to make this work better with latest GitHub.com
+   requirements
+
+ * Truncate MD5 digests in job names to 12 characters
+
 = 0.9.14 / 2013-02-26
 
- * Many doc changes and improvements
+ * Many doc changes and improvements [Rob Sanheim]
 
  * Make the Jenkins job name human readable [Riley Guerin]
 
- * Added GithubStatus Notifier for GitHub Status API: see https://github.com/blog/1227-status-api
+ * Added GithubStatus Notifier for GitHub Status API.
+   See https://github.com/blog/1227-status-api [Rob Sainheim]
 
- * Added Build#queued_at for tracking when builds were queued vs actually built
+ * Added Build#queued_at for tracking when builds were queued vs actually
+   built. [Simon Rozet]
 
 = 0.9.13 / 2012-06-24
 

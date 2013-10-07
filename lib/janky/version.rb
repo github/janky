@@ -1,3 +1,3 @@
 module Janky
-  VERSION = "0.9.14"
+  VERSION = "0.10.1"
 end
