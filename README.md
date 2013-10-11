@@ -178,6 +178,10 @@ via the GitHub API:
 
 then set `JANKY_GITHUB_STATUS_TOKEN`.
 
+`username` and `password` in the above example should be the same as the
+values provided for `JANKY_GITHUB_USER` and `JANKY_GITHUB_PASSWORD`
+respectively.
+
 ### Chat notifications
 
 #### Campfire
