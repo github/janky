@@ -77,7 +77,7 @@ Installing
 
 Janky requires access to a Jenkins server. Version **1.427** is
 recommended. Refer to the Jenkins [documentation][doc] for installation
-instructions and install the [Notification Plugin][np] version 1.4. 
+instructions and install the [Notification Plugin][np] version 1.4.
 
 Remember to set the Jenkins URL in `http://your-jenkins-server.com/configure`.
 Janky will still trigger builds but will not update the build status without this set.
@@ -137,6 +137,7 @@ Required settings:
 * `JANKY_BUILDER_DEFAULT`: The Jenkins server URL **with** a trailing slash.
    Example: `http://jenkins.example.com/`. For basic auth, include the
    credentials in the URL: `http://user:pass@jenkins.example.com/`.
+   Using GitHub OAuth with Jenkins is not supported by Janky.
 * `JANKY_CONFIG_DIR`: Directory where build config templates are stored.
   Typically set to `/app/config` on Heroku.
 * `JANKY_HUBOT_USER`: Login used to protect the Hubot API.
@@ -176,6 +177,10 @@ via the GitHub API:
       https://api.github.com/authorizations
 
 then set `JANKY_GITHUB_STATUS_TOKEN`.
+
+`username` and `password` in the above example should be the same as the
+values provided for `JANKY_GITHUB_USER` and `JANKY_GITHUB_PASSWORD`
+respectively.
 
 ### Chat notifications
 
