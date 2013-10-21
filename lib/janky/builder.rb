@@ -89,6 +89,10 @@ module Janky
       builders.values.each { |b| b.green! }
     end
 
+    def self.green_huge_output!(size)
+      builders.values.each { |b| b.green_huge_output!(size) }
+    end
+
     def self.red!
       builders.values.each { |b| b.red! }
     end

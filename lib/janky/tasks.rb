@@ -8,9 +8,16 @@ module Janky
     namespace :db do
       desc "Run the migration(s)"
       task :migrate do
-        path = db_dir.join("migrate").to_s
         ActiveRecord::Migration.verbose = true
-        ActiveRecord::Migrator.migrate(path)
+        ActiveRecord::Migrator.migrate(migration_dir)
+
+        Rake::Task["db:schema:dump"].invoke
+      end
+
+      desc 'Rolls the schema back to the previous version.'
+      task :rollback do
+        ActiveRecord::Migration.verbose = true
+        ActiveRecord::Migrator.rollback(migration_dir, 1)
 
         Rake::Task["db:schema:dump"].invoke
       end
@@ -31,6 +38,10 @@ module Janky
 
     def self.db_dir
       @db_dir ||= Pathname(__FILE__).expand_path.join("../database")
+    end
+
+    def self.migration_dir
+      db_dir.join("migrate").to_s
     end
   end
 end

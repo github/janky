@@ -11,13 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1317384654) do
+ActiveRecord::Schema.define(:version => 20130920143818) do
 
   create_table "branches", :force => true do |t|
     t.string   "name",          :null => false
     t.integer  "repository_id", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   add_index "branches", ["name", "repository_id"], :name => "index_branches_on_name_and_repository_id", :unique => true
@@ -30,9 +30,9 @@ ActiveRecord::Schema.define(:version => 1317384654) do
     t.datetime "completed_at"
     t.integer  "commit_id",                                           :null => false
     t.integer  "branch_id",                                           :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "output"
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
+    t.text     "output",       :limit => 16777215
     t.integer  "room_id"
     t.string   "user"
     t.datetime "queued_at"
@@ -51,8 +51,8 @@ ActiveRecord::Schema.define(:version => 1317384654) do
     t.string   "author",        :null => false
     t.datetime "committed_at"
     t.integer  "repository_id", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.string   "url",           :null => false
   end
 
@@ -62,8 +62,8 @@ ActiveRecord::Schema.define(:version => 1317384654) do
     t.string   "name",                             :null => false
     t.string   "uri",                              :null => false
     t.integer  "room_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.boolean  "enabled",        :default => true, :null => false
     t.string   "hook_url"
     t.integer  "github_team_id"

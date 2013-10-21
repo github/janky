@@ -68,6 +68,11 @@ module Janky
         @adapter = Mock.new(false, Janky.app)
       end
 
+      # Simulate a huge build log, bigger than the supported max
+      def green_huge_output!(size)
+        @adapter = Mock.new(true, Janky.app, "t"*size)
+      end
+
       # Simulate the first callback. Only available when mocked.
       def start!
         @adapter.start

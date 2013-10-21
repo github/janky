@@ -1,9 +1,10 @@
 module Janky
   module Builder
     class Mock
-      def initialize(green, app)
+      def initialize(green, app, output=nil)
         @green    = green
         @app      = app
+        @output   = output
         @builds   = []
       end
 
@@ -16,8 +17,8 @@ module Janky
         @builds << [build_id, "#{url}/", @green]
       end
 
-      def output(build)
-        "....FFFUUUUUUU"
+      def output(output_url)
+        @output || "....FFFUUUUUUU"
       end
 
       def start
