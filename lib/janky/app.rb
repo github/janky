@@ -44,6 +44,12 @@ module Janky
       mustache :index
     end
 
+    get %r{\/\*\/([-_\+\.a-zA-z0-9\/]+)} do |branch_name|
+      authorize_index
+      @builds = Build.queued.where(:branch_id => Branch.where(:name => branch_name)).first(50)
+      mustache :index
+    end
+
     get "/:build_id/output" do |build_id|
       @build = Build.select(:output).find(build_id)
       authorize_repo(@build.repo)
@@ -58,7 +64,7 @@ module Janky
       mustache :index
     end
 
-    get %r{^(?!\/auth\/github\/callback)\/([-_\.0-9a-zA-Z]+)\/([-_\.a-zA-z0-9\/]+)} do |repo_name, branch|
+    get %r{^(?!\/auth\/github\/callback)\/([-_\.0-9a-zA-Z]+)\/([-_\+\.a-zA-z0-9\/]+)} do |repo_name, branch|
       repo = find_repo(repo_name)
       authorize_repo(repo)
 

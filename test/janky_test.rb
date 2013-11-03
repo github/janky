@@ -262,6 +262,32 @@ class JankyTest < Test::Unit::TestCase
     assert_equal 2, payload.size
   end
 
+  test "hubot status branch" do
+    gh_post_receive("github", "gh-pages")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert hubot_status.body.include?("no build")
+
+    status = hubot_status("*", "gh-pages").body
+    assert status.include?("github")
+    assert status.include?("green")
+    assert status.include?("builds")
+
+    hubot_build("github", "gh-pages")
+    assert hubot_status("*", "gh-pages").body.include?("green")
+
+    Janky::Builder.start!
+    assert hubot_status("*", "gh-pages").body.include?("building")
+
+    hubot_setup("github/janky")
+    assert hubot_status("*", "gh-pages").body.include?("no build")
+
+    hubot_setup("github/team")
+    gh_post_receive("team")
+    assert hubot_status("*", "gh-pages").ok?
+  end
+
   test "hubot last 1 builds" do
     3.times do
       gh_post_receive("github", "master")
