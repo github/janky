@@ -215,6 +215,16 @@ Installation:
 * `bundle`
 * `git commit -am "install hipchat"`
 
+#### Hubot
+
+* `JANKY_CHAT=hubot`
+* `JANKY_CHAT_HUBOT_URL`: the url to the hubot instance
+
+Installation:
+
+* Add `require "janky/chat_service/hubot"` to the `config/environment.rb` file
+  **before** the `Janky.setup(ENV)` line.
+
 ### Authentication
 
 To restrict access to members of a GitHub organization, [register a new

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1317384654) do
+ActiveRecord::Schema.define(:version => 1335992968) do
 
   create_table "branches", :force => true do |t|
     t.string   "name",          :null => false
@@ -23,19 +23,19 @@ ActiveRecord::Schema.define(:version => 1317384654) do
   add_index "branches", ["name", "repository_id"], :name => "index_branches_on_name_and_repository_id", :unique => true
 
   create_table "builds", :force => true do |t|
-    t.boolean  "green",                            :default => false
+    t.boolean  "green",        :default => false
     t.string   "url"
-    t.string   "compare",                                             :null => false
+    t.string   "compare",                         :null => false
     t.datetime "started_at"
     t.datetime "completed_at"
-    t.integer  "commit_id",                                           :null => false
-    t.integer  "branch_id",                                           :null => false
+    t.integer  "commit_id",                       :null => false
+    t.integer  "branch_id",                       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "output"
-    t.integer  "room_id"
     t.string   "user"
     t.datetime "queued_at"
+    t.text     "room"
   end
 
   add_index "builds", ["branch_id"], :name => "index_builds_on_branch_id"
@@ -61,12 +61,12 @@ ActiveRecord::Schema.define(:version => 1317384654) do
   create_table "repositories", :force => true do |t|
     t.string   "name",                             :null => false
     t.string   "uri",                              :null => false
-    t.integer  "room_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "enabled",        :default => true, :null => false
     t.string   "hook_url"
     t.integer  "github_team_id"
+    t.text     "room"
   end
 
   add_index "repositories", ["enabled"], :name => "index_repositories_on_enabled"
