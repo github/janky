@@ -1,7 +1,5 @@
 module Janky
   class Repository < ActiveRecord::Base
-    attr_accessor :job_template
-
     has_many :branches, :dependent => :destroy
     has_many :commits, :dependent => :destroy
     has_many :builds, :through => :branches
@@ -16,7 +14,8 @@ module Janky
       end
 
       if repo = Repository.find_by_name(nwo)
-        repo.setup(template)
+        repo.update_attributes!(:job_template => template)
+        repo.setup
         return repo
       end
 
@@ -29,13 +28,13 @@ module Janky
 
       repo =
         if repo = Repository.find_by_name(name)
-          repo.update_attributes!(:uri => uri)
+          repo.update_attributes!(:uri => uri, :job_template => template)
           repo
         else
-          Repository.create!(:name => name, :uri => uri)
+          Repository.create!(:name => name, :uri => uri, :job_template => template)
         end
 
-      repo.setup(template)
+      repo.setup
       repo
     end
 
@@ -135,8 +134,7 @@ module Janky
     # Setups GitHub and Jenkins for building this repository.
     #
     # Returns nothing.
-    def setup(template = nil)
-      @job_template = template
+    def setup
       setup_job
       setup_hook
     end
@@ -159,17 +157,17 @@ module Janky
       builder.setup(job_name, uri, job_config_path)
     end
 
-    # The path of the Jenkins configuration template. Try "<template>.xml.erb"
-    # first, "<repo-name>.xml.erb" second, and then fallback to
-    # "default.xml.erb" under the root config directory.
+    # The path of the Jenkins configuration template. Try
+    # "<job_template>.xml.erb" first, "<repo-name>.xml.erb" second, and then
+    # fallback to "default.xml.erb" under the root config directory.
     #
     # Returns the template path as a Pathname.
     def job_config_path
-      user_override = Janky.jobs_config_dir.join("#{@job_template.downcase}.xml.erb")
+      user_override = Janky.jobs_config_dir.join("#{job_template.downcase}.xml.erb") if job_template
       custom = Janky.jobs_config_dir.join("#{name.downcase}.xml.erb")
       default = Janky.jobs_config_dir.join("default.xml.erb")
 
-      if user_override.readable?
+      if user_override && user_override.readable?
         user_override
       elsif custom.readable?
         custom
