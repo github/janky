@@ -195,7 +195,7 @@ module Janky
       md5 << name
       md5 << uri
       md5 << builder.callback_url.to_s
-      "#{github_owner}-#{github_name}-#{md5.hexdigest}"
+      "#{name}-#{md5.hexdigest[0,12]}"
     end
   end
 end
