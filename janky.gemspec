@@ -16,7 +16,7 @@ https://github.com/github/janky/commit/0fc6214e3a75cc138aed46a2493980440e848aa3#
 EOL
 
   # runtime
-  s.add_dependency "rake", "~>0.9.2"
+  s.add_dependency "rake", "~>10.0"
   s.add_dependency "sinatra", "~>1.3"
   s.add_dependency "sinatra_auth_github", "~>1.0.0"
   s.add_dependency "mustache", "~>0.11"
