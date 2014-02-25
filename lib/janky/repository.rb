@@ -68,12 +68,47 @@ module Janky
 
     # Create or retrieve the given commit.
     #
-    # name - The Hash representation of the Commit.
+    # commit - The Hash representation of the Commit.
     #
     # Returns a Commit record.
     def commit_for(commit)
       commits.find_by_sha1(commit[:sha1]) ||
-        commits.create(commit)
+        commits.create!(commit)
+    end
+
+    def commit_for_sha(sha1)
+      commit_data = GitHub.commit(nwo, sha1)
+      commit_message = commit_data["commit"]["message"]
+      commit_url = github_url("commit/#{sha1}")
+      author_data = commit_data["commit"]["author"]
+      commit_author =
+        if email = author_data["email"]
+          "#{author_data["name"]} <#{email}>"
+        else
+          author_data["name"]
+        end
+
+      commit = commit_for({
+        :repository => self,
+        :sha1 => sha1,
+        :author => commit_author,
+        :message => commit_message,
+        :url => commit_url,
+      })
+    end
+
+    # Create a Janky::Build object given a sha
+    #
+    # sha1    - a string of the target sha to build
+    # user    - The login of the GitHub user who pushed.
+    # room_id - optional Fixnum Campfire room ID. Defaults to the room set on
+    # compare - optional String GitHub Compare View URL. Defaults to the
+    #
+    # Returns the newly created Janky::Build
+    def build_sha(sha1, user, room_id = nil, compare = nil)
+      return nil unless sha1 =~ /^[0-9a-fA-F]+$/
+      commit = commit_for_sha(sha1)
+      commit.build!(user, room_id, compare)
     end
 
     # Jenkins host executing this repo's builds.

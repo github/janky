@@ -38,6 +38,7 @@ module Janky
       room_id = (params["room_id"] && Integer(params["room_id"]) rescue nil)
       user    = params["user"]
       build   = branch.head_build_for(room_id, user)
+      build ||= repo.build_sha(branch_name, user, room_id)
 
       if build
         build.run
