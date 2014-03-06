@@ -143,10 +143,8 @@ module Janky
     #
     # Returns nothing.
     def setup_hook
-      if !hook_url || !GitHub.hook_exists?(hook_url)
-        url = GitHub.hook_create("#{github_owner}/#{github_name}")
-        update_attributes!(:hook_url => url)
-      end
+      url = GitHub.hook_create("#{github_owner}/#{github_name}")
+      update_attributes!(:hook_url => url)
     end
 
     # Creates a job on the Jenkins server for this repository configuration

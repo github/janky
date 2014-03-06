@@ -16,6 +16,14 @@ module Janky
         http.request(request)
       end
 
+      def delete(nwo)
+        path    = build_path(URI(hook_url).path)
+        request = Net::HTTP::Delete.new(path)
+        request.basic_auth(@user, @password)
+
+        http.request(request)
+      end
+
       def trigger(hook_url)
         path    = build_path(URI(hook_url).path + "/test")
         request = Net::HTTP::Post.new(path)

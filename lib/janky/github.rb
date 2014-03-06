@@ -116,6 +116,7 @@ module Janky
     # Returns the newly created hook URL as String when successful.
     # Raises an Error for any other response.
     def self.hook_create(nwo)
+      hook_delete(nwo)
       response = api.create(nwo, @secret, @hook_url)
 
       if response.code == "201"
@@ -126,12 +127,20 @@ module Janky
       end
     end
 
-    # Check existance of a hook.
-    # http://developer.github.com/v3/repos/hooks/#get-single-hook
+    # Delete a post-receive hook for the given repository.
     #
-    # url - Hook URL as a String.
-    def self.hook_exists?(url)
-      api.get(url).code == "200"
+    # nwo - qualified "owner/repo" name.
+    #
+    # Returns true or raises an exception.
+    def hook_delete(nwo)
+      response = api.delete(nwo)
+
+      if response.code == "201"
+        true
+      else
+        Exception.push_http_response(response)
+        raise Error, "Failed to delete hook"
+      end
     end
 
     # Default API implementation that goes over the wire (HTTP).
