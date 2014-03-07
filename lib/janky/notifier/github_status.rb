@@ -12,6 +12,14 @@ module Janky
         @api_url = URI(api_url)
       end
 
+      # Create a Pending Status for the Commit when it is queued.
+      def queued(build)
+        repo   = build.repo_nwo
+        path  = "repos/#{repo}/statuses/#{build.sha1}"
+
+        post(path, "pending", build.web_url, "Build ##{build.number} queued")
+      end
+
       # Create a Pending Status for the Commit when it starts.
       def started(build)
         repo   = build.repo_nwo
