@@ -132,7 +132,7 @@ module Janky
     # nwo - qualified "owner/repo" name.
     #
     # Returns true or raises an exception.
-    def hook_delete(nwo)
+    def self.hook_delete(nwo)
       response = api.delete(nwo)
 
       if response.code == "201"
