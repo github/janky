@@ -29,6 +29,7 @@ module Janky
       if !current_build || (current_build && current_build.red?)
         if @repo.enabled?
           build.run
+          Notifier.queued(build)
         end
       end
     end
