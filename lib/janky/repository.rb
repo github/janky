@@ -143,6 +143,10 @@ module Janky
     #
     # Returns nothing.
     def setup_hook
+      if self.hook_url? && GitHub.hook_exists?(self.hook_url)
+        GitHub.hook_delete(self.hook_url)
+      end
+
       url = GitHub.hook_create("#{github_owner}/#{github_name}")
       update_attributes!(:hook_url => url)
     end
