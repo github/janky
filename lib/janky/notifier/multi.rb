@@ -6,6 +6,12 @@ module Janky
         @notifiers = notifiers
       end
 
+      def queued(build)
+        @notifiers.each do |notifier|
+          notifier.queued(build) if notifier.respond_to?(:queued)
+        end
+      end
+
       def started(build)
         @notifiers.each do |notifier|
           notifier.started(build) if notifier.respond_to?(:started)
