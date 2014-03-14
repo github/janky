@@ -8,6 +8,9 @@ module Janky
 
       attr_reader :notifications
 
+      def queued(build)
+      end
+
       def reset!
         @notifications.clear
       end
