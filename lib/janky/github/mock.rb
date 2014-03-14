@@ -33,6 +33,10 @@ module Janky
         Response.new("200")
       end
 
+      def delete(url)
+        Response.new("204")
+      end
+
       def repo_get(nwo)
         repo = {
           "name"    => nwo.split("/").last,
