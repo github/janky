@@ -11,7 +11,7 @@ module Janky
       select(columns)
     end
 
-    scope :building, -> {
+    scope :building, lambda {
       where("started_at IS NOT NULL AND completed_at IS NULL")
     }
 
