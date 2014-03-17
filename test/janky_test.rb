@@ -294,6 +294,20 @@ class JankyTest < Test::Unit::TestCase
     assert hubot_build("github", "rails3").not_found?
   end
 
+  test "hubot build sha" do
+    gh_post_receive("github", "master", 'deadbeef')
+    gh_post_receive("github", "master", 'cafebabe')
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_equal "cafebabe", hubot_latest_build_sha("github", "master")
+
+    hubot_build("github", "deadbeef")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+    assert_equal "deadbeef", hubot_latest_build_sha("github", "master")
+  end
+
   test "getting latest commit" do
     gh_post_receive("github", "master")
     Janky::Builder.start!

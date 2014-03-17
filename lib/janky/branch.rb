@@ -90,24 +90,7 @@ module Janky
       sha_to_build = GitHub.branch_head_sha(repository.nwo, name)
       return if !sha_to_build
 
-      commit_data = GitHub.commit(repository.nwo, sha_to_build)
-      commit_message = commit_data["commit"]["message"]
-      commit_url = repository.github_url("commit/#{sha_to_build}")
-      author_data = commit_data["commit"]["author"]
-      commit_author =
-        if email = author_data["email"]
-          "#{author_data["name"]} <#{email}>"
-        else
-          author_data["name"]
-        end
-
-      commit = repository.commit_for({
-        :repository => repository,
-        :sha1 => sha_to_build,
-        :author => commit_author,
-        :message => commit_message,
-        :url => commit_url,
-      })
+      commit = repository.commit_for_sha(sha_to_build)
 
       current_sha = current_build ? current_build.sha1 : "#{sha_to_build}^"
       compare_url = repository.github_url("compare/#{current_sha}...#{commit.sha1}")
