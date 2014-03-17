@@ -117,6 +117,12 @@ module Janky
       res.to_json
     end
 
+    delete %r{\/([-_\.0-9a-zA-Z]+)} do |repo_name|
+      repo   = find_repo(repo_name)
+      repo.destroy
+      "Janky project #{repo_name} deleted"
+    end
+
     # Get the status of a repository's branch.
     get %r{\/([-_\.0-9a-zA-Z]+)\/([-_\+\.a-zA-z0-9\/]+)} do |repo_name, branch_name|
       limit = params["limit"]
@@ -146,6 +152,7 @@ ci status janky
 ci status janky/master
 ci builds limit [building]
 ci show janky
+ci delete janky
 EOS
     end
 
