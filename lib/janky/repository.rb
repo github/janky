@@ -106,7 +106,7 @@ module Janky
     #
     # Returns the newly created Janky::Build
     def build_sha(sha1, user, room_id = nil, compare = nil)
-      return nil unless sha1 =~ /^[0-9a-fA-F]+$/
+      return nil unless sha1 =~ /^[0-9a-fA-F]{7,40}$/
       commit = commit_for_sha(sha1)
       commit.build!(user, room_id, compare)
     end
