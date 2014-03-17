@@ -101,6 +101,22 @@ module Janky
       builds.to_json
     end
 
+    # Get information about how a project is configured
+    get %r{\/show\/([-_\.0-9a-zA-Z]+)} do |repo_name|
+      repo   = find_repo(repo_name)
+      res = {
+        :name => repo.name,
+        :configured_job_template => repo.job_template,
+        :used_job_template => repo.job_config_path.basename.to_s,
+        :repo => repo.uri,
+        :room_id => repo.room_id,
+        :enabled => repo.enabled,
+        :hook_url => repo.hook_url
+      }
+      pp res
+      res.to_json
+    end
+
     # Get the status of a repository's branch.
     get %r{\/([-_\.0-9a-zA-Z]+)\/([-_\+\.a-zA-z0-9\/]+)} do |repo_name, branch_name|
       limit = params["limit"]
@@ -129,6 +145,7 @@ ci status
 ci status janky
 ci status janky/master
 ci builds limit [building]
+ci show janky
 EOS
     end
 
