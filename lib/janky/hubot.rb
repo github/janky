@@ -12,11 +12,12 @@ module Janky
     post "/setup" do
       nwo  = params["nwo"]
       name = params["name"]
-      repo = Repository.setup(nwo, name)
+      tmpl = params["template"]
+      repo = Repository.setup(nwo, name, tmpl)
 
       if repo
         url  = "#{settings.base_url}#{repo.name}"
-        [201, "Setup #{repo.name} at #{repo.uri} | #{url}"]
+        [201, "Setup #{repo.name} at #{repo.uri} with #{repo.job_config_path.basename} | #{url}"]
       else
         [400, "Couldn't access #{nwo}. Check the permissions."]
       end
@@ -37,6 +38,7 @@ module Janky
       room_id = (params["room_id"] && Integer(params["room_id"]) rescue nil)
       user    = params["user"]
       build   = branch.head_build_for(room_id, user)
+      build ||= repo.build_sha(branch_name, user, room_id)
 
       if build
         build.run
@@ -100,6 +102,28 @@ module Janky
       builds.to_json
     end
 
+    # Get information about how a project is configured
+    get %r{\/show\/([-_\.0-9a-zA-Z]+)} do |repo_name|
+      repo   = find_repo(repo_name)
+      res = {
+        :name => repo.name,
+        :configured_job_template => repo.job_template,
+        :used_job_template => repo.job_config_path.basename.to_s,
+        :repo => repo.uri,
+        :room_id => repo.room_id,
+        :enabled => repo.enabled,
+        :hook_url => repo.hook_url
+      }
+      pp res
+      res.to_json
+    end
+
+    delete %r{\/([-_\.0-9a-zA-Z]+)} do |repo_name|
+      repo   = find_repo(repo_name)
+      repo.destroy
+      "Janky project #{repo_name} deleted"
+    end
+
     # Get the status of a repository's branch.
     get %r{\/([-_\.0-9a-zA-Z]+)\/([-_\+\.a-zA-z0-9\/]+)} do |repo_name, branch_name|
       limit = params["limit"]
@@ -120,6 +144,7 @@ module Janky
 ci build janky
 ci build janky/fix-everything
 ci setup github/janky [name]
+ci setup github/janky name template
 ci toggle janky
 ci rooms
 ci set room janky development
@@ -127,6 +152,8 @@ ci status
 ci status janky
 ci status janky/master
 ci builds limit [building]
+ci show janky
+ci delete janky
 EOS
     end
 

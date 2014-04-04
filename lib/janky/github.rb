@@ -134,6 +134,22 @@ module Janky
       api.get(url).code == "200"
     end
 
+    # Delete a post-receive hook for the given repository.
+    #
+    # hook_url - The repository's hook_url
+    #
+    # Returns true or raises an exception.
+    def self.hook_delete(url)
+      response = api.delete(url)
+
+      if response.code == "204"
+        true
+      else
+        Exception.push_http_response(response)
+        raise Error, "Failed to delete hook"
+      end
+    end
+
     # Default API implementation that goes over the wire (HTTP).
     #
     # Returns nothing.

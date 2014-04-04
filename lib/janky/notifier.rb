@@ -9,6 +9,15 @@ module Janky
       @adapter = Multi.new(Array(notifiers))
     end
 
+    # Called whenever a build is queued
+    #
+    # build - the Build record.
+    #
+    # Returns nothing
+    def self.queued(build)
+      adapter.queued(build)
+    end
+
     # Called whenever a build starts.
     #
     # build - the Build record.

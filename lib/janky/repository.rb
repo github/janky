@@ -8,12 +8,13 @@ module Janky
 
     default_scope(order("name"))
 
-    def self.setup(nwo, name = nil)
+    def self.setup(nwo, name = nil, template = nil)
       if nwo.nil?
         raise ArgumentError, "nwo can't be nil"
       end
 
       if repo = Repository.find_by_name(nwo)
+        repo.update_attributes!(:job_template => template)
         repo.setup
         return repo
       end
@@ -27,10 +28,10 @@ module Janky
 
       repo =
         if repo = Repository.find_by_name(name)
-          repo.update_attributes!(:uri => uri)
+          repo.update_attributes!(:uri => uri, :job_template => template)
           repo
         else
-          Repository.create!(:name => name, :uri => uri)
+          Repository.create!(:name => name, :uri => uri, :job_template => template)
         end
 
       repo.setup
@@ -67,12 +68,47 @@ module Janky
 
     # Create or retrieve the given commit.
     #
-    # name - The Hash representation of the Commit.
+    # commit - The Hash representation of the Commit.
     #
     # Returns a Commit record.
     def commit_for(commit)
       commits.find_by_sha1(commit[:sha1]) ||
-        commits.create(commit)
+        commits.create!(commit)
+    end
+
+    def commit_for_sha(sha1)
+      commit_data = GitHub.commit(nwo, sha1)
+      commit_message = commit_data["commit"]["message"]
+      commit_url = github_url("commit/#{sha1}")
+      author_data = commit_data["commit"]["author"]
+      commit_author =
+        if email = author_data["email"]
+          "#{author_data["name"]} <#{email}>"
+        else
+          author_data["name"]
+        end
+
+      commit = commit_for({
+        :repository => self,
+        :sha1 => sha1,
+        :author => commit_author,
+        :message => commit_message,
+        :url => commit_url,
+      })
+    end
+
+    # Create a Janky::Build object given a sha
+    #
+    # sha1    - a string of the target sha to build
+    # user    - The login of the GitHub user who pushed.
+    # room_id - optional Fixnum Campfire room ID. Defaults to the room set on
+    # compare - optional String GitHub Compare View URL. Defaults to the
+    #
+    # Returns the newly created Janky::Build
+    def build_sha(sha1, user, room_id = nil, compare = nil)
+      return nil unless sha1 =~ /^[0-9a-fA-F]{7,40}$/
+      commit = commit_for_sha(sha1)
+      commit.build!(user, room_id, compare)
     end
 
     # Jenkins host executing this repo's builds.
@@ -142,10 +178,12 @@ module Janky
     #
     # Returns nothing.
     def setup_hook
-      if !hook_url || !GitHub.hook_exists?(hook_url)
-        url = GitHub.hook_create("#{github_owner}/#{github_name}")
-        update_attributes!(:hook_url => url)
+      if self.hook_url? && GitHub.hook_exists?(self.hook_url)
+        GitHub.hook_delete(self.hook_url)
       end
+
+      url = GitHub.hook_create("#{github_owner}/#{github_name}")
+      update_attributes!(:hook_url => url)
     end
 
     # Creates a job on the Jenkins server for this repository configuration
@@ -156,15 +194,19 @@ module Janky
       builder.setup(job_name, uri, job_config_path)
     end
 
-    # The path of the Jenkins configuration template. Try "<repo-name>.xml.erb"
-    # first then fallback to "default.xml.erb" under the root config directory.
+    # The path of the Jenkins configuration template. Try
+    # "<job_template>.xml.erb" first, "<repo-name>.xml.erb" second, and then
+    # fallback to "default.xml.erb" under the root config directory.
     #
     # Returns the template path as a Pathname.
     def job_config_path
+      user_override = Janky.jobs_config_dir.join("#{job_template.downcase}.xml.erb") if job_template
       custom = Janky.jobs_config_dir.join("#{name.downcase}.xml.erb")
       default = Janky.jobs_config_dir.join("default.xml.erb")
 
-      if custom.readable?
+      if user_override && user_override.readable?
+        user_override
+      elsif custom.readable?
         custom
       elsif default.readable?
         default
