@@ -7,9 +7,10 @@ module Janky
     # "success" or "failure" when the build is complete.
     class GithubStatus
       # Initialize with an OAuth token to POST Statuses with
-      def initialize(token, api_url)
+      def initialize(token, api_url, context = nil)
         @token = token
         @api_url = URI(api_url)
+        @context = context
       end
 
       # Create a Pending Status for the Commit when it is queued.
@@ -52,11 +53,18 @@ module Janky
         post["Content-Type"] = "application/json"
         post["Authorization"] = "token #{@token}"
 
-        post.body = {
+        body = {
           :state => status,
           :target_url => url,
           :description => desc,
-        }.to_json
+        }
+
+        unless @context.nil?
+          post["Accept"] = "application/vnd.github.she-hulk-preview+json"
+          body[:context] = @context
+        end
+
+        post.body = body.to_json
 
         http.request(post)
       end
