@@ -49,7 +49,7 @@ module Janky
       end
 
       def branch(nwo, branch)
-        path    = build_path("repos/#{nwo}/commit/#{branch}")
+        path    = build_path("repos/#{nwo}/commits/#{branch}")
         request = Net::HTTP::Get.new(path)
         request.basic_auth(@user, @password)
 
