@@ -67,16 +67,10 @@ module Janky
     #
     # Returns the SHA1 as a String or nil when the branch doesn't exists.
     def self.branch_head_sha(nwo, branch)
-      response = api.branches(nwo)
+      response = api.branch(nwo, branch)
 
-      if response.code != "200"
-        Exception.push_http_response(response)
-        raise Error, "Failed to get branches"
-      end
-
-      branches = Yajl.load(response.body)
-      branch   = branches.detect { |b| b["name"] == branch }
-      branch && branch["commit"]["sha"]
+      branch = Yajl.load(response.body)
+      branch && branch["sha"]
     end
 
     # Fetch commit details for the given SHA1.
