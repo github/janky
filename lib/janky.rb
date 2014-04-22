@@ -203,8 +203,9 @@ module Janky
     ChatService.setup(chat_name, chat_settings, chat_room)
 
     if token = settings["JANKY_GITHUB_STATUS_TOKEN"]
+      context = settings["JANKY_GITHUB_STATUS_CONTEXT"]
       Notifier.setup([
-        Notifier::GithubStatus.new(token, api_url),
+        Notifier::GithubStatus.new(token, api_url, context),
         Notifier::ChatService
       ])
     else
