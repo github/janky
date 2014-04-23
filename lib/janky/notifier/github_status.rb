@@ -59,6 +59,10 @@ module Janky
           :description => desc,
         }
 
+        unless build.repository.context.nil?
+          @context = build.repository.context
+        end
+
         unless @context.nil?
           post["Accept"] = "application/vnd.github.she-hulk-preview+json"
           body[:context] = @context
