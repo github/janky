@@ -66,6 +66,19 @@ module Janky
       end
     end
 
+    # Update a repository's context
+    put %r{\/([-_\.0-9a-zA-Z]+)\/context} do |repo_name|
+      context = params["context"]
+      repo = find_repo(repo_name)
+
+      if repo
+        repo.context = context
+        [200, "Context #{context} set for #{repo_name}"]
+      else
+        [404, "Unknown Repository #{repo_name}"]
+      end
+    end
+
     # Get the status of all projects.
     get "/" do
       content_type "text/plain"
@@ -122,6 +135,18 @@ module Janky
       repo   = find_repo(repo_name)
       repo.destroy
       "Janky project #{repo_name} deleted"
+    end
+
+    # Delete a repository's context
+    delete %r{\/([-_\.0-9a-zA-Z]+)\/context} do |repo_name|
+      repo = find_repo(repo_name)
+
+      if repo
+        repo.context = nil
+        [200, "Context removed for #{repo_name}"]
+      else
+        [404, "Unknown Repository #{repo_name}"]
+      end
     end
 
     # Get the status of a repository's branch.
