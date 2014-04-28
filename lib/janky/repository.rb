@@ -4,6 +4,8 @@ module Janky
     has_many :commits, :dependent => :destroy
     has_many :builds, :through => :branches
 
+    after_commit :delete_hook, :on => :destroy
+
     replicate_associations :builds, :commits, :branches
 
     default_scope(order("name"))
@@ -178,12 +180,16 @@ module Janky
     #
     # Returns nothing.
     def setup_hook
-      if self.hook_url? && GitHub.hook_exists?(self.hook_url)
-        GitHub.hook_delete(self.hook_url)
-      end
+      delete_hook
 
       url = GitHub.hook_create("#{github_owner}/#{github_name}")
       update_attributes!(:hook_url => url)
+    end
+
+    def delete_hook
+      if self.hook_url? && GitHub.hook_exists?(self.hook_url)
+        GitHub.hook_delete(self.hook_url)
+      end
     end
 
     # Creates a job on the Jenkins server for this repository configuration
