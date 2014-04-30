@@ -221,6 +221,22 @@ Installation:
 * `bundle`
 * `git commit -am "install hipchat"`
 
+#### Slack
+
+Required settings:
+
+* `JANKY_CHAT=slack`
+* `JANKY_CHAT_SLACK_TEAM`: slack team name
+* `JANKY_CHAT_SLACK_TOKEN`: authentication token for the user sending build notifications.
+
+Installation:
+
+* Add `require "janky/chat_service/slack"` to the `config/environment.rb`
+  file **before** the `Janky.setup(ENV)` line.
+* `echo 'gem "slack-ruby"' >> Gemfile`
+* `bundle`
+* `git commit -am "install slack"`
+
 #### Hubot
 
 Sends notifications to Hubot via [janky script](http://git.io/hubot-janky).
