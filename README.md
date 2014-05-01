@@ -233,7 +233,7 @@ Installation:
 
 * Add `require "janky/chat_service/slack"` to the `config/environment.rb`
   file **before** the `Janky.setup(ENV)` line.
-* `echo 'gem "slack-ruby"' >> Gemfile`
+* `echo 'gem "slack.rb"' >> Gemfile`
 * `bundle`
 * `git commit -am "install slack"`
 
