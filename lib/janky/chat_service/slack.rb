@@ -30,4 +30,6 @@ module Janky
       end
     end
   end
+
+  register_chat_service "slack", ChatService::Slack
 end
