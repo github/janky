@@ -109,7 +109,8 @@ module Janky
       :username  => database.user,
       :password  => database.password,
       :host      => database.host,
-      :port      => database.port
+      :port      => database.port,
+      :reconnect => true,
     }
     if socket = settings["JANKY_DATABASE_SOCKET"]
       connection[:socket] = socket
