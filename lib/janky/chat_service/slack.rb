@@ -20,7 +20,7 @@ module Janky
       end
 
       def speak(message, room_id, options = {})
-        @client.post_message(room_id, message, options)
+        @client.post_message(message, room_id, options)
       end
 
       def rooms
