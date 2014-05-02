@@ -1,4 +1,4 @@
-class AddRepoContext < ActiveRecord::Migration
+class AddContext < ActiveRecord::Migration
   def self.up
     add_column :repositories, :context, :string, :null => true
   end
