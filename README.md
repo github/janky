@@ -180,7 +180,9 @@ via the GitHub API:
       -d '{ "scopes": [ "repo:status" ], "note": "janky" }' \
       https://api.github.com/authorizations
 
-then set `JANKY_GITHUB_STATUS_TOKEN`.
+then set `JANKY_GITHUB_STATUS_TOKEN`.  Optionally, you can also set
+`JANKY_GITHUB_STATUS_CONTEXT` to send a context to the GitHub API by
+default
 
 `username` and `password` in the above example should be the same as the
 values provided for `JANKY_GITHUB_USER` and `JANKY_GITHUB_PASSWORD`
