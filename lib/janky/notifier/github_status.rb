@@ -10,7 +10,7 @@ module Janky
       def initialize(token, api_url, context = nil)
         @token = token
         @api_url = URI(api_url)
-        @context = context
+        @default_context = context
       end
 
       # Create a Pending Status for the Commit when it is queued.
@@ -59,13 +59,15 @@ module Janky
           :description => desc,
         }
 
+        context = @default_context
+
         unless build.repository.context.nil?
-          @context = build.repository.context
+          context = build.repository.context
         end
 
-        unless @context.nil?
+        unless context.nil?
           post["Accept"] = "application/vnd.github.she-hulk-preview+json"
-          body[:context] = @context
+          body[:context] = context
         end
 
         post.body = body.to_json
