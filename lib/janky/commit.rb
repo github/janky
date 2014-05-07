@@ -10,7 +10,7 @@ module Janky
     def build!(user, room_id = nil, compare = nil)
       compare = repository.github_url("compare/#{sha1}^...#{sha1}")
 
-      if room_id.nil? || room_id.zero?
+      if room_id.nil? || room_id.empty?
         room_id = repository.room_id
       end
 

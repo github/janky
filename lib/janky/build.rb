@@ -131,7 +131,7 @@ module Janky
     # Run a copy of itself. Typically used to force a build in case of
     # temporary test failure or when auto-build is disabled.
     #
-    # new_room_id - optional Campfire room Fixnum ID. Defaults to the room of the
+    # new_room_id - optional Campfire room String ID. Defaults to the room of the
     #               build being re-run.
     #
     # Returns the build copy.
