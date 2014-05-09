@@ -174,6 +174,8 @@ ci setup github/janky name template
 ci toggle janky
 ci rooms
 ci set room janky development
+ci set context janky ci/janky
+ci unset context janky
 ci status
 ci status janky
 ci status janky/master
