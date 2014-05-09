@@ -15,6 +15,7 @@ require "yajl/json_gem"
 require "tilt"
 require "broach"
 require "sinatra/auth/github"
+require "pp"
 
 require "janky/repository"
 require "janky/branch"
@@ -51,6 +52,7 @@ require "janky/app"
 require "janky/views/layout"
 require "janky/views/index"
 require "janky/views/console"
+
 
 # This is Janky, a continuous integration server. Checkout the 'app'
 # method on this module for an overview of the different components

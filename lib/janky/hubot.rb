@@ -125,7 +125,8 @@ module Janky
         :repo => repo.uri,
         :room_id => repo.room_id,
         :enabled => repo.enabled,
-        :hook_url => repo.hook_url
+        :hook_url => repo.hook_url,
+        :context => repo.context
       }
       pp res
       res.to_json
