@@ -13,12 +13,16 @@ module Janky
         @default_context = context
       end
 
+      def context(build)
+        build.repository.context || @default_context
+      end
+
       # Create a Pending Status for the Commit when it is queued.
       def queued(build)
         repo   = build.repo_nwo
         path  = "repos/#{repo}/statuses/#{build.sha1}"
 
-        post(path, "pending", build.web_url, "Build ##{build.number} queued")
+        post(path, "pending", build.web_url, "Build ##{build.number} queued", context(build))
       end
 
       # Create a Pending Status for the Commit when it starts.
@@ -26,7 +30,7 @@ module Janky
         repo   = build.repo_nwo
         path  = "repos/#{repo}/statuses/#{build.sha1}"
 
-        post(path, "pending", build.web_url, "Build ##{build.number} started")
+        post(path, "pending", build.web_url, "Build ##{build.number} started", context(build))
       end
 
       # Create a Success or Failure Status for the Commit.
@@ -40,11 +44,11 @@ module Janky
           when "failure" then "Build ##{build.number} failed in #{build.duration}s"
         end
 
-        post(path, status, build.web_url, desc)
+        post(path, status, build.web_url, desc, context(build))
       end
 
       # Internal: POST the new status to the API
-      def post(path, status, url, desc)
+      def post(path, status, url, desc, context = nil)
         http = Net::HTTP.new(@api_url.host, @api_url.port)
         post = Net::HTTP::Post.new("#{@api_url.path}#{path}")
 
@@ -58,8 +62,6 @@ module Janky
           :target_url => url,
           :description => desc,
         }
-
-        context = build.repository.context || @default_context
 
         unless context.nil?
           post["Accept"] = "application/vnd.github.she-hulk-preview+json"
