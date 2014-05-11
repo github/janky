@@ -15,7 +15,7 @@ module Janky
           build.web_url
         ]
 
-        ::Janky::ChatService.speak(message, build.room_id, {:color => color})
+        ::Janky::ChatService.speak(message, build.room_id, {:color => color, :build => build})
       end
     end
   end
