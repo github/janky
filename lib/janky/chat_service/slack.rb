@@ -16,7 +16,7 @@ module Janky
           raise Error, "JANKY_CHAT_SLACK_TOKEN setting is required"
         end
 
-        @client = ::Slack::Client.new(team, token)
+        @client = ::Slack::Client.new(team: team, token: token)
       end
 
       def speak(message, room_id, options = {})
