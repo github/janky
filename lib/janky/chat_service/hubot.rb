@@ -14,6 +14,12 @@ module Janky
         request(message, room)
       end
 
+      def rooms
+        ENV['JANKY_CHAT_HUBOT_ROOMS'].split(',').map do |room|
+          Room.new(room, room)
+        end
+      end
+
       def request(message, room)
         uri  = @url
         user = uri.user
