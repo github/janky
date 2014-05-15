@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1317384655) do
+ActiveRecord::Schema.define(:version => 1400144784) do
 
   create_table "branches", :force => true do |t|
     t.string   "name",          :null => false
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(:version => 1317384655) do
   create_table "repositories", :force => true do |t|
     t.string   "name",                             :null => false
     t.string   "uri",                              :null => false
-    t.integer  "room_id"
+    t.string   "room_id"
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
     t.boolean  "enabled",        :default => true, :null => false
