@@ -114,7 +114,6 @@ module Janky
         :enabled => repo.enabled,
         :hook_url => repo.hook_url
       }
-      pp res
       res.to_json
     end
 
