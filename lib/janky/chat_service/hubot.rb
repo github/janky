@@ -3,6 +3,8 @@ module Janky
   module ChatService
     class Hubot
       def initialize(settings)
+        @available_rooms = settings["JANKY_CHAT_HUBOT_ROOMS"]
+
         url = settings["JANKY_CHAT_HUBOT_URL"]
         if url.nil? || url.empty?
           raise Error, "JANKY_CHAT_HUBOT_URL setting is required"
@@ -15,8 +17,10 @@ module Janky
       end
 
       def rooms
-        ENV['JANKY_CHAT_HUBOT_ROOMS'].split(',').map do |room|
-          Room.new(room, room)
+        @available_rooms.split(',').map do |room|
+          id, name = room.strip.split(':')
+          name ||= id
+          Room.new(id, name)
         end
       end
 
