@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(:version => 1400144784) do
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
     t.text     "output"
-    t.integer  "room_id"
+    t.string   "room_id"
     t.string   "user"
     t.datetime "queued_at"
   end
