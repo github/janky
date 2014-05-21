@@ -230,8 +230,6 @@ Required settings:
   * For IRC: Comma-separated list of channels `"#room, #another-room"`
   * For Campfire/HipChat: List with room id and name `"34343:room, 23223:another-room"`
 
-[Campfire]: http://campfirenow.com/
-
 ### Authentication
 
 To restrict access to members of a GitHub organization, [register a new
