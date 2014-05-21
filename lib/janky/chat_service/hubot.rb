@@ -1,4 +1,3 @@
-# based on https://github.com/francois2metz/janky
 module Janky
   module ChatService
     class Hubot
