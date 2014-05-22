@@ -72,7 +72,7 @@ module Janky
       repo = find_repo(repo_name)
 
       if repo
-        repo.context = context
+        repo.update_attributes!(:context => context)
         [200, "Context #{context} set for #{repo_name}"]
       else
         [404, "Unknown Repository #{repo_name}"]
@@ -128,7 +128,6 @@ module Janky
         :hook_url => repo.hook_url,
         :context => repo.context
       }
-      pp res
       res.to_json
     end
 
@@ -143,7 +142,7 @@ module Janky
       repo = find_repo(repo_name)
 
       if repo
-        repo.context = nil
+        repo.update_attributes!(:context => nil)
         [200, "Context removed for #{repo_name}"]
       else
         [404, "Unknown Repository #{repo_name}"]

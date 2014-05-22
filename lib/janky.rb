@@ -15,7 +15,6 @@ require "yajl/json_gem"
 require "tilt"
 require "broach"
 require "sinatra/auth/github"
-require "pp"
 
 require "janky/repository"
 require "janky/branch"
