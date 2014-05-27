@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1317384655) do
+ActiveRecord::Schema.define(:version => 1398262033) do
 
   create_table "branches", :force => true do |t|
     t.string   "name",          :null => false
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(:version => 1317384655) do
     t.string   "hook_url"
     t.integer  "github_team_id"
     t.string   "job_template"
+    t.string   "context"
   end
 
   add_index "repositories", ["enabled"], :name => "index_repositories_on_enabled"
