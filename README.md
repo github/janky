@@ -221,6 +221,17 @@ Installation:
 * `bundle`
 * `git commit -am "install hipchat"`
 
+#### Hubot
+
+Sends notifications to Hubot via [janky script](http://git.io/hubot-janky).
+
+Required settings:
+
+* `JANKY_CHAT_HUBOT_URL`: URL to your Hubot instance.
+* `JANKY_CHAT_HUBOT_ROOMS`: List of rooms which can be set via `ci set room`.
+  * For IRC: Comma-separated list of channels `"#room, #another-room"`
+  * For Campfire/HipChat: List with room id and name `"34343:room, 23223:another-room"`
+
 ### Authentication
 
 To restrict access to members of a GitHub organization, [register a new
