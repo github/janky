@@ -14,7 +14,11 @@ module Janky
       end
 
       def context(build)
-        build.repository.context || @default_context
+        repository_context(build.repository) || @default_context
+      end
+
+      def repository_context(repository)
+        repository && repository.context
       end
 
       # Create a Pending Status for the Commit when it is queued.
