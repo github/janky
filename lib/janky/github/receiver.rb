@@ -49,7 +49,7 @@ module Janky
         digest    = OpenSSL::Digest::Digest.new("sha1")
         signature = @request.env["HTTP_X_HUB_SIGNATURE"].split("=").last
 
-        signature == OpenSSL::HMAC.hexdigest(digest, @secret, data)
+        Rack::Utils.secure_compare(signature, OpenSSL::HMAC.hexdigest(digest, @secret, data))
       end
 
       def payload
