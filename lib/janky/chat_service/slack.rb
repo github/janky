@@ -3,9 +3,6 @@ require "slack"
 module Janky
   module ChatService
     class Slack
-      Attachment = Struct.new(:fallback, :text, :pretext, :color, :mrkdwn_in, :fields)
-      AttachmentField = Struct.new(:title, :value, :short)
-
       def initialize(settings)
         team = settings["JANKY_CHAT_SLACK_TEAM"]
 
@@ -52,12 +49,12 @@ module Janky
           status
         ]
 
-        janky_field = AttachmentField.new("Janky", build.web_url, false)
-        commit_field = AttachmentField.new("Commit", "<#{build.commit_url}|#{build.short_sha1}>", true)
-        duration_field = AttachmentField.new("Duration", "#{build.duration}s", true)
+        janky_field = ::Slack::AttachmentField.new("Janky", build.web_url, false)
+        commit_field = ::Slack::AttachmentField.new("Commit", "<#{build.commit_url}|#{build.short_sha1}>", true)
+        duration_field = ::Slack::AttachmentField.new("Duration", "#{build.duration}s", true)
         fields = [janky_field.to_h, commit_field.to_h, duration_field.to_h]
 
-        [Attachment.new(fallback, message, nil, color, ["text", "title", "fallback"], fields)]
+        [::Slack::Attachment.new(fallback, message, nil, color, ["text", "title", "fallback"], fields)]
       end
     end
   end
