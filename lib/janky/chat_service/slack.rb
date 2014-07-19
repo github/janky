@@ -23,10 +23,12 @@ module Janky
       end
 
       def speak(message, room_id, options = {})
+        room_name = ChatService.room_name(room_id) || room_id
+
         if options[:build].present?
-          @client.post_message(nil, room_id, {attachments: attachments(message, options[:build])})
+          @client.post_message(nil, room_name, {attachments: attachments(message, options[:build])})
         else
-          @client.post_message(message, room_id, options)
+          @client.post_message(message, room_name, options)
         end
       end
 
