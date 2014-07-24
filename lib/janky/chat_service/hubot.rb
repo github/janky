@@ -3,7 +3,7 @@ module Janky
     class Hubot
       def initialize(settings)
         @available_rooms = settings["JANKY_CHAT_HUBOT_ROOMS"]
-        @default_room = settings["JANKY_CHAT_DEFAULT_ROOM"]
+        @default_room = settings["JANKY_CHAT_HUBOT_DEFAULT_ROOM"]
         url = settings["JANKY_CHAT_HUBOT_URL"]
         if url.nil? || url.empty?
           raise Error, "JANKY_CHAT_HUBOT_URL setting is required"
