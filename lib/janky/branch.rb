@@ -66,7 +66,8 @@ module Janky
         compare = build.compare
       end
 
-      if room_id.nil? || room_id.empty?
+      room_id = room_id.to_s
+      if room_id.empty? || room_id == "0"
         room_id = repository.room_id
       end
 

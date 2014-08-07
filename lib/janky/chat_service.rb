@@ -62,7 +62,7 @@ module Janky
     #
     # Returns the name as a String or nil when not found.
     def self.room_name(id)
-      if room = rooms.detect { |room| room.id == id }
+      if room = rooms.detect { |room| room.id.to_s == id.to_s }
         room.name
       end
     end
