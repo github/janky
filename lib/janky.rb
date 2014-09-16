@@ -208,7 +208,8 @@ module Janky
       context = settings["JANKY_GITHUB_STATUS_CONTEXT"]
       Notifier.setup([
         Notifier::GithubStatus.new(token, api_url, context),
-        Notifier::ChatService
+        Notifier::ChatService,
+        Notifier::FailureService
       ])
     else
       Notifier.setup(Notifier::ChatService)
