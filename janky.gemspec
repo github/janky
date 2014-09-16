@@ -88,6 +88,7 @@ lib/janky/hubot.rb
 lib/janky/job_creator.rb
 lib/janky/notifier.rb
 lib/janky/notifier/chat_service.rb
+lib/janky/notifier/failure_service.rb
 lib/janky/notifier/github_status.rb
 lib/janky/notifier/mock.rb
 lib/janky/notifier/multi.rb
