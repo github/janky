@@ -313,6 +313,11 @@ send a Pull Request.  Note that any changes to behavior without tests will
 be rejected.  If you are adding significant new features, please add both
 tests and documentation.
 
+Maintainers
+-----------
+
+* [@mattr-](https://github.com/mattr-)
+
 Copying
 -------
 
