@@ -35,7 +35,7 @@ module Janky
     post %r{\/([-_\.0-9a-zA-Z]+)\/([-_\.a-zA-z0-9\/]+)} do |repo_name, branch_name|
       repo    = find_repo(repo_name)
       branch  = repo.branch_for(branch_name)
-      room_id = (params["room_id"] && Integer(params["room_id"]) rescue nil)
+      room_id = (params["room_id"] rescue nil)
       user    = params["user"]
       build   = branch.head_build_for(room_id, user)
       build ||= repo.build_sha(branch_name, user, room_id)
