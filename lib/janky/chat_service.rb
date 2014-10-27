@@ -37,7 +37,7 @@ module Janky
     # Send a message to a Chat room.
     #
     # message - The String message.
-    # room_id - The Integer room ID.
+    # room_id - The String room ID.
     # options - Optional hash passed to the chat adapter.
     #
     # Returns nothing.
@@ -58,7 +58,7 @@ module Janky
 
     # Get the name of a room given its ID.
     #
-    # id - the Fixnum room ID.
+    # id - the String room ID.
     #
     # Returns the name as a String or nil when not found.
     def self.room_name(id)
@@ -90,7 +90,7 @@ module Janky
 
     # Configure available rooms. Only available in mock mode.
     #
-    # value - Hash of room map (Fixnum ID => String name)
+    # value - Hash of room map (String ID => String name)
     #
     # Returns nothing.
     def self.rooms=(value)
