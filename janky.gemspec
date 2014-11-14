@@ -74,6 +74,9 @@ lib/janky/database/migrate/1317384651_add_more_build_indexes.rb
 lib/janky/database/migrate/1317384652_change_commit_message_to_text.rb
 lib/janky/database/migrate/1317384653_add_build_pusher.rb
 lib/janky/database/migrate/1317384654_add_build_queued_at.rb
+lib/janky/database/migrate/1317384655_add_template.rb
+lib/janky/database/migrate/1398262033_add_context.rb
+lib/janky/database/migrate/1400144784_change_room_id_to_string.rb
 lib/janky/database/schema.rb
 lib/janky/database/seed.dump.gz
 lib/janky/exception.rb

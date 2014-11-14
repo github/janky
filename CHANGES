@@ -1,3 +1,15 @@
+= 0.11.0 / 2014-11-14
+
+ * Add support for Slack chat rooms
+ * Convert chat room ids from integers to strings
+ * Ensure build completion works with new Jenkins versions
+ * Allow custom build templates to be provided when setting up projects
+ * Mark builds that are queued in Jenkins as pending on GitHub
+ * Delete and recreate hooks when setting up repositories
+ * Add the ability to delete repos via `/ci delete`
+ * Get detailed info about repos via `/ci show`
+ * Send updates from Janky as a separate context to GitHub
+
 = 0.10.2 / 2013-10-02
 
  * Revert AR deprecation warnings
