@@ -57,7 +57,22 @@ module Janky
       @builds = repo.builds.queued.first(50)
       mustache :index
     end
+    get "/:repo_name/icon" do |repo_name|
+      repo = find_repo(repo_name)
+      authorize_repo(repo)
+      response.headers['Cache-Control'] = 'no-cache, private'
 
+      build = repo.builds.queued.first
+      if build.green?
+        send_file(File.join(File.dirname(__FILE__), "public/images/green.png"))
+      elsif build.building?
+        send_file(File.join(File.dirname(__FILE__), "public/images/building-bot.gif"))
+      elsif build.pending?
+        send_file(File.join(File.dirname(__FILE__), "public/images/building.png"))
+      elsif build.red?
+        send_file(File.join(File.dirname(__FILE__), "public/images/janky.png"))
+      end
+    end
     get %r{^(?!\/auth\/github\/callback)\/([-_\.0-9a-zA-Z]+)\/([-_\.a-zA-z0-9\/]+)} do |repo_name, branch|
       repo = find_repo(repo_name)
       authorize_repo(repo)
