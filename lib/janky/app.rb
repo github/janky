@@ -64,12 +64,16 @@ module Janky
 
       build = repo.builds.queued.first
       if build.green?
+        etag build.short_sha1
         send_file(File.join(File.dirname(__FILE__), "public/images/green.png"))
       elsif build.building?
+        etag "#{build.short_sha1}-building"
         send_file(File.join(File.dirname(__FILE__), "public/images/building-bot.gif"))
       elsif build.pending?
+        etag "#{build.short_sha1}-pending"
         send_file(File.join(File.dirname(__FILE__), "public/images/building.png"))
       elsif build.red?
+        etag "#{build.short_sha1}-failed"
         send_file(File.join(File.dirname(__FILE__), "public/images/janky.png"))
       end
     end
