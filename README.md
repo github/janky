@@ -48,7 +48,7 @@ Of a specific branch:
 
     hubot ci build janky/libgit2
 
-Different builds aren't relevant to the same Campfire room and so Janky
+Different builds aren't relevant to the same chat room and so Janky
 lets you choose where notifications are sent to. First get a list of
 available rooms:
 
