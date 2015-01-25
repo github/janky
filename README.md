@@ -79,7 +79,7 @@ Installing
 
 ### Jenkins
 
-Janky requires access to a Jenkins server. Version **1.427** is
+Janky requires access to a Jenkins server. Version **1.580** is
 recommended. Refer to the Jenkins [documentation][doc] for installation
 instructions and install the [Notification Plugin][np] version 1.4.
 
