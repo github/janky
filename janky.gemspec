@@ -57,6 +57,7 @@ lib/janky/builder/runner.rb
 lib/janky/chat_service.rb
 lib/janky/chat_service/campfire.rb
 lib/janky/chat_service/hipchat.rb
+lib/janky/chat_service/hubot.rb
 lib/janky/chat_service/slack.rb
 lib/janky/chat_service/mock.rb
 lib/janky/commit.rb
