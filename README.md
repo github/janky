@@ -246,10 +246,16 @@ Sends notifications to Hubot via [janky script](http://git.io/hubot-janky).
 
 Required settings:
 
+* `JANKY_CHAT=hubot`
 * `JANKY_CHAT_HUBOT_URL`: URL to your Hubot instance.
 * `JANKY_CHAT_HUBOT_ROOMS`: List of rooms which can be set via `ci set room`.
   * For IRC: Comma-separated list of channels `"#room, #another-room"`
   * For Campfire/HipChat: List with room id and name `"34343:room, 23223:another-room"`
+  * For Slack: List with room names `"room, another-room"`
+
+Installation:
+* Add `require "janky/chat_service/hubot"` to the `config/environment.rb`
+  file **before** the `Janky.setup(ENV)` line.
 
 ### Authentication
 
