@@ -5,3 +5,4 @@ Gemfile.lock
 *.gem
 .ruby-version
 vendor/bundle
+tags
