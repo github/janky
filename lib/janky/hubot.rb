@@ -94,7 +94,7 @@ module Janky
         ]
       end
       printed_repos = repos.join("\n")
-      unless printed_repos
+      if printed_repos.empty?
         "No repositories currently set up to build"
       else
         printed_repos
