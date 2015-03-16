@@ -2,7 +2,7 @@ $LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
 
 require "janky"
 require "test/unit"
-require "mocha"
+require "mocha/setup"
 require "database_cleaner"
 
 class Test::Unit::TestCase
