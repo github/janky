@@ -93,7 +93,12 @@ module Janky
           repo.uri
         ]
       end
-      repos.join("\n")
+      printed_repos = repos.join("\n")
+      unless printed_repos
+        "No repositories currently set up to build"
+      else
+        printed_repos
+      end
     end
 
     # Get the lasts builds
