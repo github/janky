@@ -14,7 +14,7 @@ module Janky
             :status          => css_status_for(build),
             :last_built_text => last_built_text_for(build),
             :message         => build.commit_message,
-            :sha1            => build.sha1,
+            :sha1            => build.short_sha1,
             :author          => build.commit_author.split("<").first
           }
         end
@@ -25,7 +25,9 @@ module Janky
           "good"
         elsif build.building?
           "building"
-        else
+        elsif build.pending?
+          "pending"
+        elsif build.red?
           "janky"
         end
       end
@@ -35,6 +37,8 @@ module Janky
           "Build started <span class='relatize'>#{build.started_at}</span>…"
         elsif build.completed?
           "Built in <span>#{build.duration}</span> seconds"
+        elsif build.pending?
+          "Build queued <span class='relatize'>#{build.queued_at}</span>…"
         end
       end
     end

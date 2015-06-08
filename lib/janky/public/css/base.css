@@ -127,10 +127,6 @@ ul.builds a.console{
 ul.builds li:hover a.console{
   background-position:65% -90px;
 }
-ul.builds .building a.console{
-  background:none;
-  cursor:default;
-}
 
 ul.builds .status{
   float:left;
@@ -145,6 +141,9 @@ ul.builds .building .status{
 }
 ul.builds .janky .status{
   background-position:0 -200px;
+}
+ul.builds .pending .status{
+  background-position:0 -100px;
 }
 
 ul.builds h2{
@@ -166,6 +165,12 @@ ul.builds .building a{
   color:#e59741;
 }
 ul.builds .building h2{
+  color:#e59741;
+}
+ul.builds .pending a{
+  color:#e59741;
+}
+ul.builds .pending h2{
   color:#e59741;
 }
 ul.builds .janky a{

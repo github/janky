@@ -3,7 +3,8 @@ module Janky
     class Receiver
       def self.call(env)
         request = Rack::Request.new(env)
-        payload = Payload.parse(request.body)
+        default_base_url = Builder[:default].url
+        payload = Payload.parse(request.body, default_base_url)
 
         if payload.started?
           Build.start(payload.id, payload.url)

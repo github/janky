@@ -8,7 +8,7 @@ class JankyTest < Test::Unit::TestCase
 
     DatabaseCleaner.clean_with(:truncation)
 
-    Janky::ChatService.rooms = {1 => "enterprise", 2 => "builds"}
+    Janky::ChatService.rooms = {1 => "enterprise", "2" => "builds"}
     Janky::ChatService.default_room_name = "builds"
 
     hubot_setup("github/github")
@@ -220,8 +220,37 @@ class JankyTest < Test::Unit::TestCase
     assert hubot_status.ok?
   end
 
+  test "build user" do
+    gh_post_receive("github", "master", "HEAD", "the dude")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    response = hubot_status("github", "master")
+    data = Yajl.load(response.body)
+    assert_equal 1, data.size
+    build = data[0]
+    assert_equal "the dude", build["user"]
+
+    hubot_build("github", "master", nil, "the boyscout")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    response = hubot_status("github", "master")
+    data = Yajl.load(response.body)
+    assert_equal 2, data.size
+    build = data[0]
+    assert_equal "the boyscout", build["user"]
+  end
+
   test "hubot status repo" do
     gh_post_receive("github")
+    payload = Yajl.load(hubot_status("github", "master").body)
+    assert_equal 1, payload.size
+    build = payload[0]
+    assert build["queued"]
+    assert build["pending"]
+    assert !build["building"]
+
     Janky::Builder.start!
     Janky::Builder.complete!
     hubot_build("github", "master")
@@ -233,12 +262,69 @@ class JankyTest < Test::Unit::TestCase
     assert_equal 2, payload.size
   end
 
+  test "hubot last 1 builds" do
+    3.times do
+      gh_post_receive("github", "master")
+      Janky::Builder.start!
+      Janky::Builder.complete!
+    end
+
+    assert_equal 1, Yajl.load(hubot_last(limit: 1).body).size
+  end
+
+  test "hubot lasts completed" do
+    gh_post_receive("github", "master")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_equal 1, Yajl.load(hubot_last.body).size
+  end
+
+  test "hubot lasts building" do
+    gh_post_receive("github", "master")
+    Janky::Builder.start!
+    assert_equal 1, Yajl.load(hubot_last(building: true).body).size
+  end
+
   test "hubot build" do
     gh_post_receive("github", "master")
     Janky::Builder.start!
     Janky::Builder.complete!
 
     assert hubot_build("github", "rails3").not_found?
+  end
+
+  test "hubot build sha" do
+    gh_post_receive("github", "master", 'deadbeef')
+    gh_post_receive("github", "master", 'cafebabe')
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_equal "cafebabe", hubot_latest_build_sha("github", "master")
+
+    hubot_build("github", "deadbeef")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+    assert_equal "deadbeef", hubot_latest_build_sha("github", "master")
+  end
+
+  test "getting latest commit" do
+    gh_post_receive("github", "master")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_not_equal "deadbeef", hubot_latest_build_sha("github", "master")
+
+    Janky::GitHub.set_branch_head("github/github", "master", "deadbeef")
+    hubot_build("github", "master")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_equal "deadbeef", hubot_latest_build_sha("github", "master")
+    assert_equal "deadbeef", Janky::Build.last.sha1
+    assert_equal "Test Author <test@github.com>", Janky::Build.last.commit_author
+    assert_equal "Test Message", Janky::Build.last.commit_message
+    assert_equal "https://github.com/github/github/commit/deadbeef", Janky::Build.last.commit_url
   end
 
   test "hubot rooms" do
@@ -269,15 +355,14 @@ class JankyTest < Test::Unit::TestCase
     assert hubot_build("github", "master").not_found?
   end
 
-  test "github owner is parsed correctly" do
-    repo = Janky::Repository.setup("github/janky")
-    assert_equal "github", repo.github_owner
-    assert_equal "janky", repo.github_name
-  end
+  test "build janky url" do
+    gh_post_receive("github")
+    Janky::Builder.start!
+    Janky::Builder.complete!
 
-  test "owner with a dash is parsed correctly" do
-    repo = Janky::Repository.setup("digital-science/central-ftp-manage")
-    assert_equal "digital-science", repo.github_owner
-    assert_equal "central-ftp-manage", repo.github_name
+    assert_equal "http://localhost:9393/1/output", Janky::Build.last.web_url
+
+    build_page = Janky::Build.last.repo_job_name + "/" + Janky::Build.last.number + "/"
+    assert_equal "http://localhost:8080/job/" + build_page, Janky::Build.last.url
   end
 end

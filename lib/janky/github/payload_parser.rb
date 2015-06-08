@@ -5,6 +5,10 @@ module Janky
         @payload = Yajl.load(json)
       end
 
+      def pusher
+        @payload["pusher"]["name"]
+      end
+
       def head
         @payload["after"]
       end

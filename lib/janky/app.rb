@@ -40,12 +40,12 @@ module Janky
 
     get "/?" do
       authorize_index
-      @builds = Build.started.first(50)
+      @builds = Build.queued.first(50)
       mustache :index
     end
 
     get "/:build_id/output" do |build_id|
-      @build = Build.find(build_id)
+      @build = Build.select(:output).find(build_id)
       authorize_repo(@build.repo)
       mustache :console, :layout => false
     end
@@ -54,7 +54,7 @@ module Janky
       repo = find_repo(repo_name)
       authorize_repo(repo)
 
-      @builds = repo.builds.started.first(50)
+      @builds = repo.builds.queued.first(50)
       mustache :index
     end
 
@@ -62,20 +62,8 @@ module Janky
       repo = find_repo(repo_name)
       authorize_repo(repo)
 
-      @builds = repo.branch_for(branch).builds.started.first(50)
+      @builds = repo.branch_for(branch).queued_builds.first(50)
       mustache :index
-    end
-  end
-
-  class NoAuth < Sinatra::Base
-    register Helpers
-
-    get "/boomtown" do
-      raise Error, "boomtown"
-    end
-
-    get "/site/sha" do
-      `cd /data/janky && git rev-parse HEAD`
     end
   end
 end

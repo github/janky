@@ -5,6 +5,7 @@ module Janky
 
       def initialize(user, password)
         @repos = {}
+        @branch_shas = {}
       end
 
       def make_private(nwo)
@@ -19,6 +20,10 @@ module Janky
         @repos[nwo] = :unauthorized
       end
 
+      def set_branch_head(nwo, branch, sha)
+        @branch_shas[[nwo, branch]] = sha
+      end
+
       def create(nwo, secret, url)
         data = {"url" => "https://api.github.com/hooks/#{Time.now.to_f}"}
         Response.new("201", Yajl.dump(data))
@@ -26,6 +31,10 @@ module Janky
 
       def get(url)
         Response.new("200")
+      end
+
+      def delete(url)
+        Response.new("204")
       end
 
       def repo_get(nwo)
@@ -41,6 +50,27 @@ module Janky
         else
           Response.new("200", Yajl.dump(repo))
         end
+      end
+
+      def branch(nwo, branch)
+
+        data = { "sha" => @branch_shas[[nwo, branch]] }
+
+        Response.new("200", Yajl.dump(data))
+      end
+
+      def commit(nwo, sha)
+        data = {
+          "commit" => {
+            "author" => {
+              "name"  => "Test Author",
+              "email" => "test@github.com"
+            },
+            "message" => "Test Message"
+          }
+        }
+
+        Response.new("200", Yajl.dump(data))
       end
     end
   end

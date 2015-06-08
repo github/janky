@@ -22,11 +22,15 @@ module Janky
       end
 
       def commit_short_sha
-        @build.sha1
+        @build.short_sha1
       end
 
       def output
         @build.output
+      end
+
+      def jenkins_url
+        @build.url
       end
     end
   end

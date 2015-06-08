@@ -1,3 +1,8 @@
+if RUBY_VERSION < "1.9.3"
+  warn "Support for Ruby versions lesser than 1.9.3 is deprecated and will be " \
+    "removed in Janky 1.0."
+end
+
 require "net/http"
 require "digest/md5"
 
@@ -39,8 +44,10 @@ require "janky/chat_service/mock"
 require "janky/exception"
 require "janky/notifier"
 require "janky/notifier/chat_service"
+require "janky/notifier/failure_service"
 require "janky/notifier/mock"
 require "janky/notifier/multi"
+require "janky/notifier/github_status"
 require "janky/app"
 require "janky/views/layout"
 require "janky/views/index"
@@ -87,20 +94,29 @@ module Janky
 
     database = URI(settings["DATABASE_URL"])
     adapter  = database.scheme == "postgres" ? "postgresql" : database.scheme
+    encoding = database.scheme == "postgres" ? "unicode" : "utf8"
     if settings["JANKY_BASE_URL"][-1] != ?/
       warn "JANKY_BASE_URL must have a trailing slash"
       settings["JANKY_BASE_URL"] = settings["JANKY_BASE_URL"] + "/"
     end
     base_url = URI(settings["JANKY_BASE_URL"]).to_s
+    Build.base_url = base_url
 
-    ActiveRecord::Base.establish_connection(
+    connection = {
       :adapter   => adapter,
-      :host      => database.host,
+      :encoding  => encoding,
+      :pool      => 5,
       :database  => database.path[1..-1],
       :username  => database.user,
       :password  => database.password,
-      :reconnect => true
-    )
+      :host      => database.host,
+      :port      => database.port,
+      :reconnect => true,
+    }
+    if socket = settings["JANKY_DATABASE_SOCKET"]
+      connection[:socket] = socket
+    end
+    ActiveRecord::Base.establish_connection(connection)
 
     self.jobs_config_dir = config_dir = Pathname(settings["JANKY_CONFIG_DIR"])
     if !config_dir.directory?
@@ -170,7 +186,7 @@ module Janky
       warn "JANKY_CAMPFIRE_TOKEN is deprecated. Please use " \
         "JANKY_CHAT_CAMPFIRE_TOKEN instead."
       settings["JANKY_CHAT_CAMPFIRE_TOKEN"] ||=
-        settings["JANKY_CAMPFIRE_ACCOUNT"]
+        settings["JANKY_CAMPFIRE_TOKEN"]
     end
 
     chat_name = settings["JANKY_CHAT"] || "campfire"
@@ -188,7 +204,16 @@ module Janky
     end
     ChatService.setup(chat_name, chat_settings, chat_room)
 
-    Notifier.setup(Notifier::ChatService)
+    if token = settings["JANKY_GITHUB_STATUS_TOKEN"]
+      context = settings["JANKY_GITHUB_STATUS_CONTEXT"]
+      Notifier.setup([
+        Notifier::GithubStatus.new(token, api_url, context),
+        Notifier::ChatService,
+        Notifier::FailureService
+      ])
+    else
+      Notifier.setup(Notifier::ChatService)
+    end
   end
 
   # List of settings required in production.
@@ -203,10 +228,10 @@ module Janky
       JANKY_HUBOT_USER JANKY_HUBOT_PASSWORD]
   end
 
-  # Directory where Jenkins job configuration templates are located.
-  #
-  # Returns the directory as a Pathname.
   class << self
+    # Directory where Jenkins job configuration templates are located.
+    #
+    # Returns the directory as a Pathname.
     attr_accessor :jobs_config_dir
   end
 
@@ -238,9 +263,6 @@ module Janky
   # Returns a memoized Rack application.
   def self.app
     @app ||= Rack::Builder.app {
-      # Exception reporting middleware.
-      use Janky::Exception::Middleware
-
       # GitHub Post-Receive requests.
       map "/_github" do
         run Janky::GitHub.receiver
@@ -263,7 +285,6 @@ module Janky
 
       # Web dashboard
       map "/" do
-        use Janky::NoAuth
         run Janky::App
       end
     }

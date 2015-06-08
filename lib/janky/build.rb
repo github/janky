@@ -3,6 +3,18 @@ module Janky
     belongs_to :branch
     belongs_to :commit
 
+    default_scope do
+      columns = (column_names - ["output"]).map do |column_name|
+        arel_table[column_name]
+      end
+
+      select(columns)
+    end
+
+    scope :building, lambda {
+      where("started_at IS NOT NULL AND completed_at IS NULL")
+    }
+
     # Transition the Build to the started state.
     #
     # id  - the Fixnum ID used to find the build.
@@ -31,11 +43,18 @@ module Janky
       end
     end
 
+    # Find all builds that have been queued in Jenkins, most recent first.
+    #
+    # Returns an Array of Build objects.
+    def self.queued
+      where("queued_at IS NOT NULL").order("queued_at DESC, id DESC")
+    end
+
     # Find all started builds, most recent first.
     #
     # Returns an Array of Builds.
     def self.started
-      where("started_at IS NOT NULL").order("started_at DESC")
+      where("started_at IS NOT NULL").order("started_at DESC, id DESC")
     end
 
     # Find all completed builds, most recent first.
@@ -51,6 +70,21 @@ module Janky
     # Returns an Array of Builds.
     def self.green
       completed.where(:green => true)
+    end
+
+    # Has this build been queued in Jenkins?
+    #
+    # Returns true when the build is complete or currently being built,
+    #   false otherwise.
+    def queued?
+      ! queued_at.nil?
+    end
+
+    # Is this build currently sitting in the queue waiting to be built?
+    #
+    # Returns true if the build is queued and not started, false otherwise.
+    def pending?
+      queued? && !started?
     end
 
     # Is this build currently being built?
@@ -86,6 +120,7 @@ module Janky
     # Returns nothing.
     def run
       builder.run(self)
+      update_attributes!(:queued_at => Time.now)
     end
 
     # See Repository#builder.
@@ -96,7 +131,7 @@ module Janky
     # Run a copy of itself. Typically used to force a build in case of
     # temporary test failure or when auto-build is disabled.
     #
-    # new_room_id - optional Campfire room Fixnum ID. Defaults to the room of the
+    # new_room_id - optional Campfire room String ID. Defaults to the room of the
     #               build being re-run.
     #
     # Returns the build copy.
@@ -179,9 +214,33 @@ module Janky
     #
     # Returns the String room name.
     def room_name
-      if room_id && room_id > 0
+      if room_id && !room_id.empty?
         ChatService.room_name(room_id)
       end
+    end
+
+    class << self
+      # The full URL of the web app as a String, including the protocol.
+      attr_accessor :base_url
+
+      # The full URL to the Jenkins build page, as a String.
+      attr_reader :url
+    end
+
+    # URL of this build's web page, served by Janky::App.
+    #
+    # Returns the URL as a String.
+    def web_url
+      return if new_record?
+      self.class.base_url + "#{id}/output"
+    end
+
+    # URL of the web page for this build's branch, served by Janky::App.
+    #
+    # Returns the URL as a String.
+    def branch_url
+      return if new_record?
+      self.class.base_url + "#{repo_name}/#{branch_name}"
     end
 
     def repo_id
@@ -196,6 +255,10 @@ module Janky
       repository.name
     end
 
+    def repo_nwo
+      repository.nwo
+    end
+
     def repository
       branch.repository
     end
@@ -205,7 +268,11 @@ module Janky
     end
 
     def sha1
-      commit.short_sha
+      commit.sha1
+    end
+
+    def short_sha1
+      sha1[0,7]
     end
 
     def commit_url

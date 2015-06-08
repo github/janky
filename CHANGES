@@ -1,3 +1,93 @@
+= 0.11.1 / 2015-02-20
+ * Update gemspec to include the  hubot chat service files
+ * Update recommended Jenkins version in the README
+
+= 0.11.0 / 2014-11-14
+
+ * Add support for Slack chat rooms
+ * Convert chat room ids from integers to strings
+ * Ensure build completion works with new Jenkins versions
+ * Allow custom build templates to be provided when setting up projects
+ * Mark builds that are queued in Jenkins as pending on GitHub
+ * Delete and recreate hooks when setting up repositories
+ * Add the ability to delete repos via `/ci delete`
+ * Get detailed info about repos via `/ci show`
+ * Send updates from Janky as a separate context to GitHub
+
+= 0.10.2 / 2013-10-02
+
+ * Revert AR deprecation warnings
+ * Revert previous configure jobs throwing error change
+
+= 0.10.1 / 2013-09-20
+
+ * Refresh landing page every 5 seconds for updates
+ * Previously configured jobs reconfigure instead of throwing errors
+ * Add an API endpoint to get a json response full of build statuses
+ * Fixup stupid AR deprecation warnings
+
+= 0.10.0 / 2013-09-19
+
+ * Upgrade sinatra_auth_github to work with latest octokit
+
+= 0.9.15 / 2013-07-25
+
+ * Upgrade sinatra_auth_github to make this work better with latest GitHub.com
+   requirements
+
+ * Truncate MD5 digests in job names to 12 characters
+
+= 0.9.14 / 2013-02-26
+
+ * Many doc changes and improvements [Rob Sanheim]
+
+ * Make the Jenkins job name human readable [Riley Guerin]
+
+ * Added GithubStatus Notifier for GitHub Status API.
+   See https://github.com/blog/1227-status-api [Rob Sainheim]
+
+ * Added Build#queued_at for tracking when builds were queued vs actually
+   built. [Simon Rozet]
+
+= 0.9.13 / 2012-06-24
+
+ * Pull down the branch HEAD commit from the GitHub API for manual builds.
+   This ensures that the latest code is built even when the webhook fails.
+   [Jake Douglas, Simon Rozet]
+
+ * Record the name of the user that triggered a build in the database. This
+   is mostly useful for applications consuming the Janky API and isn't exposed
+   anywhere in the UI. [Jake Douglas, Simon Rozet]
+
+ * Use full SHA1s when interacting with other systems to avoid ambiguous
+   commits. [Jake Douglas]
+
+ * Deprecate support for Ruby < 1.9.3. [Simon Rozet]
+
+ * Add missing database migrations that were wrongfully omitted from the
+   0.9.12 gem package. [Simon Rozet]
+
+= 0.9.12 / 2012-06-23
+
+ * Upgrade OAuth authentication gem to use GitHub API v3. [Corey Donohoe]
+
+ * Upgrade to ActiveRecord 3.2.X. [Simon Rozet]
+
+ * Allow configuring the path to the database socket with JANKY_DATABASE_SOCKET
+   setting. [Simon Rozet]
+
+ * Add a few indexes on the builds table to improve performance. [Simon Rozet].
+
+ * Eager load the builds.output column to improve performance. [Simon Rozet,
+   Jesse Dearing, Rafael Mendonça França]
+
+ * Fix deprecation logic for Campfire settings. [Piet Jaspers]
+
+ * Destroy all associated records after destroying a repository record. [Eric
+   Holmes]
+
+ * Handle commit messages longer than 255 characters. [Shay Frendt]
+
 = 0.9.11 / 2011-03-01
 
  * Fix HipChat setup instructions. [Andre Sachs]

@@ -20,7 +20,7 @@ module Janky
 
         response = http.request(request)
 
-        unless response.code == "302"
+        if !%w[302 201].include?(response.code)
           Exception.push_http_response(response)
           raise Error, "Failed to create build"
         end

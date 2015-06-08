@@ -4,17 +4,24 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
   s.description = "Janky is a Continuous Integration server"
   s.summary = "Continuous Integration server built on top of Jenkins and " \
     "designed for GitHub and Hubot"
-  s.authors = ["GitHub, Inc."]
+  s.authors = ["Simon Rozet"]
   s.homepage = "https://github.com/github/janky"
   s.has_rdoc = false
+  s.license  = "MIT"
+
+  s.post_install_message = <<-EOL
+If you are upgrading from Janky 0.9.13, you will want to add a JANKY_BRANCH parameter
+to your config/default.xml.erb. See
+https://github.com/github/janky/commit/0fc6214e3a75cc138aed46a2493980440e848aa3#commitcomment-1815400 for details.
+EOL
 
   # runtime
-  s.add_dependency "rake", "~>0.9.2"
+  s.add_dependency "rake", "~>10.0"
   s.add_dependency "sinatra", "~>1.3"
-  s.add_dependency "sinatra_auth_github", "~>0.3.1"
+  s.add_dependency "sinatra_auth_github", "~>1.0.0"
   s.add_dependency "mustache", "~>0.11"
   s.add_dependency "yajl-ruby", "~>1.1.0"
-  s.add_dependency "activerecord", "~>3.1.0"
+  s.add_dependency "activerecord", "~>3.2.0"
   s.add_dependency "broach", "~>0.2"
   s.add_dependency "replicate", "~>1.4"
 
@@ -25,6 +32,7 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
 
   # test
   s.add_development_dependency "database_cleaner", "~>0.6"
+  s.add_development_dependency "mocha", "~>0.14.0"
 
   s.files = %w[
 CHANGES
@@ -49,6 +57,8 @@ lib/janky/builder/runner.rb
 lib/janky/chat_service.rb
 lib/janky/chat_service/campfire.rb
 lib/janky/chat_service/hipchat.rb
+lib/janky/chat_service/hubot.rb
+lib/janky/chat_service/slack.rb
 lib/janky/chat_service/mock.rb
 lib/janky/commit.rb
 lib/janky/database/migrate/1312115512_init.rb
@@ -60,6 +70,14 @@ lib/janky/database/migrate/1317384618_add_repo_hook_url.rb
 lib/janky/database/migrate/1317384619_add_build_room_id.rb
 lib/janky/database/migrate/1317384629_drop_default_room_id.rb
 lib/janky/database/migrate/1317384649_github_team_id.rb
+lib/janky/database/migrate/1317384650_add_build_indexes.rb
+lib/janky/database/migrate/1317384651_add_more_build_indexes.rb
+lib/janky/database/migrate/1317384652_change_commit_message_to_text.rb
+lib/janky/database/migrate/1317384653_add_build_pusher.rb
+lib/janky/database/migrate/1317384654_add_build_queued_at.rb
+lib/janky/database/migrate/1317384655_add_template.rb
+lib/janky/database/migrate/1398262033_add_context.rb
+lib/janky/database/migrate/1400144784_change_room_id_to_string.rb
 lib/janky/database/schema.rb
 lib/janky/database/seed.dump.gz
 lib/janky/exception.rb
@@ -75,6 +93,8 @@ lib/janky/hubot.rb
 lib/janky/job_creator.rb
 lib/janky/notifier.rb
 lib/janky/notifier/chat_service.rb
+lib/janky/notifier/failure_service.rb
+lib/janky/notifier/github_status.rb
 lib/janky/notifier/mock.rb
 lib/janky/notifier/multi.rb
 lib/janky/public/css/base.css

@@ -23,6 +23,14 @@ module Janky
       attr_reader :secret, :git_host
     end
 
+    # URL of the GitHub website.
+    #
+    # Retuns the URL as a String. Example: https://github.com
+    def self.github_url
+      api_uri = URI.parse(@api_url)
+      "#{api_uri.scheme}://#{@git_host}"
+    end
+
     # Rack app that handles Post-Receive hook requests from GitHub.
     #
     # Returns a GitHub::Receiver.
@@ -52,6 +60,48 @@ module Janky
       end
     end
 
+    # Fetch the SHA1 of the given branch HEAD.
+    #
+    # nwo    - qualified "owner/repo" name.
+    # branch - Name of the branch as a String.
+    #
+    # Returns the SHA1 as a String or nil when the branch doesn't exists.
+    def self.branch_head_sha(nwo, branch)
+      response = api.branch(nwo, branch)
+
+      branch = Yajl.load(response.body)
+      branch && branch["sha"]
+    end
+
+    # Fetch commit details for the given SHA1.
+    #
+    # nwo - qualified "owner/repo" name.
+    # sha - SHA1 of the commit as a String.
+    #
+    # Example
+    #
+    #   commit("github/janky", "35fff49dc18376845dd37e785c1ea88c6133f928")
+    #   => { "commit" => {
+    #          "author" => {
+    #            "name"  => "Simon Rozet",
+    #            "email" => "sr@github.com",
+    #          },
+    #          "message" => "document and clean up Branch#build_for_head",
+    #        }
+    #      }
+    #
+    # Returns the commit Hash.
+    def self.commit(nwo, sha)
+      response = api.commit(nwo, sha)
+
+      if response.code != "200"
+        Exception.push_http_response(response)
+        raise Error, "Failed to get commit"
+      end
+
+      Yajl.load(response.body)
+    end
+
     # Create a Post-Receive hook for the given repository.
     # http://developer.github.com/v3/repos/hooks/#create-a-hook
     #
@@ -76,6 +126,22 @@ module Janky
     # url - Hook URL as a String.
     def self.hook_exists?(url)
       api.get(url).code == "200"
+    end
+
+    # Delete a post-receive hook for the given repository.
+    #
+    # hook_url - The repository's hook_url
+    #
+    # Returns true or raises an exception.
+    def self.hook_delete(url)
+      response = api.delete(url)
+
+      if response.code == "204"
+        true
+      else
+        Exception.push_http_response(response)
+        raise Error, "Failed to delete hook"
+      end
     end
 
     # Default API implementation that goes over the wire (HTTP).
@@ -121,6 +187,11 @@ module Janky
     # Returns nothing.
     def self.repo_make_unauthorized(nwo)
       api.make_unauthorized(nwo)
+    end
+
+    # Set the SHA of the named branch for the given repo. Mock only.
+    def self.set_branch_head(nwo, branch, sha)
+      api.set_branch_head(nwo, branch, sha)
     end
   end
 end

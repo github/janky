@@ -25,6 +25,10 @@ module Janky
           return Rack::Response.new("Invalid signature", 403).finish
         end
 
+        if @request.content_type != "application/json"
+          return Rack::Response.new("Invalid Content-Type", 400).finish
+        end
+
         if !payload.head_commit
           return Rack::Response.new("Ignored", 400).finish
         end
@@ -32,6 +36,7 @@ module Janky
         result = BuildRequest.handle(
           payload.uri,
           payload.branch,
+          payload.pusher,
           payload.head_commit,
           payload.compare,
           @request.POST["room"]
@@ -41,7 +46,7 @@ module Janky
       end
 
       def valid_signature?
-        digest    = OpenSSL::Digest::Digest.new("sha1")
+        digest    = OpenSSL::Digest::SHA1.new
         signature = @request.env["HTTP_X_HUB_SIGNATURE"].split("=").last
 
         signature == OpenSSL::HMAC.hexdigest(digest, @secret, data)
@@ -56,10 +61,6 @@ module Janky
       end
 
       def data!
-        if @request.content_type != "application/json"
-          return Rack::Response.new("Invalid Content-Type", 400).finish
-        end
-
         body = ""
         @request.body.each { |chunk| body << chunk }
         body

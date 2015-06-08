@@ -1,14 +1,18 @@
 module Janky
   module Builder
     class Payload
-      def self.parse(json)
+      def self.parse(json, base_url)
         parsed = Yajl.load(json)
         build  = parsed["build"]
+
+        full_url = build["full_url"]
+        path = build["url"]
+        build_url = full_url || "#{base_url}#{path}"
 
         new(
           build["phase"],
           build["parameters"]["JANKY_ID"],
-          build["full_url"],
+          build_url,
           build["status"]
         )
       end
@@ -36,7 +40,7 @@ module Janky
       end
 
       def completed?
-        @phase == "FINISHED"
+        @phase == "FINISHED" || @phase == "FINALIZED"
       end
 
       def green?
