@@ -243,10 +243,6 @@ module Janky
       self.class.base_url + "#{repo_name}/#{branch_name}"
     end
 
-    def room_id
-      repository.room_id
-    end
-
     def repo_id
       repository.id
     end
