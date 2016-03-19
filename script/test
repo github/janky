@@ -1,2 +1,2 @@
 #!/bin/sh
-testrb ./test/*_test.rb
+bundle exec ruby -I test -e 'Dir["./test/**/*_test.rb"].each &method(:require)'
