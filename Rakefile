@@ -2,6 +2,10 @@ $LOAD_PATH.unshift(File.expand_path("../lib", __FILE__))
 ENV["RACK_ENV"] ||= "development"
 
 require "janky"
+
+class ActiveRecord::ConnectionAdapters::Mysql2Adapter
+  NATIVE_DATABASE_TYPES[:primary_key] = "int(11) auto_increment PRIMARY KEY"
+end
 Janky.setup(ENV)
 require "janky/tasks"
 

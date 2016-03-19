@@ -53,6 +53,12 @@ require "janky/views/layout"
 require "janky/views/index"
 require "janky/views/console"
 
+# TODO Remove after upgrading to activerecord 4.x
+require "active_record/connection_adapters/mysql2_adapter"
+class ActiveRecord::ConnectionAdapters::Mysql2Adapter
+  NATIVE_DATABASE_TYPES[:primary_key] = "int(11) auto_increment PRIMARY KEY"
+end
+
 # This is Janky, a continuous integration server. Checkout the 'app'
 # method on this module for an overview of the different components
 # involved.
