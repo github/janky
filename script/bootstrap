@@ -1,2 +1,13 @@
 #!/bin/sh
-bundle install --binstubs
+
+# github/strap related bootstrapping
+if [ "$(uname -s)" = "Darwin" ]; then
+  brew update >/dev/null
+  brew bundle check &>/dev/null || brew bundle
+
+  BUNDLE="brew bundle exec -- bundle"
+else
+  BUNDLE="bundle"
+fi
+
+$BUNDLE install --binstubs
