@@ -28,14 +28,14 @@ module Janky
         uri  = @url
         user = uri.user
         pass = uri.password
-        path = uri.path
+        path = File.join(uri.path, "janky")
 
         http = Net::HTTP.new(uri.host, uri.port)
         if uri.scheme == "https"
           http.use_ssl = true
         end
 
-        post = Net::HTTP::Post.new("#{path}/janky")
+        post = Net::HTTP::Post.new(path)
         post.basic_auth(user, pass) if user && pass
         post["Content-Type"] = "application/json"
         post.body = {:message => message, :room => room}.to_json
