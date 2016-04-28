@@ -95,10 +95,6 @@ module Janky
     database = URI(settings["DATABASE_URL"])
     adapter  = database.scheme == "postgres" ? "postgresql" : database.scheme
     encoding = database.scheme == "postgres" ? "unicode" : "utf8"
-    if settings["JANKY_BASE_URL"][-1] != ?/
-      warn "JANKY_BASE_URL must have a trailing slash"
-      settings["JANKY_BASE_URL"] = settings["JANKY_BASE_URL"] + "/"
-    end
     base_url = URI(settings["JANKY_BASE_URL"]).to_s
     Build.base_url = base_url
 
