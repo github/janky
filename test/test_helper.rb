@@ -28,7 +28,7 @@ class Test::Unit::TestCase
   def environment
     env = default_environment
     ENV.each do |key, value|
-      if key =~ /^JANKY_/
+      if key =~ /^JANKY_/ || key == "DATABASE_URL"
         env[key] = value
       end
     end
