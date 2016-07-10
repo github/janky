@@ -50,6 +50,8 @@ module Janky
         signature = @request.env["HTTP_X_HUB_SIGNATURE"].split("=").last
 
         signature == OpenSSL::HMAC.hexdigest(digest, @secret, data)
+      rescue
+        false
       end
 
       def payload
