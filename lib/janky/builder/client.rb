@@ -21,6 +21,15 @@ module Janky
         Runner.new(@url, build, adapter).run
       end
 
+      # Stop the Jenkins build for the given Build.
+      #
+      # build - a Build object.
+      #
+      # Returns nothing.
+      def stop(build)
+        Runner.new(@url, build, adapter).stop
+      end
+
       # Retrieve the output of the given Build.
       #
       # build - a Build object. Must have an url attribute.

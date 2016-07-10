@@ -164,12 +164,26 @@ module Janky
       builds.to_json
     end
 
+    # Stop the build for the project
+    delete %r{\/([-_\.0-9a-zA-Z]+)\/([0-9]+)} do |repo_name, build_number|
+      repo  = find_repo(repo_name)
+      build = repo.builds.find(build_number)
+
+      if build
+        build.stop
+        [201, "Build of #{build.repo_name}/#{build.branch_name} was stoped"]
+      else
+        [404, "Unknown build #{build_number}"]
+      end
+    end
+
     # Learn everything you need to know about Janky.
     get "/help" do
       content_type "text/plain"
 <<-EOS
 ci build janky
 ci build janky/fix-everything
+ci stop janky/662
 ci setup github/janky [name]
 ci setup github/janky name template
 ci toggle janky

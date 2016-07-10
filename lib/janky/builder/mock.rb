@@ -16,6 +16,10 @@ module Janky
         @builds << [build_id, "#{url}/", @green]
       end
 
+      def stop(stop_url)
+        true
+      end
+
       def output(build)
         "....FFFUUUUUUU"
       end
