@@ -156,6 +156,10 @@ class JankyTest < Test::Unit::TestCase
     assert get("/github/master").ok?
     assert get("/github/strato").ok?
 
+    assert get("/branch/master").ok?
+    assert get("/branch/not_found").not_found?
+    assert get("/branch/not_found").body.include? "Unknown branch: not_found"
+
     assert get("#{Janky::Build.last.id}/output").ok?
   end
 

@@ -13,5 +13,12 @@ module Janky
 
       repo
     end
+
+    def find_queued_builds_for(branch_name)
+      branches = Branch.find(:all, :conditions => ["name = ?", branch_name])
+      halt(404, "Unknown branch: #{branch_name}") if branches.empty?
+
+      branches.map(&:queued_builds).flatten
+    end
   end
 end
