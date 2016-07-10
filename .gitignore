@@ -1,7 +1,6 @@
 .bundle
 bin
 vendor/gems
-Gemfile.lock
 *.gem
 .ruby-version
 vendor/bundle
