@@ -26,9 +26,13 @@ module Janky
 
       def run(name, uri, template_path)
         template = Tilt.new(template_path.to_s)
+        repo_pattern = %r{git@github.com\:(.*?)\/(.*)}
+        repo_parts = (uri.match repo_pattern).captures
         config   = template.render(Object.new, {
           :name         => name,
           :repo         => uri,
+          :repo_owner   => repo_parts[0],
+          :repo_name    => repo_parts[1],
           :callback_url => @callback_url
         })
 
