@@ -35,10 +35,11 @@ module Janky
       # name          - The desired job name as a String.
       # repo_uri      - The repository git URI as a String.
       # template_path - The Pathname to the XML config template.
+      # layout_path   - Optional Pathname to the XML config layout.
       #
       # Returns nothing.
-      def setup(name, repo_uri, template_path)
-        job_creator.run(name, repo_uri, template_path)
+      def setup(name, repo_uri, template_path, layout_path = nil)
+        job_creator.run(name, repo_uri, template_path, layout_path)
       end
 
       # The adapter used to trigger builds. Defaults to HTTP, which hits the
