@@ -153,7 +153,7 @@ module Janky
     #
     # Returns nothing.
     def setup_job
-      builder.setup(job_name, uri, job_config_path)
+      builder.setup(job_name, uri, job_config_path, job_config_layout_path)
     end
 
     # The path of the Jenkins configuration template. Try "<repo-name>.xml.erb"
@@ -170,6 +170,14 @@ module Janky
         default
       else
         raise Error, "no config.xml.erb template for repo #{id.inspect}"
+      end
+    end
+
+    def job_config_layout_path
+      layout = Janky.jobs_config_dir.join("layouts/default.xml.erb")
+
+      if layout.readable?
+        layout
       end
     end
 

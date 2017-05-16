@@ -148,6 +148,17 @@ Using Janky with [GitHub Enterprise][ghe] requires one extra setting:
 
 [ghe]: https://enterprise.github.com
 
+### GitHub Status API
+
+https://github.com/blog/1227-commit-status-api
+
+To update pull requests with the build status generate an OAuth token
+like so:
+
+  curl -u username:password -d '{ "scopes": [ "repo:status" ], "note": "janky" }' https://api.github.com/authorizations
+
+then set `JANKY_GITHUB_STATUS_TOKEN`.
+
 ### Chat Notification
 
 #### Campfire
@@ -221,33 +232,33 @@ Hacking
 
 Get your environment up and running:
 
-    $ script/bootstrap
+    script/bootstrap
 
 Create the databases:
 
-    $ mysqladmin -uroot create janky_development
-    $ mysqladmin -uroot create janky_test
+    mysqladmin -uroot create janky_development
+    mysqladmin -uroot create janky_test
 
 Create the tables:
 
-    $ RACK_ENV=development bin/rake db:migrate
-    $ RACK_ENV=test bin/rake db:migrate
+    RACK_ENV=development bin/rake db:migrate
+    RACK_ENV=test bin/rake db:migrate
 
 Seed some data into the development database:
 
-    $ bin/rake db:seed
+    bin/rake db:seed
 
 Start the server:
 
-    $ script/server
+    script/server
 
 Open the app:
 
-    $ open http://localhost:9393/
+    open http://localhost:9393/
 
 Run the test suite:
 
-    $ bin/rake
+    script/test
 
 Contributing
 ------------

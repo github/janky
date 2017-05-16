@@ -25,6 +25,7 @@ Gem::Specification.new "janky", Janky::VERSION do |s|
 
   # test
   s.add_development_dependency "database_cleaner", "~>0.6"
+  s.add_development_dependency "mocha", "~>0.10.4"
 
   s.files = %w[
 CHANGES

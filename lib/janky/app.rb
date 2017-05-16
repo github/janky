@@ -66,16 +66,4 @@ module Janky
       mustache :index
     end
   end
-
-  class NoAuth < Sinatra::Base
-    register Helpers
-
-    get "/boomtown" do
-      raise Error, "boomtown"
-    end
-
-    get "/site/sha" do
-      `cd /data/janky && git rev-parse HEAD`
-    end
-  end
 end

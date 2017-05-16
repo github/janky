@@ -248,6 +248,7 @@ class JankyTest < Test::Unit::TestCase
     assert_equal 1, payload.size
     build = payload[0]
     assert build["queued"]
+    assert build["pending"]
     assert !build["building"]
 
     Janky::Builder.start!
@@ -340,5 +341,8 @@ class JankyTest < Test::Unit::TestCase
     Janky::Builder.complete!
 
     assert_equal "http://localhost:9393/1/output", Janky::Build.last.web_url
+    
+    build_page = Janky::Build.last.repo_job_name + "/" + Janky::Build.last.number + "/"
+    assert_equal "http://localhost:8080/job/" + build_page, Janky::Build.last.url
   end
 end
