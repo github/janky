@@ -20,7 +20,7 @@ EOL
   s.add_dependency "sinatra", "~>1.3"
   s.add_dependency "sinatra_auth_github", "~>1.0.0"
   s.add_dependency "mustache", "~>0.11"
-  s.add_dependency "yajl-ruby", "~>1.1.0"
+  s.add_dependency "yajl-ruby", "~>1.3.0"
   s.add_dependency "activerecord", "~>3.2.0"
   s.add_dependency "broach", "~>0.2"
   s.add_dependency "replicate", "~>1.4"
