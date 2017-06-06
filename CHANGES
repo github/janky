@@ -1,3 +1,9 @@
+= 0.12.0 / 2017-06-05
+ * Update yajl-ruby to work with Ruby 2.4
+ * Add the ability to use MySQL 5.7
+ * Update mocha to a more recent version
+ * Allow DATABASE_URL to be specified for tests
+
 = 0.11.1 / 2015-02-20
  * Update gemspec to include the  hubot chat service files
  * Update recommended Jenkins version in the README
