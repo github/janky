@@ -8,7 +8,7 @@ class JankyTest < Test::Unit::TestCase
 
     DatabaseCleaner.clean_with(:truncation)
 
-    Janky::ChatService.rooms = {1 => "enterprise", 2 => "builds"}
+    Janky::ChatService.rooms = {1 => "enterprise", "2" => "builds"}
     Janky::ChatService.default_room_name = "builds"
 
     hubot_setup("github/github")
@@ -262,12 +262,50 @@ class JankyTest < Test::Unit::TestCase
     assert_equal 2, payload.size
   end
 
+  test "hubot last 1 builds" do
+    3.times do
+      gh_post_receive("github", "master")
+      Janky::Builder.start!
+      Janky::Builder.complete!
+    end
+
+    assert_equal 1, Yajl.load(hubot_last(limit: 1).body).size
+  end
+
+  test "hubot lasts completed" do
+    gh_post_receive("github", "master")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_equal 1, Yajl.load(hubot_last.body).size
+  end
+
+  test "hubot lasts building" do
+    gh_post_receive("github", "master")
+    Janky::Builder.start!
+    assert_equal 1, Yajl.load(hubot_last(building: true).body).size
+  end
+
   test "hubot build" do
     gh_post_receive("github", "master")
     Janky::Builder.start!
     Janky::Builder.complete!
 
     assert hubot_build("github", "rails3").not_found?
+  end
+
+  test "hubot build sha" do
+    gh_post_receive("github", "master", 'deadbeef')
+    gh_post_receive("github", "master", 'cafebabe')
+    Janky::Builder.start!
+    Janky::Builder.complete!
+
+    assert_equal "cafebabe", hubot_latest_build_sha("github", "master")
+
+    hubot_build("github", "deadbeef")
+    Janky::Builder.start!
+    Janky::Builder.complete!
+    assert_equal "deadbeef", hubot_latest_build_sha("github", "master")
   end
 
   test "getting latest commit" do

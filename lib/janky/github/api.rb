@@ -16,6 +16,14 @@ module Janky
         http.request(request)
       end
 
+      def delete(hook_url)
+        path    = build_path(URI(hook_url).path)
+        request = Net::HTTP::Delete.new(path)
+        request.basic_auth(@user, @password)
+
+        http.request(request)
+      end
+
       def trigger(hook_url)
         path    = build_path(URI(hook_url).path + "/test")
         request = Net::HTTP::Post.new(path)
@@ -40,8 +48,8 @@ module Janky
         http.request(request)
       end
 
-      def branches(nwo)
-        path    = build_path("repos/#{nwo}/branches")
+      def branch(nwo, branch)
+        path    = build_path("repos/#{nwo}/commits/#{branch}")
         request = Net::HTTP::Get.new(path)
         request.basic_auth(@user, @password)
 

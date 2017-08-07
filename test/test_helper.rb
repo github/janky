@@ -2,7 +2,7 @@ $LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
 
 require "janky"
 require "test/unit"
-require "mocha"
+require "mocha/setup"
 require "database_cleaner"
 
 class Test::Unit::TestCase
@@ -28,7 +28,7 @@ class Test::Unit::TestCase
   def environment
     env = default_environment
     ENV.each do |key, value|
-      if key =~ /^JANKY_/
+      if key =~ /^JANKY_/ || key == "DATABASE_URL"
         env[key] = value
       end
     end
@@ -67,7 +67,7 @@ class Test::Unit::TestCase
 
     repo    = Janky::Repository.find_by_name!(repo_name)
     payload = gh_payload(repo, branch, pusher, [gh_commit(commit)])
-    digest  = OpenSSL::Digest::Digest.new("sha1")
+    digest  = OpenSSL::Digest::SHA1.new
     sig     = OpenSSL::HMAC.hexdigest(digest, Janky::GitHub.secret,
                 payload.to_json)
 
@@ -108,6 +108,11 @@ class Test::Unit::TestCase
     else
       hubot_request("GET", "/_hubot")
     end
+  end
+
+  def hubot_last(options = {})
+    hubot_request "GET",
+      "/_hubot/builds?limit=#{options[:limit]}&building=#{options[:building]}"
   end
 
   def hubot_latest_build_sha(repo, branch)

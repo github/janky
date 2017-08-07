@@ -7,6 +7,7 @@ class GithubStatusTest < Test::Unit::TestCase
       :green? => true,
       :number => 1,
       :duration => 1,
+      :repository => stub(:context => "ci/janky"),
       :web_url => "http://example.com/builds/1")
   end
 

@@ -1,3 +1,41 @@
+= 0.12.0 / 2017-06-05
+ * Update yajl-ruby to work with Ruby 2.4
+ * Add the ability to use MySQL 5.7
+ * Update mocha to a more recent version
+ * Allow DATABASE_URL to be specified for tests
+
+= 0.11.1 / 2015-02-20
+ * Update gemspec to include the  hubot chat service files
+ * Update recommended Jenkins version in the README
+
+= 0.11.0 / 2014-11-14
+
+ * Add support for Slack chat rooms
+ * Convert chat room ids from integers to strings
+ * Ensure build completion works with new Jenkins versions
+ * Allow custom build templates to be provided when setting up projects
+ * Mark builds that are queued in Jenkins as pending on GitHub
+ * Delete and recreate hooks when setting up repositories
+ * Add the ability to delete repos via `/ci delete`
+ * Get detailed info about repos via `/ci show`
+ * Send updates from Janky as a separate context to GitHub
+
+= 0.10.2 / 2013-10-02
+
+ * Revert AR deprecation warnings
+ * Revert previous configure jobs throwing error change
+
+= 0.10.1 / 2013-09-20
+
+ * Refresh landing page every 5 seconds for updates
+ * Previously configured jobs reconfigure instead of throwing errors
+ * Add an API endpoint to get a json response full of build statuses
+ * Fixup stupid AR deprecation warnings
+
+= 0.10.0 / 2013-09-19
+
+ * Upgrade sinatra_auth_github to work with latest octokit
+
 = 0.9.15 / 2013-07-25
 
  * Upgrade sinatra_auth_github to make this work better with latest GitHub.com

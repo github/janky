@@ -7,9 +7,26 @@ module Janky
     # "success" or "failure" when the build is complete.
     class GithubStatus
       # Initialize with an OAuth token to POST Statuses with
-      def initialize(token, api_url)
+      def initialize(token, api_url, context = nil)
         @token = token
         @api_url = URI(api_url)
+        @default_context = context
+      end
+
+      def context(build)
+        repository_context(build.repository) || @default_context
+      end
+
+      def repository_context(repository)
+        repository && repository.context
+      end
+
+      # Create a Pending Status for the Commit when it is queued.
+      def queued(build)
+        repo   = build.repo_nwo
+        path  = "repos/#{repo}/statuses/#{build.sha1}"
+
+        post(path, "pending", build.web_url, "Build ##{build.number} queued", context(build))
       end
 
       # Create a Pending Status for the Commit when it starts.
@@ -17,7 +34,7 @@ module Janky
         repo   = build.repo_nwo
         path  = "repos/#{repo}/statuses/#{build.sha1}"
 
-        post(path, "pending", build.web_url, "Build ##{build.number} started")
+        post(path, "pending", build.web_url, "Build ##{build.number} started", context(build))
       end
 
       # Create a Success or Failure Status for the Commit.
@@ -31,11 +48,11 @@ module Janky
           when "failure" then "Build ##{build.number} failed in #{build.duration}s"
         end
 
-        post(path, status, build.web_url, desc)
+        post(path, status, build.web_url, desc, context(build))
       end
 
       # Internal: POST the new status to the API
-      def post(path, status, url, desc)
+      def post(path, status, url, desc, context = nil)
         http = Net::HTTP.new(@api_url.host, @api_url.port)
         post = Net::HTTP::Post.new("#{@api_url.path}#{path}")
 
@@ -44,11 +61,18 @@ module Janky
         post["Content-Type"] = "application/json"
         post["Authorization"] = "token #{@token}"
 
-        post.body = {
+        body = {
           :state => status,
           :target_url => url,
           :description => desc,
-        }.to_json
+        }
+
+        unless context.nil?
+          post["Accept"] = "application/vnd.github.she-hulk-preview+json"
+          body[:context] = context
+        end
+
+        post.body = body.to_json
 
         http.request(post)
       end

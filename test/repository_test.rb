@@ -51,4 +51,22 @@ class RepositoryTest < Test::Unit::TestCase
       repo.job_config_path
     end
   end
+
+  test "default job config is selected if none provided" do
+    repo = Janky::Repository.setup("github/pygments.rb", "pygments")
+    assert_nil repo.job_template
+    assert_match /default\.xml\.erb/, repo.job_config_path.to_s
+  end
+
+  test "custom job config is stored" do
+    repo = Janky::Repository.setup("github/pygments.rb", "pygments", "custom")
+    assert_equal "custom", repo.job_template
+  end
+
+  test "custom job config path is calculated" do
+    repo = Janky::Repository.setup("github/pygments.rb", "pygments", "custom")
+    assert_equal "custom", repo.job_template
+    assert_match /custom\.xml\.erb/, repo.job_config_path.to_s
+  end
+
 end

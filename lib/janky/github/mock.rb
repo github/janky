@@ -33,6 +33,10 @@ module Janky
         Response.new("200")
       end
 
+      def delete(url)
+        Response.new("204")
+      end
+
       def repo_get(nwo)
         repo = {
           "name"    => nwo.split("/").last,
@@ -48,19 +52,9 @@ module Janky
         end
       end
 
-      def branches(nwo)
-        data = []
+      def branch(nwo, branch)
 
-        @branch_shas.each do |(name_with_owner, branch), sha|
-          if nwo == name_with_owner
-            data << {
-              "name"   => branch,
-              "commit" => {
-                "sha" => sha
-              }
-            }
-          end
-        end
+        data = { "sha" => @branch_shas[[nwo, branch]] }
 
         Response.new("200", Yajl.dump(data))
       end

@@ -44,6 +44,7 @@ require "janky/chat_service/mock"
 require "janky/exception"
 require "janky/notifier"
 require "janky/notifier/chat_service"
+require "janky/notifier/failure_service"
 require "janky/notifier/mock"
 require "janky/notifier/multi"
 require "janky/notifier/github_status"
@@ -51,6 +52,12 @@ require "janky/app"
 require "janky/views/layout"
 require "janky/views/index"
 require "janky/views/console"
+
+# TODO Remove after upgrading to activerecord 4.x
+require "active_record/connection_adapters/mysql2_adapter"
+class ActiveRecord::ConnectionAdapters::Mysql2Adapter
+  NATIVE_DATABASE_TYPES[:primary_key] = "int(11) auto_increment PRIMARY KEY"
+end
 
 # This is Janky, a continuous integration server. Checkout the 'app'
 # method on this module for an overview of the different components
@@ -94,10 +101,6 @@ module Janky
     database = URI(settings["DATABASE_URL"])
     adapter  = database.scheme == "postgres" ? "postgresql" : database.scheme
     encoding = database.scheme == "postgres" ? "unicode" : "utf8"
-    if settings["JANKY_BASE_URL"][-1] != ?/
-      warn "JANKY_BASE_URL must have a trailing slash"
-      settings["JANKY_BASE_URL"] = settings["JANKY_BASE_URL"] + "/"
-    end
     base_url = URI(settings["JANKY_BASE_URL"]).to_s
     Build.base_url = base_url
 
@@ -109,7 +112,8 @@ module Janky
       :username  => database.user,
       :password  => database.password,
       :host      => database.host,
-      :port      => database.port
+      :port      => database.port,
+      :reconnect => true,
     }
     if socket = settings["JANKY_DATABASE_SOCKET"]
       connection[:socket] = socket
@@ -203,9 +207,11 @@ module Janky
     ChatService.setup(chat_name, chat_settings, chat_room)
 
     if token = settings["JANKY_GITHUB_STATUS_TOKEN"]
+      context = settings["JANKY_GITHUB_STATUS_CONTEXT"]
       Notifier.setup([
-        Notifier::GithubStatus.new(token, api_url),
-        Notifier::ChatService
+        Notifier::GithubStatus.new(token, api_url, context),
+        Notifier::ChatService,
+        Notifier::FailureService
       ])
     else
       Notifier.setup(Notifier::ChatService)

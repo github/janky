@@ -30,7 +30,7 @@ module Janky
       end
 
       def create_url
-        URI("#{@base_url}job/#{@build.repo_job_name}/build")
+        URI.join(@base_url, "job/#{@build.repo_job_name}/build")
       end
 
       def context_push

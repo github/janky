@@ -1,6 +1,8 @@
 Janky
 =====
 
+[![Gem Version](https://badge.fury.io/rb/janky.svg)](https://badge.fury.io/rb/janky)
+
 This is Janky, a continuous integration server built on top of
 [Jenkins][], controlled by [Hubot][], and designed for [GitHub][].
 
@@ -31,6 +33,10 @@ anything unless it needs to. It takes an optional name argument:
 
     hubot ci setup github/janky janky-ruby1.9.2
 
+It also takes an optional template name argument:
+
+    hubot ci setup github/janky janky-ruby1.9.2 ruby-build
+
 All branches are built automatically on push. Disable auto build with:
 
     hubot ci toggle janky
@@ -44,7 +50,7 @@ Of a specific branch:
 
     hubot ci build janky/libgit2
 
-Different builds aren't relevant to the same Campfire room and so Janky
+Different builds aren't relevant to the same chat room and so Janky
 lets you choose where notifications are sent to. First get a list of
 available rooms:
 
@@ -75,9 +81,12 @@ Installing
 
 ### Jenkins
 
-Janky requires access to a Jenkins server. Version **1.427** is
+Janky requires access to a Jenkins server. Version **1.580** is
 recommended. Refer to the Jenkins [documentation][doc] for installation
 instructions and install the [Notification Plugin][np] version 1.4.
+
+Remember to set the Jenkins URL in `http://your-jenkins-server.com/configure`.
+Janky will still trigger builds but will not update the build status without this set.
 
 [doc]: https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins
 [np]: https://wiki.jenkins-ci.org/display/JENKINS/Notification+Plugin
@@ -103,7 +112,7 @@ After configuring the app (see below), create the database:
 
     $ heroku run rake db:migrate
 
-**NOTE:** Ruby version 1.9.3 is required to run Janky.
+**NOTE:** Ruby version 2.0.0+ is required to run Janky.
 
 [gist]: https://gist.github.com/1497335
 
@@ -134,6 +143,7 @@ Required settings:
 * `JANKY_BUILDER_DEFAULT`: The Jenkins server URL **with** a trailing slash.
    Example: `http://jenkins.example.com/`. For basic auth, include the
    credentials in the URL: `http://user:pass@jenkins.example.com/`.
+   Using GitHub OAuth with Jenkins is not supported by Janky.
 * `JANKY_CONFIG_DIR`: Directory where build config templates are stored.
   Typically set to `/app/config` on Heroku.
 * `JANKY_HUBOT_USER`: Login used to protect the Hubot API.
@@ -172,7 +182,13 @@ via the GitHub API:
       -d '{ "scopes": [ "repo:status" ], "note": "janky" }' \
       https://api.github.com/authorizations
 
-then set `JANKY_GITHUB_STATUS_TOKEN`.
+then set `JANKY_GITHUB_STATUS_TOKEN`.  Optionally, you can also set
+`JANKY_GITHUB_STATUS_CONTEXT` to send a context to the GitHub API by
+default
+
+`username` and `password` in the above example should be the same as the
+values provided for `JANKY_GITHUB_USER` and `JANKY_GITHUB_PASSWORD`
+respectively.
 
 ### Chat notifications
 
@@ -207,6 +223,42 @@ Installation:
 * `bundle`
 * `git commit -am "install hipchat"`
 
+#### Slack
+
+Required settings:
+
+* `JANKY_CHAT=slack`
+* `JANKY_CHAT_SLACK_TEAM`: slack team name
+* `JANKY_CHAT_SLACK_TOKEN`: authentication token for the user sending build notifications.
+* `JANKY_CHAT_SLACK_USERNAME`: name that messages will appear be sent from.
+  Defaults to `CI`.
+* `JANKY_CHAT_SLACK_ICON_URL`: URL to an image to use as the icon for this message.
+
+Installation:
+
+* Add `require "janky/chat_service/slack"` to the `config/environment.rb`
+  file **before** the `Janky.setup(ENV)` line.
+* `echo 'gem "slack.rb"' >> Gemfile`
+* `bundle`
+* `git commit -am "install slack"`
+
+#### Hubot
+
+Sends notifications to Hubot via [janky script](http://git.io/hubot-janky).
+
+Required settings:
+
+* `JANKY_CHAT=hubot`
+* `JANKY_CHAT_HUBOT_URL`: URL to your Hubot instance.
+* `JANKY_CHAT_HUBOT_ROOMS`: List of rooms which can be set via `ci set room`.
+  * For IRC: Comma-separated list of channels `"#room, #another-room"`
+  * For Campfire/HipChat: List with room id and name `"34343:room, 23223:another-room"`
+  * For Slack: List with room names `"room, another-room"`
+
+Installation:
+* Add `require "janky/chat_service/hubot"` to the `config/environment.rb`
+  file **before** the `Janky.setup(ENV)` line.
+
 ### Authentication
 
 To restrict access to members of a GitHub organization, [register a new
@@ -239,8 +291,10 @@ For more control you can add a `script/cibuild` at the root of your
 repository for Jenkins to execute instead.
 
 For total control, whole Jenkins' `config.xml` files can be associated
-with Janky builds. Given a build called `windows`, Janky will try
-`config/jobs/windows.xml.erb` before falling back to the default
+with Janky builds. Given a build called `windows` and a template name
+of `psake`, Janky will try `config/jobs/psake.xml.erb` to use a template,
+`config/jobs/windows.xml.erb` to try the job name if the template does
+not exit,  before finally falling back to the default
 configuration, `config/jobs/default.xml.erb`. After updating or adding
 a custom config, run `hubot ci setup` again to update the Jenkins
 server.
@@ -286,8 +340,13 @@ send a Pull Request.  Note that any changes to behavior without tests will
 be rejected.  If you are adding significant new features, please add both
 tests and documentation.
 
+Maintainers
+-----------
+
+* [@mattr-](https://github.com/mattr-)
+
 Copying
 -------
 
-Copyright © 2011-2013, GitHub, Inc. See the `COPYING` file for license
+Copyright © 2011-2014, GitHub, Inc. See the `COPYING` file for license
 rights and limitations (MIT).

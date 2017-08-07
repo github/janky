@@ -127,10 +127,6 @@ ul.builds a.console{
 ul.builds li:hover a.console{
   background-position:65% -90px;
 }
-ul.builds .building a.console{
-  background:none;
-  cursor:default;
-}
 
 ul.builds .status{
   float:left;
