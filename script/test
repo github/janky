@@ -1,2 +1,5 @@
-#!/bin/sh
-testrb ./test/*_test.rb
+#!/usr/bin/env ruby
+require 'test/unit'
+exit Test::Unit::AutoRunner.run(true, nil, Dir.glob("test/*_test.rb"))
+
+# testrb ./test/*_test.rb
