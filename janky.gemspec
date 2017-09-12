@@ -29,6 +29,7 @@ EOL
   s.add_development_dependency "shotgun", "~>0.9"
   s.add_development_dependency "thin", "~>1.2"
   s.add_development_dependency "mysql2", "~>0.3.0"
+  s.add_development_dependency "test-unit", "~>3.2.0"
 
   # test
   s.add_development_dependency "database_cleaner", "~>0.6"
