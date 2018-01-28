@@ -24,57 +24,52 @@ Hubot usage
 -----------
 
 Start by setting up a new Jenkins job and GitHub web hook for a
-repository:
+repository: `github/[REPO]`
 
     hubot ci setup github/janky
 
 The `setup` command can safely be run over and over again. It won't do
-anything unless it needs to. It takes an optional name argument:
+anything unless it needs to. It takes an optional name argument: `github/[REPO] [NAME]`
 
     hubot ci setup github/janky janky-ruby1.9.2
 
-It also takes an optional template name argument:
+It also takes an optional template name argument: `github/[REPO] [NAME] [TEMPLATE]`
 
     hubot ci setup github/janky janky-ruby1.9.2 ruby-build
 
 All branches are built automatically on push. Disable auto build with:
 
-    hubot ci toggle janky
+    hubot ci toggle [REPO] or [NAME]
 
 Run the command again to re-enable it. Force a build of the master
 branch:
 
-    hubot ci build janky
+    hubot ci build [REPO] or [NAME]
 
-Of a specific branch:
+Of a specific branch: `[REPO]/[BRANCH]`
 
     hubot ci build janky/libgit2
 
 Different builds aren't relevant to the same chat room and so Janky
-lets you choose where notifications are sent to. First get a list of
-available rooms:
+lets you choose where notifications are sent to. 
 
-    hubot ci rooms
-
-Then pick one:
-
-    hubot ci set room janky The Serious Room
+    hubot ci set room [ROOM] development
 
 Get the status of a build:
 
-    hubot ci status janky
+    hubot ci status [NAME]
 
-Specific branch:
+Specific branch: `[REPO]/[BRANCH]`
 
     hubot ci status janky/libgit2
 
 All builds:
 
-    hubot ci status
+    hubot ci status [REPO]
 
 Finally, get a quick reference of the available commands with:
 
-    hubot ci?
+    hubot ci
 
 Installing
 ----------
