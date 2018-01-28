@@ -187,37 +187,6 @@ respectively.
 
 ### Chat notifications
 
-#### Campfire
-Janky notifies [Campfire][] chat rooms by default. Required settings:
-
-* `JANKY_CHAT_CAMPFIRE_ACCOUNT`: account name.
-* `JANKY_CHAT_CAMPFIRE_TOKEN`: authentication token for the user sending
-  build notifications.
-
-[Campfire]: http://campfirenow.com/
-
-#### HipChat
-
-Required settings:
-
-* `JANKY_CHAT=hipchat`
-* `JANKY_CHAT_HIPCHAT_TOKEN`: authentication token (This token needs to be an
-  admin token, not a notification token.)
-* `JANKY_CHAT_HIPCHAT_FROM`: name that messages will appear be sent from.
-  Defaults to `CI`.
-* `JANKY_HUBOT_USER` should be XMPP/Jabber username in format xxxxx_xxxxxx
-  rather than email
-* `JANKY_CHAT_DEFAULT_ROOM` should be the name of the room instead of the
-  XMPP format, for example: `Engineers` instead of xxxx_xxxxxx.
-
-Installation:
-
-* Add `require "janky/chat_service/hipchat"` to the `config/environment.rb`
-  file **before** the `Janky.setup(ENV)` line.
-* `echo 'gem "hipchat", "~>0.4"' >> Gemfile`
-* `bundle`
-* `git commit -am "install hipchat"`
-
 #### Slack
 
 Required settings:
