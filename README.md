@@ -59,13 +59,18 @@ Of a specific branch: `[REPO]/[BRANCH]`
     hubot ci build janky/libgit2
 
 Different builds aren't relevant to the same chat room and so Janky
-lets you choose where notifications are sent to. 
+lets you choose where notifications are sent to. First get a list of
+available rooms:
 
-    hubot ci set room [ROOM] development
+    hubot ci rooms
+    
+Then pick one:
+
+    hubot ci set room janky The Serious Room
 
 Get the status of a build:
 
-    hubot ci status [NAME]
+    hubot ci status janky
 
 Specific branch: `[REPO]/[BRANCH]`
 
@@ -73,11 +78,11 @@ Specific branch: `[REPO]/[BRANCH]`
 
 All builds:
 
-    hubot ci status [REPO]
+    hubot ci status
 
 Finally, get a quick reference of the available commands with:
 
-    hubot ci
+    hubot ci?
 
 Installing
 ----------
@@ -208,7 +213,15 @@ Required settings:
   rather than email
 * `JANKY_CHAT_DEFAULT_ROOM` should be the name of the room instead of the
   XMPP format, for example: `Engineers` instead of xxxx_xxxxxx.
- 
+
+Installation:
+
+* Add `require "janky/chat_service/hipchat"` to the `config/environment.rb`
+  file **before** the `Janky.setup(ENV)` line.
+* `echo 'gem "hipchat", "~>0.4"' >> Gemfile`
+* `bundle`
+* `git commit -am "install hipchat"`
+
 #### Slack
 
 Required settings:
