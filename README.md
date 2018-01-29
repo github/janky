@@ -29,22 +29,30 @@ repository: `github/[REPO]`
     hubot ci setup github/janky
 
 The `setup` command can safely be run over and over again. It won't do
-anything unless it needs to. It takes an optional name argument: `github/[REPO] [NAME]`
+anything unless it needs to. It takes an optional `name` argument: `github/[REPO] [NAME]`
 
     hubot ci setup github/janky janky-ruby1.9.2
 
-It also takes an optional template name argument: `github/[REPO] [NAME] [TEMPLATE]`
+It also takes an optional `template` argument: `github/[REPO] [NAME] [TEMPLATE]`
 
     hubot ci setup github/janky janky-ruby1.9.2 ruby-build
 
 All branches are built automatically on push. Disable auto build with:
 
-    hubot ci toggle [REPO] or [NAME]
+    hubot ci toggle [REPO]
+    
+**NOTE**: If `name` was set you'll need to use it intested.
+
+    hubot ci toggle [NAME]
 
 Run the command again to re-enable it. Force a build of the master
 branch:
 
-    hubot ci build [REPO] or [NAME]
+    hubot ci build [REPO]
+    
+**NOTE**: If `name` was set you'll need to use it intested.
+
+    hubot ci build [NAME]
 
 Of a specific branch: `[REPO]/[BRANCH]`
 
