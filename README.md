@@ -24,29 +24,37 @@ Hubot usage
 -----------
 
 Start by setting up a new Jenkins job and GitHub web hook for a
-repository:
+repository: `[ORG]/[REPO]`
 
     hubot ci setup github/janky
 
 The `setup` command can safely be run over and over again. It won't do
-anything unless it needs to. It takes an optional name argument:
+anything unless it needs to. It takes an optional `name` argument: `[ORG]/[REPO] [NAME]`
 
     hubot ci setup github/janky janky-ruby1.9.2
 
-It also takes an optional template name argument:
+It also takes an optional `template` argument: `[ORG]/[REPO] [NAME] [TEMPLATE]`
 
     hubot ci setup github/janky janky-ruby1.9.2 ruby-build
 
 All branches are built automatically on push. Disable auto build with:
 
-    hubot ci toggle janky
+    hubot ci toggle [REPO]
+    
+**NOTE**: If `name` was set you'll need to use it intested.
+
+    hubot ci toggle [NAME]
 
 Run the command again to re-enable it. Force a build of the master
 branch:
 
-    hubot ci build janky
+    hubot ci build [REPO]
+    
+**NOTE**: If `name` was set you'll need to use it intested.
 
-Of a specific branch:
+    hubot ci build [NAME]
+
+Of a specific branch: `[REPO]/[BRANCH]`
 
     hubot ci build janky/libgit2
 
@@ -55,7 +63,7 @@ lets you choose where notifications are sent to. First get a list of
 available rooms:
 
     hubot ci rooms
-
+    
 Then pick one:
 
     hubot ci set room janky The Serious Room
@@ -64,7 +72,7 @@ Get the status of a build:
 
     hubot ci status janky
 
-Specific branch:
+Specific branch: `[REPO]/[BRANCH]`
 
     hubot ci status janky/libgit2
 
@@ -191,15 +199,6 @@ values provided for `JANKY_GITHUB_USER` and `JANKY_GITHUB_PASSWORD`
 respectively.
 
 ### Chat notifications
-
-#### Campfire
-Janky notifies [Campfire][] chat rooms by default. Required settings:
-
-* `JANKY_CHAT_CAMPFIRE_ACCOUNT`: account name.
-* `JANKY_CHAT_CAMPFIRE_TOKEN`: authentication token for the user sending
-  build notifications.
-
-[Campfire]: http://campfirenow.com/
 
 #### HipChat
 
