@@ -24,16 +24,16 @@ Hubot usage
 -----------
 
 Start by setting up a new Jenkins job and GitHub web hook for a
-repository: `github/[REPO]`
+repository: `[ORG]/[REPO]`
 
     hubot ci setup github/janky
 
 The `setup` command can safely be run over and over again. It won't do
-anything unless it needs to. It takes an optional `name` argument: `github/[REPO] [NAME]`
+anything unless it needs to. It takes an optional `name` argument: `[ORG]/[REPO] [NAME]`
 
     hubot ci setup github/janky janky-ruby1.9.2
 
-It also takes an optional `template` argument: `github/[REPO] [NAME] [TEMPLATE]`
+It also takes an optional `template` argument: `[ORG]/[REPO] [NAME] [TEMPLATE]`
 
     hubot ci setup github/janky janky-ruby1.9.2 ruby-build
 
@@ -195,6 +195,20 @@ respectively.
 
 ### Chat notifications
 
+#### HipChat
+
+Required settings:
+
+* `JANKY_CHAT=hipchat`
+* `JANKY_CHAT_HIPCHAT_TOKEN`: authentication token (This token needs to be an
+  admin token, not a notification token.)
+* `JANKY_CHAT_HIPCHAT_FROM`: name that messages will appear be sent from.
+  Defaults to `CI`.
+* `JANKY_HUBOT_USER` should be XMPP/Jabber username in format xxxxx_xxxxxx
+  rather than email
+* `JANKY_CHAT_DEFAULT_ROOM` should be the name of the room instead of the
+  XMPP format, for example: `Engineers` instead of xxxx_xxxxxx.
+ 
 #### Slack
 
 Required settings:
