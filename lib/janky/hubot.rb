@@ -83,7 +83,7 @@ module Janky
     # Get the status of all projects.
     get "/" do
       content_type "text/plain"
-      repos = Repository.all(:include => [:branches, :commits, :builds]).map do |repo|
+      repos = Repository.includes(:branches, :commits, :builds).all.map do |repo|
         master = repo.branch_for("master")
 
         "%-17s %-13s %-10s %40s" % [
@@ -109,7 +109,7 @@ module Janky
       end
       builds = builds.limit(limit) unless limit.blank?
 
-      builds.map! do |build|
+      builds.map do |build|
         build_to_hash(build)
       end
 
