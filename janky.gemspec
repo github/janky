@@ -33,7 +33,7 @@ EOL
   s.add_development_dependency "test-unit", "~>3.2.0"
 
   # test
-  s.add_development_dependency "database_cleaner", "~>0.6"
+  s.add_development_dependency "database_cleaner", "1.6.2"
   s.add_development_dependency "mocha", "~>0.14.0"
 
   s.files = %w[
