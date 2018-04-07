@@ -34,7 +34,7 @@ EOL
 
   # test
   s.add_development_dependency "database_cleaner", "1.6.2"
-  s.add_development_dependency "mocha", "~>0.14.0"
+  s.add_development_dependency "mocha", "~>1.5.0"
 
   s.files = %w[
 CHANGES
