@@ -16,12 +16,13 @@ https://github.com/github/janky/commit/0fc6214e3a75cc138aed46a2493980440e848aa3#
 EOL
 
   # runtime
-  s.add_dependency "rake", "~>10.0"
+  s.add_dependency "rake", "~>12.0"
   s.add_dependency "sinatra", "~>1.3"
   s.add_dependency "sinatra_auth_github", "~>1.0.0"
   s.add_dependency "mustache", "~>0.11"
-  s.add_dependency "yajl-ruby", "~>1.3.0"
-  s.add_dependency "activerecord", "~>3.2.0"
+  s.add_dependency "yajl-ruby", "~>1.3.1"
+  s.add_dependency "activerecord", "~>4.2.0"
+  s.add_dependency "activerecord-deprecated_finders", "~>1.0.4"
   s.add_dependency "broach", "~>0.2"
   s.add_dependency "replicate", "~>1.4"
 
@@ -32,8 +33,8 @@ EOL
   s.add_development_dependency "test-unit", "~>3.2.0"
 
   # test
-  s.add_development_dependency "database_cleaner", "~>0.6"
-  s.add_development_dependency "mocha", "~>0.14.0"
+  s.add_development_dependency "database_cleaner", "1.6.2"
+  s.add_development_dependency "mocha", "~>1.5.0"
 
   s.files = %w[
 CHANGES

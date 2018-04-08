@@ -8,7 +8,7 @@ module Janky
 
     replicate_associations :builds, :commits, :branches
 
-    default_scope(order("name"))
+    default_scope { order("name") }
 
     def self.setup(nwo, name = nil, template = nil)
       if nwo.nil?
@@ -65,7 +65,7 @@ module Janky
     #
     # Returns a Branch record.
     def branch_for(name)
-      branches.find_or_create_by_name(name)
+      branches.find_or_create_by(name: name)
     end
 
     # Create or retrieve the given commit.
