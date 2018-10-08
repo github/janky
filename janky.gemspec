@@ -1,10 +1,13 @@
 require File.expand_path("../lib/janky/version", __FILE__)
 
-Gem::Specification.new "janky", Janky::VERSION do |s|
+Gem::Specification.new do |s|
+  s.name = "janky"
+  s.version = Janky::VERSION
   s.description = "Janky is a Continuous Integration server"
   s.summary = "Continuous Integration server built on top of Jenkins and " \
     "designed for GitHub and Hubot"
-  s.authors = ["Simon Rozet"]
+  s.authors = ["Simon Rozet", "Matt Rogers"]
+  s.email = 'codemattr@gmail.com'
   s.homepage = "https://github.com/github/janky"
   s.has_rdoc = false
   s.license  = "MIT"
