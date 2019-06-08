@@ -311,7 +311,7 @@ Create the databases, tables, and seed data:
 
 Start the server:
 
-    script/server
+    docker-compose run --service-ports app script/server
 
 Open the app:
 
