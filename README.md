@@ -301,6 +301,8 @@ server.
 Hacking
 -------
 
+Docker and docker-compose are required for hacking on this project.
+
 Get your environment up and running:
 
     script/bootstrap
