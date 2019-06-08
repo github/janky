@@ -10,16 +10,7 @@ RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 5072E1F5 && \
 
 WORKDIR /app
 
-COPY Gemfile /app
-COPY Rakefile /app
-COPY bin /app/bin
-COPY config.ru /app
-COPY janky.gemspec /app
-COPY lib /app/lib
-COPY script /app/script
-COPY test /app/test
-
-RUN bundle install --binstubs
-RUN mkdir /app/log
+COPY . .
+RUN mkdir /app/log && bundle install -j2 --binstubs
 
 EXPOSE 9393
