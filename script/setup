@@ -4,19 +4,12 @@ set -e
 
 appdir=$(cd "$(dirname "$0")/.." && pwd)
 
-docker-compose run -d db
-
 # Create the databases
-docker-compose run app mysql -h db -uroot -e "create database if not exists janky_development"
-docker-compose run app mysql -h db -uroot -e "create database if not exists janky_test"
+docker-compose run --rm app mysql -h db -uroot -e "create database if not exists janky_development"
+docker-compose run --rm app mysql -h db -uroot -e "create database if not exists janky_test"
 
 # Create the tables
-docker-compose run app bin/rake db:migrate
-docker-compose run -e RACK_ENV=test app bin/rake db:migrate
+docker-compose run --rm app bin/rake db:migrate
+docker-compose run --rm -e RACK_ENV=test app bin/rake db:migrate
 
-docker-compose run app bin/rake db:seed
-
-
-docker-compose down
-
-
+docker-compose run --rm app bin/rake db:seed
