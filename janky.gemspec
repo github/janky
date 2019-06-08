@@ -9,7 +9,6 @@ Gem::Specification.new do |s|
   s.authors = ["Simon Rozet", "Matt Rogers"]
   s.email = 'codemattr@gmail.com'
   s.homepage = "https://github.com/github/janky"
-  s.has_rdoc = false
   s.license  = "MIT"
 
   s.post_install_message = <<-EOL
