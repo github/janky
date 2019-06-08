@@ -1,2 +1,2 @@
 #!/bin/sh
-bundle install --binstubs
+docker-compose build

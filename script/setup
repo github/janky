@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -e
+
+appdir=$(cd "$(dirname "$0")/.." && pwd)
+
+docker-compose run -d db
+
+# Create the databases
+docker-compose run app mysqladmin -h db -uroot create janky_development
+docker-compose run app mysqladmin -h db -uroot create janky_test
+
+# Create the tables
+docker-compose run app bin/rake db:migrate
+docker-compose run -e RACK_ENV=test app bin/rake db:migrate
+
+docker-compose run app bin/rake db:seed
+
+
+docker-compose down
+
+

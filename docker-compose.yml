@@ -1,0 +1,34 @@
+version: '3.6'
+services:
+  db:
+    image: mysql:5.7
+    command: --sql_mode="NO_ENGINE_SUBSTITUTION"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+       - "db-data:/var/lib/mysql"
+  jenkins:
+    build:
+      context: docker/jenkins
+      dockerfile: Dockerfile
+    volumes:
+      - "jenkins-data:/var/jenkins_home"
+  app:
+    build:
+      context: .
+    image: janky-app
+    command: 'script/server'
+    environment:
+      - RACK_ENV
+      - RACK_ROOT
+      - JANKY_BASE_URL
+    volumes:
+      - "${VOLUME:-.:/app}"
+    ports:
+      - "9393:9393"
+    depends_on:
+      - db
+      - jenkins
+volumes:
+  db-data:
+  jenkins-data:
