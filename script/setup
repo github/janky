@@ -7,8 +7,8 @@ appdir=$(cd "$(dirname "$0")/.." && pwd)
 docker-compose run -d db
 
 # Create the databases
-docker-compose run app mysqladmin -h db -uroot create janky_development
-docker-compose run app mysqladmin -h db -uroot create janky_test
+docker-compose run app mysql -h db -uroot -e "create database if not exists janky_development"
+docker-compose run app mysql -h db -uroot -e "create database if not exists janky_test"
 
 # Create the tables
 docker-compose run app bin/rake db:migrate
