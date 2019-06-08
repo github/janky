@@ -305,19 +305,9 @@ Get your environment up and running:
 
     script/bootstrap
 
-Create the databases:
+Create the databases, tables, and seed data:
 
-    mysqladmin -uroot create janky_development
-    mysqladmin -uroot create janky_test
-
-Create the tables:
-
-    RACK_ENV=development bin/rake db:migrate
-    RACK_ENV=test bin/rake db:migrate
-
-Seed some data into the development database:
-
-    bin/rake db:seed
+    script/setup
 
 Start the server:
 
@@ -329,7 +319,7 @@ Open the app:
 
 Run the test suite:
 
-    script/test
+    docker-compose run --rm app script/test
 
 Contributing
 ------------
