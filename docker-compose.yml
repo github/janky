@@ -8,7 +8,9 @@ services:
     volumes:
        - "db-data:/var/lib/mysql"
   jenkins:
-    image: mattrdash/jenkins-for-janky:lts
+    build:
+      context: docker/jenkins
+      dockerfile: Dockerfile
     volumes:
       - "jenkins-data:/var/jenkins_home"
   app:
