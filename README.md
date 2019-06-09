@@ -163,6 +163,20 @@ Required settings:
   GitHub.
 * `JANKY_CHAT_DEFAULT_ROOM`: Chat room where notifications are sent by default.
 
+Optional Github event settings:
+
+* `JANKY_GITHUB_EVENT_TYPES`: A comma separated list of event types that Janky
+will respond to from GitHub.  Presently, `pull_request` and `push` are supported,
+and the default value responds to both `pull_request,push`.  If you follow the
+[fork & pull][] model, and have additional Jenkins jobs that are initiated by
+pushes to the master branch (i.e. those initiated directly by GitHub and
+received by Jenkins), then it is recommended to set this to `pull_request`.  If
+everyone is working on a shared repo, then `push` will likely be sufficient.
+See [Event Types][] for more details on the different types / payloads.
+
+[fork&pull]: https://help.github.com/articles/using-pull-requests
+[Event Types]: http://developer.github.com/v3/activity/events/types/
+
 Optional database settings:
 
 * `DATABASE_URL`: Database connection URL. Example:

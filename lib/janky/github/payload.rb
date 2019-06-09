@@ -2,22 +2,30 @@ module Janky
   module GitHub
     class Payload
       def self.parse(json)
-        parsed = PayloadParser.new(json)
-        new(parsed.uri, parsed.branch, parsed.head, parsed.pusher,
-            parsed.commits,
-            parsed.compare)
+        new(PayloadParser.new(json))
       end
 
-      def initialize(uri, branch, head, pusher, commits, compare)
-        @uri     = uri
-        @branch  = branch
-        @head    = head
-        @pusher  = pusher
-        @commits = commits
-        @compare = compare
+      def set_pull_request_commits(commits)
+        @parsed.set_pull_request_commits(commits)
+        @commits = @parsed.commits
       end
 
-      attr_reader :uri, :branch, :head, :pusher, :commits, :compare
+      def initialize(parsed)
+        @parsed         = parsed
+        @uri            = parsed.uri
+        @branch         = parsed.branch
+        @head           = parsed.head
+        @pusher         = parsed.pusher
+        @commits        = parsed.commits
+        @compare        = parsed.compare
+        @pull_request   = parsed.pull_request?
+        @nwo            = parsed.nwo
+        @pull_number    = parsed.pull_number
+        @pull_action    = parsed.pull_action
+      end
+
+      attr_reader :uri, :branch, :head, :pusher, :commits, :compare,
+        :pull_request, :nwo, :pull_number, :pull_action
 
       def head_commit
         @commits.detect do |commit|
