@@ -36,7 +36,11 @@ module Janky
         if build.building?
           "Build started <span class='relatize'>#{build.started_at}</span>…"
         elsif build.completed?
-          "Built in <span>#{build.duration}</span> seconds"
+          if build.duration > 300
+            "Built in <span>#{build.duration/60}</span> minutes"
+          else
+            "Built in <span>#{build.duration}</span> seconds"
+          end
         elsif build.pending?
           "Build queued <span class='relatize'>#{build.queued_at}</span>…"
         end
