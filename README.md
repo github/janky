@@ -1,7 +1,7 @@
 Janky
 =====
 
-[![Gem Version](https://badge.fury.io/rb/janky.svg)](https://badge.fury.io/rb/janky)
+As of April 2022, this repository is no longer used or maintained.
 
 This is Janky, a continuous integration server built on top of
 [Jenkins][], controlled by [Hubot][], and designed for [GitHub][].
